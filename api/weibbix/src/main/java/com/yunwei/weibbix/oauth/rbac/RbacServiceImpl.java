@@ -20,7 +20,7 @@ public class RbacServiceImpl implements RbacService {
         Object principal = authentication.getPrincipal();
         if (principal instanceof MyUserDetails){
             String username = ((MyUserDetails)principal).getUsername();
-            System.out.println("获取用户 "+username + " 的权限！");
+//            System.out.println("获取用户 "+username + " 的权限！");
             Set<String> urls = new HashSet<>();
             //读取权限rul
             urls.add("/api/bar");
