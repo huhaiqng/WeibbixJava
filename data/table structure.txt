@@ -1,0 +1,18 @@
+create table usersGroup(
+	groupId bigint(20) unsigned auto_increment primary key,
+	groupName char(50) not null unique,
+	enabled bit not null
+);
+create table users_groups(
+	id bigint(20) auto_increment primary key,
+	groupId bigint(20) unsigned not null,
+	userId bigint(20) unsigned not null,
+	CONSTRAINT c_users_groups_1 FOREIGN KEY (groupId) REFERENCES usersGroup(groupId) ON DELETE CASCADE,
+	CONSTRAINT c_users_groups_2 FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
+);
+create table users(
+	userId bigint(20) unsigned auto_increment primary key,
+	userName char(50) not null,
+	password char(20) not null,
+	enabled bit not null
+);

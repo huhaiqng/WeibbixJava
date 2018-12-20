@@ -1,25 +1,24 @@
-package com.yunwei.weibbix.oauth.entity;
+package com.yunwei.weibbix.entity;
+
+import java.math.BigInteger;
 
 public class User {
-
-    private long userId;
-
+    private Integer userId;
     private String userName;
-
     private String password;
+    private boolean enabled;
 
-
-    public User(long userId, String userName, String password) {
+    public User(Integer userId, String userName, String password) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
     }
 
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -37,5 +36,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -1,7 +1,7 @@
 package com.yunwei.weibbix.oauth.config;
 
+import com.yunwei.weibbix.entity.User;
 import com.yunwei.weibbix.oauth.entity.MyUserDetails;
-import com.yunwei.weibbix.oauth.entity.User;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,9 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-
 //        System.out.println(s);
-
         Optional<User> userWrapper = users.stream()
                 .filter((u) -> u.getUserName().equals(s))
                 .findFirst();

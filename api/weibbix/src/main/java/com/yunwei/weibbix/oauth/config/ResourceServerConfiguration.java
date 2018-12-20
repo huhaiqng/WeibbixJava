@@ -21,8 +21,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/webjars/**").permitAll()
-//                .anyRequest().authenticated()
-                .anyRequest().access("@rbacService.hasPermission(request,authentication)")
+                .anyRequest().authenticated()
+//                .anyRequest().access("@rbacService.hasPermission(request,authentication)")
                 .and().httpBasic()
                 .and().csrf().disable();
     }

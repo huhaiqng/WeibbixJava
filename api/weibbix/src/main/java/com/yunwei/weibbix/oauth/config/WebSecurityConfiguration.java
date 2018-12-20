@@ -17,7 +17,7 @@ public class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdap
     public void init(AuthenticationManagerBuilder auth) throws Exception {
         //TODO:use md5
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(new PasswordEncoder() {
+                    .passwordEncoder(new PasswordEncoder() {
                     @Override
                     public String encode(CharSequence charSequence) {
                         System.out.println("charSequence: "+charSequence);
