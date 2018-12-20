@@ -8,11 +8,11 @@ public class User {
     private String password;
     private boolean enabled;
 
-    public User(Integer userId, String userName, String password) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-    }
+//    public User(Integer userId, String userName, String password) {
+//        this.userId = userId;
+//        this.userName = userName;
+//        this.password = password;
+//    }
 
     public Integer getUserId() {
         return userId;

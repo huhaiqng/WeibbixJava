@@ -27,7 +27,6 @@ public class UserController {
     public String bar(@RequestHeader("Authorization") String auth) {
         System.out.println(auth);
         MyUserDetails userDetails = (MyUserDetails) tokenStore.readAuthentication(auth.split(" ")[1]).getPrincipal();
-//        System.out.println(userDetails);
         User user = userDetails.getUser();
         return user.getUserName() + ":" + user.getPassword();
     }
@@ -37,15 +36,11 @@ public class UserController {
 
     @PostMapping("/api/user/add")
     public void addUser(@RequestBody Map<String, Object> objectMap){
-//        userMapper.insertUser((String)objectMap.get("userName"),(String)objectMap.get("password"),(Boolean)objectMap.get("enabled"));
         String userName = (String)objectMap.get("userName");
         String password = (String)objectMap.get("password");
         Boolean enabled = (Boolean)objectMap.get("enabled");
         BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
         password = encoder.encode(password.trim());
-        System.out.println(userName);
-        System.out.println(password);
-        System.out.println(enabled);
         userMapper.insertUser(userName,password,enabled);
     }
 }
