@@ -26,12 +26,11 @@ public class UserServiceImpl implements UserService {
 //        users.add(new User(4, "test-user4", "123454"));
 //    }
 
-    @Autowired
+    @Autowired(required = false)
     private UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        System.out.println("输入的用户名: " + userName);
 
 //        Optional<User> userWrapper = users.stream()
 //                .filter((u) -> u.getUserName().equals(s))

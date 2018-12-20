@@ -27,9 +27,6 @@ public class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdap
 
                     @Override
                     public boolean matches(CharSequence charSequence, String s) {
-                        System.out.println(charSequence+":"+s);
-//                        System.out.println(charSequence.toString().equals("123452"));
-//                        return charSequence.toString().equals(s);
                         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                         return encoder.matches(charSequence,s);
                     }
