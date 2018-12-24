@@ -6,5 +6,4 @@ $(function () {
 		script.setAttribute('src', 'js/user.js'); 
 		document.body.appendChild(script);
     });
-	
 }); 

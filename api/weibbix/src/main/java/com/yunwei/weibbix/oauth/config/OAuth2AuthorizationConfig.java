@@ -34,8 +34,8 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("password", "refresh_token")//设置验证方式
                 .scopes("read", "write")
                 .secret("123456")
-                .accessTokenValiditySeconds(1000) //token过期时间
-                .refreshTokenValiditySeconds(1000); //refresh过期时间
+                .accessTokenValiditySeconds(86400) //token过期时间
+                .refreshTokenValiditySeconds(86400); //refresh过期时间
     }
 
     @Override

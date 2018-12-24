@@ -1,5 +1,6 @@
 package com.yunwei.weibbix.controller;
 
+import com.yunwei.weibbix.entity.AjaxResponseBody;
 import com.yunwei.weibbix.entity.User;
 import com.yunwei.weibbix.entity.UsersGroup;
 import com.yunwei.weibbix.entity.UsersGroups;
@@ -7,6 +8,7 @@ import com.yunwei.weibbix.mapper.UserMapper;
 import com.yunwei.weibbix.oauth.entity.MyUserDetails;
 import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -31,16 +33,29 @@ public class UserController {
         return user.getUserName() + ":" + user.getPassword();
     }
 
-    @Autowired
+    @Autowired(required = false)
     private UserMapper userMapper;
 
     @PostMapping("/api/user/add")
-    public void addUser(@RequestBody Map<String, Object> objectMap){
+    public AjaxResponseBody addUser(@RequestBody Map<String, Object> objectMap){
         String userName = (String)objectMap.get("userName");
         String password = (String)objectMap.get("password");
-        Boolean enabled = (Boolean)objectMap.get("enabled");
+        String enabled_strging = (String)objectMap.get("enabled");
+        boolean enabled = Boolean.parseBoolean(enabled_strging);
+
+        User user = userMapper.selectOneUser(userName);
+
+        AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
+        if( user != null){
+            ajaxResponseBody.setStatus("error");
+            ajaxResponseBody.setMessage("用户名已经存在！");
+            return ajaxResponseBody;
+        }
+
         BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
         password = encoder.encode(password.trim());
         userMapper.insertUser(userName,password,enabled);
+
+        return null;
     }
 }
