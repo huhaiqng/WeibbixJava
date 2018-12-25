@@ -1,25 +1,28 @@
 $(function () {
 	
-	$("#create_user_div").hide();
-	
 	$("#create_user_btn").click(function(){
 		$("#create_user_btn").hide();
-		$("#users_table_div").hide();
-		$("#create_user_div").show();
+		$("#users_table_div").remove();
+		$("#indexcontent2").load("user.html #create_user_div",function(){
+			$(".select2-container--default").css("width","600px");
+			$(".select2_demo_2").select2();
+						
+			$("#console_add_user_btn").click(function(){
+				$("#create_user_btn").show();
+				$("#indexcontent2").load("user.html #users_table_div");
+			});
+	
+			$("#save_add_user_btn").click(function(){
+				save_new_user();
+			});
+	
+			$(":radio").click(function(){
+				$(this).prop("checked", true);
+			});
+		});
 		
     });
 	
-	$("#console_add_user_btn").click(function(){
-		show_users_table();
-	});
-	
-	$("#save_add_user_btn").click(function(){
-		save_new_user();
-	});
-	
-	$(":radio").click(function(){
-		$(this).prop("checked", true);
-	});
 });
 
 function save_new_user(){
@@ -64,7 +67,8 @@ function save_new_user(){
 				document.getElementById("username_error_info").innerHTML=response.message;
 				return false;
 			}
-			show_users_table();
+			$("#create_user_btn").show();
+			$("#indexcontent2").load("user.html #users_table_div");
 		},
 		error: function (response) {
 			console.log(response);
@@ -72,13 +76,17 @@ function save_new_user(){
 	});	
 }
 
-function show_users_table(){
-/* 	$("#create_user_btn").show();
+/* function delete_users_table_input(){
+	document.getElementById("new_username").value="";
+	document.getElementById("username_error_info").innerHTML="";
+	document.getElementById("password1").value="";
+	document.getElementById("password_length_error_info").innerHTML="";
+	document.getElementById("password2").value="";
+	document.getElementById("add_user_fail_info").innerHTML="";
+	$("#optionsRadios1").prop("checked", true);
+	$(".select2-selection__choice").remove();
+ 	$("#create_user_btn").show();
 	$("#users_table_div").show();
-	$("#create_user_div").hide(); */
-	$("#indexcontent").load("user.html");
-	var script = document.createElement('script');
-	script.async = false;
-	script.setAttribute('src', 'js/user.js'); 
-	document.body.appendChild(script);	
-}
+	$("#create_user_div").hide(); 
+	
+} */
