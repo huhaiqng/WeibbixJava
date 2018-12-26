@@ -1,11 +1,12 @@
 package com.yunwei.weibbix.entity;
 
+import java.util.List;
 import java.util.Set;
 
 public class AjaxResponseBody {
     private String status;
     private String message;
-    private Set<?> result;
+    private List<?> result;
 
     public String getStatus() {
         return status;
@@ -23,11 +24,11 @@ public class AjaxResponseBody {
         this.message = message;
     }
 
-    public Set<?> getResult() {
+    public List<?> getResult() {
         return result;
     }
 
-    public void setResult(Set<?> result) {
+    public void setResult(List<?> result) {
         this.result = result;
     }
 }

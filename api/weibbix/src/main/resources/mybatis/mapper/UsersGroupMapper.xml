@@ -6,6 +6,9 @@
     <select id="selectOneGroup" resultType="com.yunwei.weibbix.entity.UsersGroup">
         select * from usersGroup where groupName = #{groupName}
     </select>
+    <select id="selectGroupsSQL" resultType="com.yunwei.weibbix.entity.UsersGroup">
+        select * from usersGroup ORDER BY groupId
+    </select>
     <insert id="insertGroup">
         INSERT INTO usersGroup(groupName,enabled) VALUES (#{groupName},#{enabled})
     </insert>
