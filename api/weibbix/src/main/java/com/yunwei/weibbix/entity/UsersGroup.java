@@ -5,7 +5,7 @@ import java.math.BigInteger;
 public class UsersGroup {
     private BigInteger groupId;
     private String groupName;
-    private boolean enable;
+    private boolean enabled;
 
     public BigInteger getGroupId() {
         return groupId;
@@ -24,10 +24,10 @@ public class UsersGroup {
     }
 
     public boolean isEnable() {
-        return enable;
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnable(boolean enabled) {
+        this.enabled = enabled;
     }
 }

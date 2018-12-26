@@ -12,7 +12,7 @@ $(function () {
 }); 
 
 function load_user_html(){
-	$("#usermanage").click(function(){
+/* 	$("#usermanage").click(function(){
 	 	$("#indexcontent1").load("user.html #user_head");
 		$("#indexcontent2").load("user.html #users_table_div");
 		var script = document.createElement('script');
@@ -21,11 +21,18 @@ function load_user_html(){
 		document.body.appendChild(script);
 		$(".active").removeClass("active");
         $(this).parent().addClass("active");
-    });
+    }); */
+	$("#usermanage").click(function(){
+		$("#index_main_content").load("user.html",function(){
+			var script = document.createElement('script');
+			script.setAttribute('src', 'js/user.js'); 
+			document.body.appendChild(script);
+		});
+	});
 	
-	$("#group_manage").click(function(){
-	 	$("#indexcontent1").load("group.html #group_head");
-		$("#indexcontent2").load("group.html #groups_table_div",function(){
+	
+ 	$("#group_manage").click(function(){
+	 	$("#index_main_content").load("group.html",function(){
 			var script = document.createElement('script');
 			script.setAttribute('src', 'js/group.js'); 
 			document.body.appendChild(script);
@@ -33,4 +40,6 @@ function load_user_html(){
 		$(".active").removeClass("active");
         $(this).parent().addClass("active");
     });
+
+	
 }

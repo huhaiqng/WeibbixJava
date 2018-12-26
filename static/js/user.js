@@ -1,6 +1,6 @@
 $(function () {
 	
-	$("#create_user_btn").click(function(){
+/* 	$("#create_user_btn").click(function(){
 		$("#create_user_btn").hide();
 		$("#users_table_div").remove();
 		$("#indexcontent2").load("user.html #create_user_div",function(){
@@ -21,7 +21,35 @@ $(function () {
 			});
 		});
 		
-    });
+    }); */
+
+	$("#create_user_div").hide();
+	$("#create_user_row").remove();
+	$("#create_user_btn").click(function(){
+		$("#create_user_btn").hide();
+		$("#users_table_div").hide();
+		$("#create_user_div").show();
+		$("#create_user_div").load("user.html #create_user_row",function(){
+			$(".select2-container--default").css("width","600px");
+			$(".select2_demo_2").select2();
+			
+			$("#console_add_user_btn").click(function(){
+				$("#create_user_btn").show();
+				$("#users_table_div").show();
+				$("#create_user_div").hide();
+				$("#create_user_row").remove();
+			});
+	
+			$("#save_add_user_btn").click(function(){
+				save_new_user();
+			});
+	
+			$(":radio").click(function(){
+				$(this).prop("checked", true);
+			});
+			
+		});
+	});
 	
 });
 
@@ -67,8 +95,12 @@ function save_new_user(){
 				document.getElementById("username_error_info").innerHTML=response.message;
 				return false;
 			}
+/* 			$("#create_user_btn").show();
+			$("#indexcontent2").load("user.html #users_table_div"); */
 			$("#create_user_btn").show();
-			$("#indexcontent2").load("user.html #users_table_div");
+			$("#users_table_div").show();
+			$("#create_user_div").hide();
+			$("#create_user_row").remove();
 		},
 		error: function (response) {
 			console.log(response);

@@ -40,8 +40,8 @@ public class UserController {
     public AjaxResponseBody addUser(@RequestBody Map<String, Object> objectMap){
         String userName = (String)objectMap.get("userName");
         String password = (String)objectMap.get("password");
-        String enabled_strging = (String)objectMap.get("enabled");
-        boolean enabled = Boolean.parseBoolean(enabled_strging);
+        String enabled_string = (String)objectMap.get("enabled");
+        boolean enabled = Boolean.parseBoolean(enabled_string);
 
         User user = userMapper.selectOneUser(userName);
 
