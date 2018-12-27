@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class UsersGroupController {
         UsersGroup usersGroup = usersGroupMapper.selectOneGroup(groupName);
         if( usersGroup != null){
             ajaxResponseBody.setStatus("error");
-            ajaxResponseBody.setMessage("用户名已经存在！");
+            ajaxResponseBody.setMessage("组名已经存在！");
             return ajaxResponseBody;
         }
 
@@ -42,5 +43,28 @@ public class UsersGroupController {
         AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
         ajaxResponseBody.setResult(usersGroupMapper.selectGroupsSQL());
         return ajaxResponseBody;
+    }
+
+    @PostMapping("/api/delete/group")
+    public void deleteGroup(@Valid @RequestBody UsersGroup usersGroup){
+        usersGroupMapper.deleteGroupSQL(usersGroup.getGroupId());
+    }
+
+    @PostMapping("/api/change/group/status")
+    public void changeGroupStatus(@Valid @RequestBody UsersGroup usersGroup){
+        usersGroupMapper.changeGroupStatusSQL(usersGroup.isEnabled(),usersGroup.getGroupId());
+    }
+
+    @PostMapping("/api/update/group")
+    public AjaxResponseBody updateGroup(@Valid @RequestBody UsersGroup usersGroup){
+        AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
+        UsersGroup usersGroup1 = usersGroupMapper.selectOneGroup(usersGroup.getGroupName());
+        if( usersGroup1 != null){
+            ajaxResponseBody.setStatus("error");
+            ajaxResponseBody.setMessage("组名已经存在！");
+            return ajaxResponseBody;
+        }
+        usersGroupMapper.updateGroupSQL(usersGroup);
+        return null;
     }
 }

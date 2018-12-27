@@ -12,4 +12,13 @@
     <insert id="insertGroup">
         INSERT INTO usersGroup(groupName,enabled) VALUES (#{groupName},#{enabled})
     </insert>
+    <delete id="deleteGroupSQL">
+        DELETE FROM usersGroup WHERE groupId = #{groupId}
+    </delete>
+    <update id="changeGroupStatusSQL">
+        UPDATE usersGroup SET enabled = #{enabled} WHERE groupId = #{groupId}
+    </update>
+    <update id="updateGroupSQL">
+        UPDATE usersGroup SET groupName = #{groupName},enabled = #{enabled} WHERE groupId = #{groupId}
+    </update>
 </mapper>

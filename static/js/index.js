@@ -28,6 +28,8 @@ function load_user_html(){
 			script.setAttribute('src', 'js/user.js'); 
 			document.body.appendChild(script);
 		});
+		$(".active").removeClass("active");
+        $(this).parent().addClass("active");
 	});
 	
 	

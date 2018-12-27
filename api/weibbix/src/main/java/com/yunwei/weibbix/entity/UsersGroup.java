@@ -23,11 +23,11 @@ public class UsersGroup {
         this.groupName = groupName;
     }
 
-    public boolean isEnable() {
+    public boolean isEnabled() {
         return enabled;
     }
 
-    public void setEnable(boolean enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 }
