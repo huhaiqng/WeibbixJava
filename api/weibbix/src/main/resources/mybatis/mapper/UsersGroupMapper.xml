@@ -21,4 +21,7 @@
     <update id="updateGroupSQL">
         UPDATE usersGroup SET groupName = #{groupName},enabled = #{enabled} WHERE groupId = #{groupId}
     </update>
+    <select id="selectEnabledGroupsSQL" resultType="com.yunwei.weibbix.entity.UsersGroup">
+        SELECT * FROM usersGroup WHERE enabled = TRUE ORDER BY groupId
+    </select>
 </mapper>

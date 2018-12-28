@@ -67,4 +67,9 @@ public class UsersGroupController {
         usersGroupMapper.updateGroupSQL(usersGroup);
         return null;
     }
+
+    @GetMapping("/api/get/enabledGroups")
+    public List<UsersGroup> selectEnabledGroups(){
+        return usersGroupMapper.selectEnabledGroupsSQL();
+    }
 }

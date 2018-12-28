@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,5 +58,20 @@ public class UserController {
         userMapper.insertUser(userName,password,enabled);
 
         return null;
+    }
+
+    @GetMapping("/api/get/users")
+    public List<User> getUsers(){
+        return userMapper.selectUsersSQL();
+    }
+
+    @PostMapping("/api/delete/user")
+    public void deleteUser(@Valid @RequestBody User user){
+        userMapper.deleteUserSQL(user);
+    }
+
+    @PostMapping("/api/change/user/status")
+    public void changeUserStatus(@Valid @RequestBody User user){
+        userMapper.changeUserStatusSQL(user);
     }
 }

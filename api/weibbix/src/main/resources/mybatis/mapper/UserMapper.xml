@@ -9,4 +9,13 @@
     <insert id="insertUser">
         INSERT INTO users(username,password,enabled) VALUES (#{userName},#{password},#{enabled})
     </insert>
+    <select id="selectUsersSQL" resultType="com.yunwei.weibbix.entity.User">
+        SELECT userId,userName,enabled FROM users ORDER BY userId
+    </select>
+    <delete id="deleteUserSQL">
+        DELETE FROM users WHERE userId = #{userId}
+    </delete>
+    <delete id="changeUserStatusSQL">
+        UPDATE users SET enabled = #{enabled} WHERE userId = #{userId}
+    </delete>
 </mapper>
