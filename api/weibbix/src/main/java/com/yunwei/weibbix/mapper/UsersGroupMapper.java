@@ -15,4 +15,5 @@ public interface UsersGroupMapper {
     public void changeGroupStatusSQL(@Param("enabled") Boolean enabled,@Param("groupId") BigInteger groupId);
     public void updateGroupSQL(UsersGroup usersGroup);
     public List<UsersGroup> selectEnabledGroupsSQL();
+    public List<String> selectUserGroupsSQL(@Param("userId") BigInteger userId);
 }

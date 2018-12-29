@@ -389,7 +389,6 @@
                 ' </div>' +
                 '</div>')
                 .insertBefore(this.element);
-
             // Cache the inner elements
             this.elements = {
                 originalSelect: this.element,
@@ -717,24 +716,29 @@
     // preventing against multiple instantiations
     $.fn[ pluginName ] = function (options) {
         var args = arguments;
-
         // Is the first parameter an object (options), or was omitted, instantiate a new instance of the plugin.
         if (options === undefined || typeof options === 'object') {
+			console.log("options")
             return this.each(function () {
+				console.log($.data(this, 'plugin_' + pluginName));
                 // If this is not a select
                 if (!$(this).is('select')) {
+					console.log("if");
                     $(this).find('select').each(function(index, item) {
                         // For each nested select, instantiate the Dual List Box
                         $(item).bootstrapDualListbox(options);
                     });
-                } else if (!$.data(this, 'plugin_' + pluginName)) {
+                } else {
+					console.log("else if");
                     // Only allow the plugin to be instantiated once so we check that the element has no plugin instantiation yet
-
+					// else if (!$.data(this, 'plugin_' + pluginName)) {
                     // if it has no instance, create a new one, pass options to our plugin constructor,
                     // and store the plugin instance in the elements jQuery data object.
                     $.data(this, 'plugin_' + pluginName, new BootstrapDualListbox(this, options));
                 }
+				
             });
+			
             // If the first parameter is a string and it doesn't start with an underscore or "contains" the `init`-function,
             // treat this as a call to a public method.
         } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
@@ -755,7 +759,6 @@
             // otherwise return this to preserve chainability.
             return returns !== undefined ? returns : this;
         }
-
     };
 
 })(jQuery, window, document);

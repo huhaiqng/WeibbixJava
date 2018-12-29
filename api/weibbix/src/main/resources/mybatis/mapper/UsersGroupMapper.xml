@@ -24,4 +24,7 @@
     <select id="selectEnabledGroupsSQL" resultType="com.yunwei.weibbix.entity.UsersGroup">
         SELECT * FROM usersGroup WHERE enabled = TRUE ORDER BY groupId
     </select>
+    <select id="selectUserGroupsSQL" resultType="java.lang.String">
+        select groupName from users_groups ug,usersGroup ugs where userId = #{userId} and ug.groupId = ugs.groupId and ugs.enabled = TRUE ;
+    </select>
 </mapper>

@@ -110,6 +110,7 @@ function create_group_line(group){
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
+	td.textContent = get_group_users(group.groupId)
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
@@ -157,6 +158,25 @@ function create_group_line(group){
 	tr.appendChild(td);
 	
 	tbody.appendChild(tr);
+}
+
+function get_group_users(groupId){
+	var group_users;
+	
+	$.ajax({
+		type: "POST",
+		url: "/api/get/groupUsers",
+		contentType: "application/json",
+		data: JSON.stringify(groupId),
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		async: false,
+		success: function(response){
+			group_users = response;
+		}
+	});
+	return group_users;
 }
 
 function delete_group(groupId,tr){

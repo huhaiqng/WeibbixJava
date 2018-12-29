@@ -159,20 +159,33 @@
 									<div id="username_error_info" style="color:#F00" class="col-sm-4">
                                     </div>
                                 </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">密码</label>
-                                    <div class="col-sm-6"><input placeholder="......" id="edit_password1" type="password" class="form-control">
-                                    </div>
-									<div id="password_length_error_info" style="color:#F00" class="col-sm-4">
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-									<label class="col-sm-2 control-label">确认密码</label>
-                                    <div class="col-sm-6"><input placeholder="......" id="edit_password2" type="password" class="form-control" name="password"></div>
-									<div id="add_user_fail_info" style="color:#F00" class="col-sm-4">
-                                    </div>
-                                </div>
+								
+								<div id="no_change_password_div">
+									<div class="hr-line-dashed"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">密码</label>
+										<div class="col-sm-6">
+										<button id="change_password_btn" class="btn btn-white btn-sm" type="submit">修改密码</button>
+										</div>
+									</div>
+								</div>
+								
+								<div id="change_password_div" style="display:none">
+									<div class="hr-line-dashed"></div>
+									<div class="form-group"><label class="col-sm-2 control-label">新密码</label>
+										<div class="col-sm-6"><input placeholder="......" id="edit_password1" type="password" class="form-control">
+										</div>
+										<div id="password_length_error_info" style="color:#F00" class="col-sm-4">
+										</div>
+									</div>
+									<div class="hr-line-dashed"></div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">确认新密码</label>
+										<div class="col-sm-6"><input placeholder="......" id="edit_password2" type="password" class="form-control" name="password"></div>
+										<div id="add_user_fail_info" style="color:#F00" class="col-sm-4">
+										</div>
+									</div>
+								</div>
 								<div class="hr-line-dashed"></div>
 								
 							<div class="form-group">
@@ -181,8 +194,8 @@
 								<div class="col-sm-6">
 									<div class="ibox">
 										<form id="form" action="#" class="wizard-big">
-											<select class="form-control dual_select" multiple>
-												<option value="United States">United States</option>
+											<select id="groups_select" class="form-control dual_select" multiple>
+												<!-- <option value="United States">United States</option>
 												<option value="United Kingdom">United Kingdom</option>
 												<option value="Australia">Australia</option>
 												<option selected value="Austria">Austria</option>
@@ -193,7 +206,7 @@
 												<option value="Brazil">Brazil</option>
 												<option value="Bulgaria">Bulgaria</option>
 												<option value="Cameroon">Cameroon</option>
-												<option value="Canada">Canada</option>
+												<option value="Canada">Canada</option> -->
 											</select>
 										</form>
 									</div>

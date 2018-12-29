@@ -18,4 +18,11 @@
     <delete id="changeUserStatusSQL">
         UPDATE users SET enabled = #{enabled} WHERE userId = #{userId}
     </delete>
+    <select id="selectGroupUsersSQL" resultType="java.lang.String">
+        SELECT u.userName
+          FROM users u,users_groups ug
+          WHERE ug.groupId = #{groupId}
+            AND ug.userId = u.userId
+          Order BY u.userId
+    </select>
 </mapper>

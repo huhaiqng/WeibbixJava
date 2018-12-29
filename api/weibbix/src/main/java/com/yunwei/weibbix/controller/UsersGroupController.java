@@ -2,6 +2,7 @@ package com.yunwei.weibbix.controller;
 
 import com.yunwei.weibbix.entity.AjaxResponseBody;
 import com.yunwei.weibbix.entity.UsersGroup;
+import com.yunwei.weibbix.entity.UsersGroups;
 import com.yunwei.weibbix.mapper.UsersGroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,5 +72,10 @@ public class UsersGroupController {
     @GetMapping("/api/get/enabledGroups")
     public List<UsersGroup> selectEnabledGroups(){
         return usersGroupMapper.selectEnabledGroupsSQL();
+    }
+
+    @PostMapping("/api/get/userGroups")
+    public List<String> getUserGroups(@Valid @RequestBody UsersGroups usersGroups){
+        return usersGroupMapper.selectUserGroupsSQL(usersGroups.getUserId());
     }
 }

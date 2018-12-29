@@ -24,8 +24,7 @@ $(function () {
 				$(this).prop("checked", true);
 			});
 			
-			get_enabled_groups();
-			
+			create_group_select();
 		});
 	});
 	
@@ -34,14 +33,27 @@ $(function () {
 	$("#console_edit_user_btn").click(function(){
 		$("#edit_user_div").hide();
 		$("#users_table_div").show();
+		reset_edit_user_div();
 	});
 	
-	show_dual_listbox();
-	
+	$("#change_password_btn").click(function(){
+		$("#no_change_password_div").hide();
+		$("#change_password_div").show();
+	});
 });
 
+function reset_edit_user_div(){
+	$("#no_change_password_div").show();
+	$("#change_password_div").hide();
+	document.getElementById("edit_password1").value ="";
+  document.getElementById("edit_password2").value = "";
+	$("#save_edit_user_btn").unbind("click");
+	$("#groups_select").empty();
+	$(".bootstrap-duallistbox-container").remove();
+}
+
 function show_dual_listbox(){
-	$('.dual_select').bootstrapDualListbox({
+ 	$('.dual_select').bootstrapDualListbox({
 		selectorMinimalHeight: 160
 	});
 	$(".btn-group").remove();
@@ -49,11 +61,24 @@ function show_dual_listbox(){
 	$(".info-container").remove();
 	$($(".box1").find("label")[0]).show();
 	$($(".box2").find("label")[0]).show();
-	$(".box1").find("label")[0].innerText = "所在的组";
-	$(".box2").find("label")[0].innerText = "未在的组";
+	$(".box1").find("label")[0].innerText = "未在的组";
+	$(".box2").find("label")[0].innerText = "所在的组";
+}
+
+function create_group_select(){
+	response = get_enabled_groups();
+ 	for(i=0;i<response.length;i++){
+		var group_select = document.getElementById("group_select");
+		var select_option = document.createElement("option");
+		select_option.innerText = response[i].groupName;
+		group_select.appendChild(select_option);
+	}
 }
 
 function get_enabled_groups(){
+	
+	var enabled_groups;
+	
 	$.ajax({
 		type: "GET",
 		url: "/api/get/enabledGroups",
@@ -61,15 +86,12 @@ function get_enabled_groups(){
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
+		async: false,
 		success: function(response){
-			for(i=0;i<response.length;i++){
-				var group_select = document.getElementById("group_select");
-				var select_option = document.createElement("option");
-				select_option.innerText = response[i].groupName;
-				group_select.appendChild(select_option);
-			}
+			enabled_groups = response;
 		}
 	});
+	return enabled_groups;
 }
 
 function save_new_user(){
@@ -131,7 +153,18 @@ function save_new_user(){
 
 function save_user_groups(new_username){
 	$(".select2-selection__choice").each(function(){
-		console.log($(this).attr('title'));
+		groupName = $(this).attr("title");
+		userName = new_username;
+		data = {"groupName":groupName,"userName":userName};
+		$.ajax({
+			type: "POST",
+			url: "/api/add/userGroups",
+			data: JSON.stringify(data),
+			contentType: "application/json",
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+			}
+		});
 	});
 }
 
@@ -160,6 +193,7 @@ function create_user_table_line(user){
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
+	td.textContent = get_user_groups(user.userId);
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
@@ -235,7 +269,7 @@ function change_user_status(user,user_status_btn){
 		}
 	});
 }
-
+//更新用户
 function edit_user(user){
 	$("#users_table_div").hide();
 	$("#edit_user_div").show();
@@ -247,9 +281,96 @@ function edit_user(user){
       $("#edit_optionsRadios2").prop("checked",true);
 	}
 	
+	//生成 select option
+	users_groups = get_enabled_groups();
+	user_groups = get_user_groups(user.userId);
+	
+	var groups_select = document.getElementById("groups_select");
+	
+	for(i=0;i<users_groups.length;i++){
+		var group_option = document.createElement("option");
+		group_option.innerText = users_groups[i].groupName;
+		$(group_option).attr("value",users_groups[i].groupName);
+		for(j=0;j<user_groups.length;j++){
+			if(user_groups[j] == users_groups[i].groupName){
+				$(group_option).attr("selected","true");
+				break;
+			}
+		}
+		groups_select.appendChild(group_option);
+	}
+	
+	show_dual_listbox();
+	
 	$("#save_edit_user_btn").click(function(){
-		
+		save_edit_user(user.userId);
 	});
+}
+
+function save_edit_user(userId){
+	var userName = document.getElementById("edit_username").value;
+	var radio_value = $('input[name="edit_optionsRadios"]:checked').val();
+	
+	edit_user = {"userId":userId,"userName":userName,"enabled":radio_value};
+	
+	change_password_status = $("#change_password_div").attr("style");
+	if(change_password_status != "display:none"){
+		change_user_password(userId);
+	}
+	
+	$.ajax({
+		type: "POST",
+		url: "/api/edit/user",
+		data: JSON.stringify(edit_user),
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(response){
+			reset_edit_user_div();
+		},
+		error: function (response) {
+			console.log(response);
+		}
+	});	
+}
+//修改用户密码
+function change_user_password(userId){
+	var user_password = document.getElementById("#edit_password1").value;
+	user_data = {"userId":userId,"password":user_password};
+	$.ajax({
+		type: "POST",
+		url: "/api/update/userPassword",
+		data: JSON.stringify(user_data),
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(response){
+		},
+		error: function (response) {
+			console.log(response);
+		}
+	});	
+}
+
+function get_user_groups(userId){
+	var user_groups;
+	
+	$.ajax({
+		type: "POST",
+		url: "/api/get/userGroups",
+		contentType: "application/json",
+		data: JSON.stringify({"userId":userId}),
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		async: false,
+		success: function(response){
+			user_groups = response;
+		}
+	});
+	return user_groups;
 }
 
 function delete_user(userId,tr){

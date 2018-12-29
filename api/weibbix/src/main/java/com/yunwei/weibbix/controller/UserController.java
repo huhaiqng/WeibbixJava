@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -73,5 +74,12 @@ public class UserController {
     @PostMapping("/api/change/user/status")
     public void changeUserStatus(@Valid @RequestBody User user){
         userMapper.changeUserStatusSQL(user);
+    }
+
+    @PostMapping("/api/get/groupUsers")
+    public List<String> getGroupUsers(@Valid @RequestBody String groupId){
+       return userMapper.selectGroupUsersSQL(Integer.parseInt(groupId));
+//        System.out.println(groupId.toJ);
+//        return null;
     }
 }
