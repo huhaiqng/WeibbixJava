@@ -79,7 +79,17 @@ public class UserController {
     @PostMapping("/api/get/groupUsers")
     public List<String> getGroupUsers(@Valid @RequestBody String groupId){
        return userMapper.selectGroupUsersSQL(Integer.parseInt(groupId));
-//        System.out.println(groupId.toJ);
-//        return null;
+    }
+
+    @PostMapping("/api/update/user")
+    public void updateUser(@Valid @RequestBody User user){
+        userMapper.updateUserSQL(user);
+    }
+
+    @PostMapping("/api/update/userPassword")
+    public void updateUserPassword(@Valid @RequestBody User user){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()).trim());
+        userMapper.updateUserPasswordSQL(user);
     }
 }

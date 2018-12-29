@@ -33,4 +33,12 @@ public class UsersGroupsController {
         usersGroupsMapper.insertUserGroupsSQL(userId,groupId);
     }
 
+    @PostMapping("/api/delete/userGroup")
+    public void deleteUserGroup(@RequestBody Map<String,Object> objectMap){
+        String userName = (String)objectMap.get("userName");
+        String groupName = (String)objectMap.get("groupName");
+        BigInteger userId = userMapper.selectOneUser(userName).getUserId();
+        BigInteger groupId = usersGroupMapper.selectOneGroup(groupName).getGroupId();
+        usersGroupsMapper.deleteUserGroupSQL(userId,groupId);
+    }
 }

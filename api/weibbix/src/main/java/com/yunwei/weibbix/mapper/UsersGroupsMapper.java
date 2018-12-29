@@ -7,4 +7,5 @@ import java.math.BigInteger;
 
 public interface UsersGroupsMapper {
     public void insertUserGroupsSQL(@Param("userId")BigInteger userId, @Param("groupId") BigInteger groupId);
+    public void deleteUserGroupSQL(@Param("userId")BigInteger userId,@Param("groupId") BigInteger groupId);
 }

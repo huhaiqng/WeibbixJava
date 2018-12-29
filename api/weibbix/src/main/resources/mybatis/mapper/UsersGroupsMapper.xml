@@ -6,4 +6,7 @@
    <insert id="insertUserGroupsSQL">
        INSERT INTO users_groups(userId,groupId) VALUE(#{userId},#{groupId})
    </insert>
+    <delete id="deleteUserGroupSQL">
+        DELETE FROM users_groups WHERE userId = #{userId} AND groupId = #{groupId}
+    </delete>
 </mapper>

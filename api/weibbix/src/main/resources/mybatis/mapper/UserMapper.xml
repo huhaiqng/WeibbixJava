@@ -15,9 +15,9 @@
     <delete id="deleteUserSQL">
         DELETE FROM users WHERE userId = #{userId}
     </delete>
-    <delete id="changeUserStatusSQL">
+    <update id="changeUserStatusSQL">
         UPDATE users SET enabled = #{enabled} WHERE userId = #{userId}
-    </delete>
+    </update>
     <select id="selectGroupUsersSQL" resultType="java.lang.String">
         SELECT u.userName
           FROM users u,users_groups ug
@@ -25,4 +25,10 @@
             AND ug.userId = u.userId
           Order BY u.userId
     </select>
+    <update id="updateUserSQL">
+        UPDATE users SET userName = #{userName},enabled = #{enabled} WHERE userId = #{userId}
+    </update>
+    <update id="updateUserPasswordSQL">
+        UPDATE users SET password = #{password} WHERE userId = #{userId}
+    </update>
 </mapper>

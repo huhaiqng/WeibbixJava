@@ -13,4 +13,6 @@ public interface UserMapper {
     public void deleteUserSQL(User user);
     public void changeUserStatusSQL(User user);
     public List<String> selectGroupUsersSQL(Integer groupId);
+    public void updateUserSQL(User user);
+    public void updateUserPasswordSQL(User user);
 }

@@ -43,10 +43,12 @@ $(function () {
 });
 
 function reset_edit_user_div(){
+	$("#create_user_btn").show();
 	$("#no_change_password_div").show();
 	$("#change_password_div").hide();
 	document.getElementById("edit_password1").value ="";
   document.getElementById("edit_password2").value = "";
+	document.getElementById("new_add_user_fail_info").innerHTML="";
 	$("#save_edit_user_btn").unbind("click");
 	$("#groups_select").empty();
 	$(".bootstrap-duallistbox-container").remove();
@@ -136,7 +138,10 @@ function save_new_user(){
 				return false;
 			}
 			
-			save_user_groups(new_username);
+			$(".select2-selection__choice").each(function(){
+				groupName = $(this).attr("title");
+				save_user_groups(new_username,groupName);
+			});
 			
 			$("#create_user_btn").show();
 			$("#users_table_div").show();
@@ -151,20 +156,19 @@ function save_new_user(){
 	});	
 }
 
-function save_user_groups(new_username){
-	$(".select2-selection__choice").each(function(){
-		groupName = $(this).attr("title");
-		userName = new_username;
-		data = {"groupName":groupName,"userName":userName};
-		$.ajax({
-			type: "POST",
-			url: "/api/add/userGroups",
-			data: JSON.stringify(data),
-			contentType: "application/json",
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
-			}
-		});
+function save_user_groups(new_username,groupName){
+	data = {"groupName":groupName,"userName":new_username};
+	$.ajax({
+		type: "POST",
+		url: "/api/add/userGroups",
+		data: JSON.stringify(data),
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		async: false,
+		success: function(){
+		}
 	});
 }
 
@@ -271,6 +275,7 @@ function change_user_status(user,user_status_btn){
 }
 //更新用户
 function edit_user(user){
+	$("#create_user_btn").hide();
 	$("#users_table_div").hide();
 	$("#edit_user_div").show();
 	document.getElementById("edit_username").value = user.userName;
@@ -303,30 +308,57 @@ function edit_user(user){
 	show_dual_listbox();
 	
 	$("#save_edit_user_btn").click(function(){
-		save_edit_user(user.userId);
+		save_edit_user(user);
 	});
 }
-
-function save_edit_user(userId){
+//保存修改用户的信息
+function save_edit_user(user){
 	var userName = document.getElementById("edit_username").value;
 	var radio_value = $('input[name="edit_optionsRadios"]:checked').val();
 	
-	edit_user = {"userId":userId,"userName":userName,"enabled":radio_value};
+	edit_user_data = {"userId":user.userId,"userName":userName,"enabled":radio_value};
 	
+	
+	//判断是否修改用户密码
 	change_password_status = $("#change_password_div").attr("style");
-	if(change_password_status != "display:none"){
-		change_user_password(userId);
+	if(change_password_status != "display: none;"){
+		if(!change_user_password(user.userId)){
+			return false;
+		};
 	}
 	
+	//添加所属用户的组
+	$("#bootstrap-duallistbox-selected-list_").find("option").each(function(){
+		sort = $(this).attr("data-sortindex");
+		if(sort){
+			groupName = $(this).attr("value");
+			save_user_groups(user.userName,groupName);
+		}
+	});
+	
+	//删除所属用户的组
+	$("#bootstrap-duallistbox-nonselected-list_").find("option").each(function(){
+		select_status = $(this).attr("selected");
+		if(select_status){
+			groupName = $(this).attr("value");
+			delete_user_group(user.userName,groupName)
+		}
+	});
+	
+	//修改用户
 	$.ajax({
 		type: "POST",
-		url: "/api/edit/user",
-		data: JSON.stringify(edit_user),
+		url: "/api/update/user",
+		data: JSON.stringify(edit_user_data),
 		contentType: "application/json",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
 		success: function(response){
+			$("#edit_user_div").hide();
+			$("#users_table_tbody").empty();
+			creat_users_table();
+			$("#users_table_div").show();
 			reset_edit_user_div();
 		},
 		error: function (response) {
@@ -334,10 +366,47 @@ function save_edit_user(userId){
 		}
 	});	
 }
+
+//删除用户组
+function delete_user_group(userName,groupName){
+	$.ajax({
+		type: "POST",
+		url: "/api/delete/userGroup",
+		data: JSON.stringify({"userName":userName,"groupName":groupName}),
+		contentType: "application/json",
+		async: false,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(response){
+			
+		},
+		error: function (response) {
+			console.log(response);
+		}
+	});	
+}
+
 //修改用户密码
 function change_user_password(userId){
-	var user_password = document.getElementById("#edit_password1").value;
-	user_data = {"userId":userId,"password":user_password};
+	var user_password1 = document.getElementById("edit_password1").value;
+	var user_password2 = document.getElementById("edit_password2").value;
+	
+	if(user_password1.length < 6){
+		document.getElementById("username_error_info").innerHTML="";
+		document.getElementById("new_password_length_error_info").innerHTML="密码必须不少于6个字符";
+		$("#edit_password1").focus();
+		return false;
+	}
+		
+	if(user_password1!=user_password2){
+		document.getElementById("new_password_length_error_info").innerHTML="";
+		document.getElementById("new_add_user_fail_info").innerHTML="密码与确认密码确认不一致";
+		$("#edit_password1").focus();
+		return false;
+	};
+	
+	user_data = {"userId":userId,"password":user_password1};
 	$.ajax({
 		type: "POST",
 		url: "/api/update/userPassword",
@@ -352,6 +421,7 @@ function change_user_password(userId){
 			console.log(response);
 		}
 	});	
+	return true;
 }
 
 function get_user_groups(userId){

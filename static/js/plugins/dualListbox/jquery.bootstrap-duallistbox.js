@@ -718,9 +718,8 @@
         var args = arguments;
         // Is the first parameter an object (options), or was omitted, instantiate a new instance of the plugin.
         if (options === undefined || typeof options === 'object') {
-			console.log("options")
             return this.each(function () {
-				console.log($.data(this, 'plugin_' + pluginName));
+				
                 // If this is not a select
                 if (!$(this).is('select')) {
 					console.log("if");
@@ -729,7 +728,7 @@
                         $(item).bootstrapDualListbox(options);
                     });
                 } else {
-					console.log("else if");
+				
                     // Only allow the plugin to be instantiated once so we check that the element has no plugin instantiation yet
 					// else if (!$.data(this, 'plugin_' + pluginName)) {
                     // if it has no instance, create a new one, pass options to our plugin constructor,
