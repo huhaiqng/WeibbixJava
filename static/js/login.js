@@ -14,6 +14,10 @@ $(document).ready(function () {
 
 
 function signIn() {
+	
+	var login_username = document.getElementById("username").value;
+	localStorage.setItem("login_username",login_username);
+	
 	$.ajax({
 		type : 'POST',
 		url : '/oauth/token',
