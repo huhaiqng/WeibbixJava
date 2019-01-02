@@ -3,7 +3,7 @@ $(document).ready(function () {
 
         //stop submit the form, we will post it manually.
         event.preventDefault();
-		signIn();
+				signIn();
     });
 	
 /*  	window.onbeforeunload = function(){
@@ -40,10 +40,11 @@ function signIn() {
 				$.cookie("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token );
 				console.log("Response: "+JSON.stringify(response));
 
-				window.location.href="index.html";
+				window.location.href="/static";
 		},
 			error: function (e) {
-			console.log("ERROR : ", e);
+				document.getElementById("login_err_info_p").innerHTML = "登陆失败，请确保输入的用户名和密码正确!";
+				console.log("ERROR : ", e);
 		}
 	});		
 }
