@@ -7,7 +7,10 @@
         select * from usersGroup where groupName = #{groupName}
     </select>
     <select id="selectGroupsSQL" resultType="com.yunwei.weibbix.entity.UsersGroup">
-        select * from usersGroup ORDER BY groupId
+        select * from usersGroup ORDER BY groupId limit #{beforeNum},#{groupsCount}
+    </select>
+    <select id="selectGroupsCountSQL" resultType="java.lang.Integer">
+        SELECT count(groupId) FROM usersGroup
     </select>
     <insert id="insertGroup">
         INSERT INTO usersGroup(groupName,enabled) VALUES (#{groupName},#{enabled})
@@ -26,5 +29,11 @@
     </select>
     <select id="selectUserGroupsSQL" resultType="java.lang.String">
         select groupName from users_groups ug,usersGroup ugs where userId = #{userId} and ug.groupId = ugs.groupId and ugs.enabled = TRUE ;
+    </select>
+    <select id="selectSearchGroupsCountSQL" resultType="java.lang.Integer">
+        SELECT count(groupId) FROM usersGroup WHERE groupName LIKE #{groupName}
+    </select>
+    <select id="selectSearchGroupsSQL" resultType="com.yunwei.weibbix.entity.UsersGroup">
+        select * from usersGroup WHERE groupName LIKE #{groupName} ORDER BY groupId limit #{beforeNum},#{groupsCount}
     </select>
 </mapper>

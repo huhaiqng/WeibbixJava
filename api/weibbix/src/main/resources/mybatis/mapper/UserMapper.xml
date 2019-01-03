@@ -12,6 +12,9 @@
     <select id="selectUsersSQL" resultType="com.yunwei.weibbix.entity.User">
         SELECT userId,userName,enabled FROM users ORDER BY userId limit #{beforeNum},#{usersCount}
     </select>
+    <select id="selectSearchUsersSQL" resultType="com.yunwei.weibbix.entity.User">
+        SELECT userId,userName,enabled FROM users WHERE userName LIKE #{userNameLike} ORDER BY userId limit #{beforeNum},#{usersCount}
+    </select>
     <delete id="deleteUserSQL">
         DELETE FROM users WHERE userId = #{userId}
     </delete>
@@ -33,5 +36,8 @@
     </update>
     <select id="selectUsersCountSQL" resultType="java.lang.Integer">
         SELECT count(userId) FROM users
+    </select>
+    <select id="selectSearchUsersCountSQL" resultType="java.lang.Integer">
+        SELECT count(userId) FROM users WHERE userName LIKE #{userNameLike}
     </select>
 </mapper>

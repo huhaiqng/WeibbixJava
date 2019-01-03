@@ -35,6 +35,9 @@ $(function(){
 		$('#save_edit_group_btn').unbind("click");
 	});
 	
+	$("#search_groupname_btn").click(function(){
+		get_groups();
+	});
 });
 
 function save_add_group(){
@@ -85,14 +88,88 @@ function save_add_group(){
 }
 
 function get_groups(){
+	var options=$("#group_page_select option:selected"); 
+	var onePageGroupsCount = options.val();
+	var search_groupname = document.getElementById("search_groupname").value;
+	
 	$.ajax({
-		type: "GET",
+		type: "POST",
 		url: "/api/get/groups",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
+		contentType: "application/json",
+		data: JSON.stringify({"currentPage":1,"groupsCount":onePageGroupsCount,"search_groupname":search_groupname}),
 		success: function(response){
-			var groups = response.result;
+			
+			var totalPages = response.pages;
+			var groups = response.groups;
+			
+			if(totalPages == 0){
+				$.jqPaginator("#pagination", {
+					totalPages: 1,
+					visiblePages: 10,
+					currentPage: 1,
+					onPageChange: function(num, type) {
+						// $("#p1").text(type + "：" + num)
+						if(type == "change"){
+							get_pages_groups_change(num,onePageGroupsCount,search_groupname);
+						}
+					}
+				});
+				
+				$("#group_tbody").empty();
+			}else{
+				$.jqPaginator("#pagination", {
+					totalPages: totalPages,
+					visiblePages: 10,
+					currentPage: 1,
+					onPageChange: function(num, type) {
+						// $("#p1").text(type + "：" + num)
+						if(type == "change"){
+							get_pages_groups_change(num,onePageGroupsCount,search_groupname);
+						}
+					}
+				});
+				
+				$("#group_tbody").empty();
+				for(i=0;i<groups.length;i++){
+					create_group_line(groups[i]);
+				}
+			}
+
+		}
+	});
+}
+
+function get_pages_groups_change(currentPage,groupsCount,search_groupname){
+	var onePageUsersCount = groupsCount;
+	$.ajax({
+		type: "POST",
+		url: "/api/get/groups",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		contentType: "application/json",
+		data: JSON.stringify({"currentPage":currentPage,"groupsCount":groupsCount,"search_groupname":search_groupname}),
+		success: function(response){
+		
+			var totalPages = response.pages;
+			var groups = response.groups;
+			
+			$.jqPaginator("#pagination", {
+				totalPages: totalPages,
+				visiblePages: 10,
+				currentPage: currentPage,
+				onPageChange: function(num, type) {
+					// $("#p1").text(type + "：" + num)
+					if(type == "change"){
+						get_pages_groups_change(num,onePageUsersCount,search_groupname);
+					}
+				}
+			});
+			
+			$("#group_tbody").empty();
 			for(i=0;i<groups.length;i++){
 				create_group_line(groups[i]);
 			}

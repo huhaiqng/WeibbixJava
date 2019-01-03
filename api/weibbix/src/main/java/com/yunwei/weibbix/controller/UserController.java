@@ -60,15 +60,20 @@ public class UserController {
 
     @PostMapping("/api/get/users")
     public UsersResponseBody getUsers(@RequestBody Map<String,Object> objectMap){
-
         Integer currentPage = (Integer) objectMap.get("currentPage");
         Integer usersCount = Integer.parseInt((String)objectMap.get("usersCount"));
         Integer beforeNum = (currentPage-1)*usersCount;
+        String userNameLike = (String)objectMap.get("search_username");
 
         UsersResponseBody usersResponseBody = new UsersResponseBody();
-        usersResponseBody.setUsers(userMapper.selectUsersSQL(beforeNum,usersCount));
-        float pages = (float)userMapper.selectUsersCountSQL()/usersCount;
-
+        float pages=0;
+        if(userNameLike == ""){
+            usersResponseBody.setUsers(userMapper.selectUsersSQL(beforeNum,usersCount));
+            pages = (float)userMapper.selectUsersCountSQL()/usersCount;
+        }else{
+            usersResponseBody.setUsers(userMapper.selectSearchUsersSQL(beforeNum,usersCount,"%"+userNameLike+"%"));
+            pages = (float)userMapper.selectSearchUsersCountSQL("%"+userNameLike+"%")/usersCount;
+        }
         usersResponseBody.setPages((int)Math.ceil(pages));
         return usersResponseBody;
     }

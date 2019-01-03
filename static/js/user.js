@@ -41,6 +41,9 @@ $(function () {
 		$("#change_password_div").show();
 	});
 	
+	$("#search_username_btn").click(function(){
+		creat_users_table();
+	});
 });
 
 function reset_edit_user_div(){
@@ -176,8 +179,8 @@ function save_user_groups(new_username,groupName){
 function creat_users_table(){
 	var options=$("#page_select option:selected"); 
 	var onePageUsersCount = options.val();
-//	var currentPage = "1";
-	
+	var search_username = document.getElementById("search_username").value;
+
 	$.ajax({
 		type: "POST",
 		url: "/api/get/users",
@@ -185,33 +188,49 @@ function creat_users_table(){
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
 		contentType: "application/json",
-		data: JSON.stringify({"currentPage":1,"usersCount":onePageUsersCount}),
+		data: JSON.stringify({"currentPage":1,"usersCount":onePageUsersCount,"search_username":search_username}),
 		success: function(response){
 		
 			var totalPages = response.pages;
 			var users = response.users;
 			
-			$.jqPaginator("#pagination", {
-				totalPages: totalPages,
-				visiblePages: 10,
-				currentPage: 1,
-				onPageChange: function(num, type) {
-					// $("#p1").text(type + "：" + num)
-					if(type == "change"){
-						get_pages_users_change(num,onePageUsersCount);
+			if(totalPages == 0){
+				$.jqPaginator("#pagination", {
+					totalPages: 1,
+					visiblePages: 10,
+					currentPage: 1,
+					onPageChange: function(num, type) {
+						// $("#p1").text(type + "：" + num)
+						if(type == "change"){
+							get_pages_users_change(num,onePageUsersCount,search_username);
+						}
 					}
+				});
+				
+				$("#users_table_tbody").empty();
+			}else{
+				$.jqPaginator("#pagination", {
+					totalPages: totalPages,
+					visiblePages: 10,
+					currentPage: 1,
+					onPageChange: function(num, type) {
+						// $("#p1").text(type + "：" + num)
+						if(type == "change"){
+							get_pages_users_change(num,onePageUsersCount,search_username);
+						}
+					}
+				});
+				
+				$("#users_table_tbody").empty();
+				for(i=0;i<users.length;i++){
+					create_user_table_line(users[i]);
 				}
-			});
-			
-			$("#users_table_tbody").empty();
-			for(i=0;i<users.length;i++){
-				create_user_table_line(users[i]);
 			}
 		}
 	});
 }
 
-function get_pages_users_change(currentPage,usersCount){
+function get_pages_users_change(currentPage,usersCount,search_username){
 	var onePageUsersCount = usersCount;
 	$.ajax({
 		type: "POST",
@@ -220,7 +239,7 @@ function get_pages_users_change(currentPage,usersCount){
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
 		contentType: "application/json",
-		data: JSON.stringify({"currentPage":currentPage,"usersCount":usersCount}),
+		data: JSON.stringify({"currentPage":currentPage,"usersCount":usersCount,"search_username":search_username}),
 		success: function(response){
 		
 			var totalPages = response.pages;
@@ -233,7 +252,7 @@ function get_pages_users_change(currentPage,usersCount){
 				onPageChange: function(num, type) {
 					// $("#p1").text(type + "：" + num)
 					if(type == "change"){
-						get_pages_users_change(num,onePageUsersCount);
+						get_pages_users_change(num,onePageUsersCount,search_username);
 					}
 				}
 			});

@@ -1,8 +1,6 @@
 package com.yunwei.weibbix.controller;
 
-import com.yunwei.weibbix.entity.AjaxResponseBody;
-import com.yunwei.weibbix.entity.UsersGroup;
-import com.yunwei.weibbix.entity.UsersGroups;
+import com.yunwei.weibbix.entity.*;
 import com.yunwei.weibbix.mapper.UsersGroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +37,27 @@ public class UsersGroupController {
         return null;
     }
 
-    @GetMapping("/api/get/groups")
-    public AjaxResponseBody selectGroups(){
-        AjaxResponseBody ajaxResponseBody = new AjaxResponseBody();
-        ajaxResponseBody.setResult(usersGroupMapper.selectGroupsSQL());
-        return ajaxResponseBody;
+    @PostMapping("/api/get/groups")
+    public GroupsResponseBody selectGroups(@RequestBody Map<String,Object> objectMap){
+
+        Integer currentPage = (Integer)objectMap.get("currentPage");
+        Integer groupsCount = Integer.parseInt((String)objectMap.get("groupsCount"));
+        String groupName = (String)objectMap.get("search_groupname");
+        Integer beforeNum = (currentPage-1)*groupsCount;
+
+        GroupsResponseBody groupsResponseBody = new GroupsResponseBody();
+        float pages = 0;
+        if(groupName == ""){
+            groupsResponseBody.setGroups(usersGroupMapper.selectGroupsSQL(beforeNum,groupsCount));
+            pages = (float)usersGroupMapper.selectGroupsCountSQL()/groupsCount;
+        }else{
+            groupsResponseBody.setGroups(usersGroupMapper.selectSearchGroupsSQL(beforeNum,groupsCount,"%"+groupName+"%"));
+            pages = (float)usersGroupMapper.selectSearchGroupsCountSQL("%"+groupName+"%")/groupsCount;
+        }
+        groupsResponseBody.setPages((int)Math.ceil(pages));
+        return groupsResponseBody;
+//        ajaxResponseBody.setResult(usersGroupMapper.selectGroupsSQL());
+//        return ajaxResponseBody;
     }
 
     @PostMapping("/api/delete/group")

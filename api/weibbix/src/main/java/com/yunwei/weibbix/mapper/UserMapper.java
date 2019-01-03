@@ -16,4 +16,6 @@ public interface UserMapper {
     public void updateUserSQL(User user);
     public void updateUserPasswordSQL(User user);
     public Integer selectUsersCountSQL();
+    public List<User> selectSearchUsersSQL(@Param("beforeNum") Integer currentPage,@Param("usersCount") Integer userCount,@Param("userNameLike") String userNameLike);
+    public Integer selectSearchUsersCountSQL(@Param("userNameLike") String userNameLike);
 }
