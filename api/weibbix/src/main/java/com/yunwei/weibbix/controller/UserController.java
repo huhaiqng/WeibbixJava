@@ -1,9 +1,6 @@
 package com.yunwei.weibbix.controller;
 
-import com.yunwei.weibbix.entity.AjaxResponseBody;
-import com.yunwei.weibbix.entity.User;
-import com.yunwei.weibbix.entity.UsersGroup;
-import com.yunwei.weibbix.entity.UsersGroups;
+import com.yunwei.weibbix.entity.*;
 import com.yunwei.weibbix.mapper.UserMapper;
 import com.yunwei.weibbix.oauth.entity.MyUserDetails;
 import org.codehaus.jackson.map.util.JSONPObject;
@@ -61,9 +58,19 @@ public class UserController {
         return null;
     }
 
-    @GetMapping("/api/get/users")
-    public List<User> getUsers(){
-        return userMapper.selectUsersSQL();
+    @PostMapping("/api/get/users")
+    public UsersResponseBody getUsers(@RequestBody Map<String,Object> objectMap){
+
+        Integer currentPage = (Integer) objectMap.get("currentPage");
+        Integer usersCount = Integer.parseInt((String)objectMap.get("usersCount"));
+        Integer beforeNum = (currentPage-1)*usersCount;
+
+        UsersResponseBody usersResponseBody = new UsersResponseBody();
+        usersResponseBody.setUsers(userMapper.selectUsersSQL(beforeNum,usersCount));
+        float pages = (float)userMapper.selectUsersCountSQL()/usersCount;
+
+        usersResponseBody.setPages((int)Math.ceil(pages));
+        return usersResponseBody;
     }
 
     @PostMapping("/api/delete/user")

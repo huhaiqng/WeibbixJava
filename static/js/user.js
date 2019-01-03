@@ -40,6 +40,7 @@ $(function () {
 		$("#no_change_password_div").hide();
 		$("#change_password_div").show();
 	});
+	
 });
 
 function reset_edit_user_div(){
@@ -173,15 +174,73 @@ function save_user_groups(new_username,groupName){
 }
 
 function creat_users_table(){
+	var options=$("#page_select option:selected"); 
+	var onePageUsersCount = options.val();
+//	var currentPage = "1";
+	
 	$.ajax({
-		type: "GET",
+		type: "POST",
 		url: "/api/get/users",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
+		contentType: "application/json",
+		data: JSON.stringify({"currentPage":1,"usersCount":onePageUsersCount}),
 		success: function(response){
-			for(i=0;i<response.length;i++){
-				create_user_table_line(response[i]);
+		
+			var totalPages = response.pages;
+			var users = response.users;
+			
+			$.jqPaginator("#pagination", {
+				totalPages: totalPages,
+				visiblePages: 10,
+				currentPage: 1,
+				onPageChange: function(num, type) {
+					// $("#p1").text(type + "：" + num)
+					if(type == "change"){
+						get_pages_users_change(num,onePageUsersCount);
+					}
+				}
+			});
+			
+			$("#users_table_tbody").empty();
+			for(i=0;i<users.length;i++){
+				create_user_table_line(users[i]);
+			}
+		}
+	});
+}
+
+function get_pages_users_change(currentPage,usersCount){
+	var onePageUsersCount = usersCount;
+	$.ajax({
+		type: "POST",
+		url: "/api/get/users",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		contentType: "application/json",
+		data: JSON.stringify({"currentPage":currentPage,"usersCount":usersCount}),
+		success: function(response){
+		
+			var totalPages = response.pages;
+			var users = response.users;
+			
+			$.jqPaginator("#pagination", {
+				totalPages: totalPages,
+				visiblePages: 10,
+				currentPage: currentPage,
+				onPageChange: function(num, type) {
+					// $("#p1").text(type + "：" + num)
+					if(type == "change"){
+						get_pages_users_change(num,onePageUsersCount);
+					}
+				}
+			});
+			
+			$("#users_table_tbody").empty();
+			for(i=0;i<users.length;i++){
+				create_user_table_line(users[i]);
 			}
 		}
 	});

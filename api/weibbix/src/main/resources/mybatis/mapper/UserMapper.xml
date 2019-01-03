@@ -10,7 +10,7 @@
         INSERT INTO users(username,password,enabled) VALUES (#{userName},#{password},#{enabled})
     </insert>
     <select id="selectUsersSQL" resultType="com.yunwei.weibbix.entity.User">
-        SELECT userId,userName,enabled FROM users ORDER BY userId
+        SELECT userId,userName,enabled FROM users ORDER BY userId limit #{beforeNum},#{usersCount}
     </select>
     <delete id="deleteUserSQL">
         DELETE FROM users WHERE userId = #{userId}
@@ -31,4 +31,7 @@
     <update id="updateUserPasswordSQL">
         UPDATE users SET password = #{password} WHERE userId = #{userId}
     </update>
+    <select id="selectUsersCountSQL" resultType="java.lang.Integer">
+        SELECT count(userId) FROM users
+    </select>
 </mapper>

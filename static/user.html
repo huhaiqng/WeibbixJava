@@ -54,9 +54,44 @@
 			<tbody id="users_table_tbody">
 			</tbody>
  
-			</table>
 			
-			<!-- <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0">Next</a></li></ul></div> -->
+					
+			
+ 
+			</table>
+			<div class="dataTables_length" id="DataTables_Table_0_length">
+				<label>每页
+				<select onchange="creat_users_table()" id="page_select" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+				</select></label>
+			</div>
+			<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+				<ul class="pagination" id="pagination"></ul>
+			</div>
+			
+			<!-- <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+				<ul class="pagination">
+					<li class="paginate_button previous disabled" id="DataTables_Table_0_previous">
+						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a>
+					</li>
+					<li class="paginate_button active">
+						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a>
+					</li>
+					<li class="paginate_button ">
+						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0">2</a>
+					</li>
+					<li class="paginate_button ">
+						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0">3</a>
+					</li>
+					<li class="paginate_button next" id="DataTables_Table_0_next">
+						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0">Next</a>
+					</li>
+				</ul>
+			</div> -->
+			
 			</div>
 			</div>
 
