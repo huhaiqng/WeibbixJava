@@ -40,7 +40,7 @@ function signIn() {
 				$.cookie("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token );
 				console.log("Response: "+JSON.stringify(response));
 
-				window.location.href="/static";
+				window.location.href="./";
 		},
 			error: function (e) {
 				document.getElementById("login_err_info_p").innerHTML = "登陆失败，请确保输入的用户名和密码正确!";

@@ -4,6 +4,8 @@ $(function () {
 //	显示用户名
 	var login_username = localStorage.getItem("login_username");
 	$("#user_span").text(login_username);
+	
+	$("#index_main_content").load("main.html");
 }); 
 
 function load_user_html(){
@@ -15,7 +17,7 @@ function load_user_html(){
 			document.body.appendChild(script);
 
 		});
-		// change_active_li(this);
+		change_active_li(this);
 	});
 	
 	
@@ -25,13 +27,21 @@ function load_user_html(){
 			script.setAttribute('src', 'js/group.js'); 
 			document.body.appendChild(script);
 		});
-		// change_active_li(this);
+		change_active_li(this);
     });
+	
+	$("#windows_hosts_pool").click(function(){
+		change_active_li(this);
+	});
+	
+	$("#linux_hosts_pool").click(function(){
+		change_active_li(this);
+	});
 }
 
-// function change_active_li(obj){
-// 	var select_ul = $(obj).parent().parent();
-// 	var active_li = select_ul.find(".active");
-// 	$(active_li).removeClass("active");
-// 	$(obj).parent().addClass("active");
-// }
+function change_active_li(obj){
+	// var select_ul = $(obj).parent().parent();
+	var active_li = $("#side-menu").find("li .active");
+	$(active_li).removeClass("active");
+	$(obj).parent().addClass("active");
+}

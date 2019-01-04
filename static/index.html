@@ -47,20 +47,22 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="">
                         <div class="dropdown profile-element" style="text-align:center;"> 
-						<span><img style="text-align:center;max-width: 100%;max-height: 100%;" alt="image" src="img/weibbix.png" /></span>
+						<span><a href="./"><img style="text-align:center;max-width: 100%;max-height: 100%;" alt="image" src="img/weibbix.png" /></a></span>
                       
                         </div>
                         <div class="logo-element">
-                            WB
+                            <a href="./">WB</a>
                         </div>
                     </li>
+										
 										<li>
 												<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">主机管理 </span><span class="fa arrow"></span></a>
 												<ul class="nav nav-second-level collapse" style="">
-														<li><a href="#">Linux 资源池</a></li>
-														<li><a href="#">Windows 资源池</a></li>
+														<li><a id="linux_hosts_pool" href="#">Linux 资源池</a></li>
+														<li><a id="windows_hosts_pool" href="#">Windows 资源池</a></li>
 												</ul>
 										</li>
+										
                     <li>
                         <a href="#"><i class="fa fa-gear"></i> <span class="nav-label">系统管理</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse" style="">
@@ -69,31 +71,13 @@
                             <li><a>系统设置</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a>
-                    </li>
-                    
-                    <li>
-                        <a href="metrics.html"><i class="fa fa-pie-chart"></i> <span class="nav-label">Metrics</span>  </a>
-                    </li>
-                    <li>
-                        <a href="widgets.html"><i class="fa fa-flask"></i> <span class="nav-label">Widgets</span></a>
-                    </li>
-                    
-                    
-
-                    <li>
-                        <a href="grid_options.html"><i class="fa fa-laptop"></i> <span class="nav-label">Grid options</span></a>
-                    </li>
-
-                 
                 </ul>
 
             </div>
         </nav>
 
-        <div id="page-wrapper" class="gray-bg dashbard-1">
-			<div class="row border-bottom">
+  <div id="page-wrapper" class="gray-bg dashbard-1">
+		<div class="row border-bottom">
 				<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
 					<div class="navbar-header">
 						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
@@ -125,10 +109,13 @@
 				</nav>
 			</div>
 						
-			<div id="index_main_content"></div>
+		<div id="index_main_content"></div>
 			
-        </div>
+			
+			
+			
     </div>
+  </div>
 
     <!-- Mainly scripts -->
     <script src="js/jquery-3.1.1.min.js"></script>
