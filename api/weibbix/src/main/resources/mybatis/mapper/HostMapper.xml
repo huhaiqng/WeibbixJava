@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunwei.weibbix.mapper.HostMapper">
+    <insert id="importHostSQL">
+        INSERT INTO
+        hosts(hostId,hostName,ip,envType,hostGroup,place,rootPassword,
+        allocated,osVersion,configuration,hostType,esxiIp,enabled)
+        VALUE(#{hostId},#{hostName},#{ip},#{envType},#{hostGroup},#{place},#{rootPassword},
+        #{allocated},#{osVersion},#{configuration},#{hostType},#{esxiIp},#{enabled})
+    </insert>
+    <select id="selectALLHostsSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts WHERE envType = #{envType} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByGroupSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts WHERE hostGroup = #{hostGroup} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByIpSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts WHERE ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvGroupSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvIpSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts WHERE envType = #{envType} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByGroupIpSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts WHERE hostGroup = #{hostGroup} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvGroupIpSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT * FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+
+    <select id="selectALLHostsCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts WHERE envType = #{envType} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByGroupCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts WHERE hostGroup = #{hostGroup} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts WHERE ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvGroupCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts WHERE envType = #{envType} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByGroupIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts WHERE hostGroup = #{hostGroup} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+    <select id="selectHostsByEnvGroupIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+    </select>
+</mapper>

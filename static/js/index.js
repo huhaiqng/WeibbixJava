@@ -35,8 +35,14 @@ function load_user_html(){
 	});
 	
 	$("#linux_hosts_pool").click(function(){
+		$("#index_main_content").load("linux_host.html",function(){
+			var script = document.createElement('script');
+			script.setAttribute('src', 'js/linux_host.js'); 
+			document.body.appendChild(script);
+		})
 		change_active_li(this);
 	});
+	
 }
 
 function change_active_li(obj){
