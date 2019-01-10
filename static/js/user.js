@@ -279,6 +279,7 @@ function create_user_table_line(user){
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
+	$(td).attr("align","center");
 	var user_status_btn = document.createElement("a");
 	if(user.enabled == true){
 		user_status_btn.innerText = "启用";
@@ -301,7 +302,7 @@ function create_user_table_line(user){
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
-	
+	$(td).attr("align","center");
 	var user_edit_btn = document.createElement("a");
 	user_edit_btn.className = "label label-success";
 	user_edit_btn.innerText = "编辑";

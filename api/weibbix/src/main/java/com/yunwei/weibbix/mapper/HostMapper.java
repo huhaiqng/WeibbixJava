@@ -17,12 +17,16 @@ public interface HostMapper {
     public List<Host> selectHostsByGroupIpSQL(@Param("hostGroup")String hostGroup,@Param("ip")String ip,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
     public List<Host> selectHostsByEnvGroupIpSQL(@Param("envType")String envType,@Param("hostGroup")String hostGroup,@Param("ip")String ip,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
 
-    public Integer selectALLHostsCountSQL(@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
-    public Integer selectHostsByEnvCountSQL(@Param("envType") String envType,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
-    public Integer selectHostsByGroupCountSQL(@Param("hostGroup") String hostGroup,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
-    public Integer selectHostsByIpCountSQL(@Param("ip") String ip,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
-    public Integer selectHostsByEnvGroupCountSQL(@Param("envType")String envType,@Param("hostGroup")String hostGroup,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
-    public Integer selectHostsByEnvIpCountSQL(@Param("envType")String envType,@Param("ip")String ip,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
-    public Integer selectHostsByGroupIpCountSQL(@Param("hostGroup")String hostGroup,@Param("ip")String ip,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
-    public Integer selectHostsByEnvGroupIpCountSQL(@Param("envType")String envType,@Param("hostGroup")String hostGroup,@Param("ip")String ip,@Param("beforeNum") Integer beforeNum,@Param("hostsCount")Integer hostCount);
+    public Integer selectALLHostsCountSQL();
+    public Integer selectHostsByEnvCountSQL(@Param("envType") String envType);
+    public Integer selectHostsByGroupCountSQL(@Param("hostGroup") String hostGroup);
+    public Integer selectHostsByIpCountSQL(@Param("ip") String ip);
+    public Integer selectHostsByEnvGroupCountSQL(@Param("envType")String envType,@Param("hostGroup")String hostGroup);
+    public Integer selectHostsByEnvIpCountSQL(@Param("envType")String envType,@Param("ip")String ip);
+    public Integer selectHostsByGroupIpCountSQL(@Param("hostGroup")String hostGroup,@Param("ip")String ip);
+    public Integer selectHostsByEnvGroupIpCountSQL(@Param("envType")String envType,@Param("hostGroup")String hostGroup,@Param("ip")String ip);
+    public void deleteHostSQL(@Param("hostId") String hostId);
+    public void updateHostStatusSQL(@Param("hostId")String hostId,@Param("enabled") Boolean enabled);
+
+    public  List<Host> selectGroupNotAllocatedHostsSQL(@Param("hostGroup") String hostGroup,@Param("envType")String envType);
 }

@@ -34,12 +34,21 @@ function load_user_html(){
 		change_active_li(this);
 	});
 	
-	$("#linux_hosts_pool").click(function(){
+	$("#linux_hosts").click(function(){
 		$("#index_main_content").load("linux_host.html",function(){
 			var script = document.createElement('script');
 			script.setAttribute('src', 'js/linux_host.js'); 
 			document.body.appendChild(script);
 		})
+		change_active_li(this);
+	});
+	
+	$("#kafka_cluster").click(function(){
+		$("#index_main_content").load("kafka_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/kafka_cluster.js");
+			document.body.appendChild(script);
+		});
 		change_active_li(this);
 	});
 	

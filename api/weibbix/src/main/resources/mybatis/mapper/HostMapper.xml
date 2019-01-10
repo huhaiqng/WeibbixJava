@@ -36,27 +36,36 @@
     </select>
 
     <select id="selectALLHostsCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts limit #{beforeNum},#{hostsCount}
+	SELECT count(*) FROM hosts
     </select>
     <select id="selectHostsByEnvCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts WHERE envType = #{envType} limit #{beforeNum},#{hostsCount}
+        SELECT count(*) FROM hosts WHERE envType = #{envType}
     </select>
     <select id="selectHostsByGroupCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts WHERE hostGroup = #{hostGroup} limit #{beforeNum},#{hostsCount}
+        SELECT count(*) FROM hosts WHERE hostGroup = #{hostGroup}
     </select>
     <select id="selectHostsByIpCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts WHERE ip = #{ip} limit #{beforeNum},#{hostsCount}
+        SELECT count(*) FROM hosts WHERE ip = #{ip}
     </select>
     <select id="selectHostsByEnvGroupCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup} limit #{beforeNum},#{hostsCount}
+        SELECT count(*) FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup}
     </select>
     <select id="selectHostsByEnvIpCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts WHERE envType = #{envType} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+        SELECT count(*) FROM hosts WHERE envType = #{envType} AND ip = #{ip}
     </select>
     <select id="selectHostsByGroupIpCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts WHERE hostGroup = #{hostGroup} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+        SELECT count(*) FROM hosts WHERE hostGroup = #{hostGroup} AND ip = #{ip}
     </select>
     <select id="selectHostsByEnvGroupIpCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup} AND ip = #{ip} limit #{beforeNum},#{hostsCount}
+        SELECT count(*) FROM hosts WHERE envType = #{envType} AND hostGroup = #{hostGroup} AND ip = #{ip}
+    </select>
+    <delete id="deleteHostSQL">
+        DELETE FROM hosts WHERE hostId = #{hostId}
+    </delete>
+    <update id="updateHostStatusSQL">
+        UPDATE hosts SET enabled = #{enabled} WHERE hostId = #{hostId}
+    </update>
+    <select id="selectGroupNotAllocatedHostsSQL" resultType="com.yunwei.weibbix.entity.Host">
+        SELECT hostId,ip FROM hosts WHERE hostGroup = #{hostGroup} AND envType = #{envType} AND allocated = TRUE
     </select>
 </mapper>

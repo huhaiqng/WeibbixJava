@@ -31,3 +31,18 @@ create table hosts(
 	hostType varchar(255) not null,
 	esxiIp varchar(255) not null
 );
+
+create table kafka_cluster(
+	clusterId varchar(255) primary key,
+	clusterName varchar(255) not null,
+	clusterEnv varchar(255) not null,
+	createdAt datetime default now()
+);
+
+create table host_cluster(
+	hcId varchar(255) primary key,
+	hostId varchar(255) not null,
+	clusterId varchar(255) not null,
+	CONSTRAINT c_host_cluster_1 FOREIGN KEY (hostId) REFERENCES hosts(hostId),
+	CONSTRAINT c_host_cluster_2 FOREIGN KEY (clusterId) REFERENCES kafka_cluster(clusterId)
+); 

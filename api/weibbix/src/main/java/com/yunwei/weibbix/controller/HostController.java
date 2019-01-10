@@ -41,40 +41,58 @@ public class HostController {
 
         PagesListResponse pagesListResponse = new PagesListResponse();
 
-        System.out.println(envType+":"+hostGroup);
         if(envType.equals("all") && hostGroup.equals("all") && ip.equals("")){
-            System.out.println("1");
             pagesListResponse.setHostList(hostMapper.selectALLHostsSQL(beforeNum,hostsCount));
-            pagesListResponse.setPages(hostMapper.selectALLHostsCountSQL(beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectALLHostsCountSQL()/hostsCount));
         }
         if(envType.equals("all") && hostGroup.equals("all") && !ip.equals("")){
-            System.out.println("2");
             pagesListResponse.setHostList(hostMapper.selectHostsByIpSQL(ip,beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByIpCountSQL(ip)/hostsCount));
         }
         if(envType.equals("all") && !hostGroup.equals("all") && ip.equals("")){
-            System.out.println("3");
             pagesListResponse.setHostList(hostMapper.selectHostsByGroupSQL(hostGroup,beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByGroupCountSQL(hostGroup)/hostsCount));
         }
         if(envType.equals("all") && !hostGroup.equals("all") && !ip.equals("")){
-            System.out.println("4");
             pagesListResponse.setHostList(hostMapper.selectHostsByGroupIpSQL(hostGroup,ip,beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByGroupIpCountSQL(hostGroup,ip)/hostsCount));
         }
         if(!envType.equals("all") && hostGroup.equals("all") && ip.equals("")){
-            System.out.println("5");
             pagesListResponse.setHostList(hostMapper.selectHostsByEnvSQL(envType,beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvCountSQL(envType)/hostsCount));
         }
         if(!envType.equals("all") && hostGroup.equals("all") && !ip.equals("")){
-            System.out.println("6");
             pagesListResponse.setHostList(hostMapper.selectHostsByEnvIpSQL(envType,ip,beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvIpCountSQL(envType,ip)/hostsCount));
         }
         if(!envType.equals("all") && !hostGroup.equals("all") && ip.equals("")){
-            System.out.println("7");
             pagesListResponse.setHostList(hostMapper.selectHostsByEnvGroupSQL(envType,hostGroup,beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvGroupCountSQL(envType,hostGroup)/hostsCount));
         }
         if(!envType.equals("all") && !hostGroup.equals("all") && !ip.equals("")){
-            System.out.println("8");
             pagesListResponse.setHostList(hostMapper.selectHostsByEnvGroupIpSQL(envType,hostGroup,ip,beforeNum,hostsCount));
+            pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvGroupIpCountSQL(envType,hostGroup,ip)/hostsCount));
         }
         return pagesListResponse;
+    }
+
+    @PostMapping("/api/delete/host")
+    public void deleteHost(@RequestBody Map<String,Object> objectMap){
+        String hostId = (String)objectMap.get("hostId");
+        hostMapper.deleteHostSQL(hostId);
+    }
+
+    @PostMapping("/api/change/host/status")
+    public void changeHostStatus(@RequestBody Map<String,Object> objectMap){
+        String hostId = (String)objectMap.get("hostId");
+        Boolean enabled = (Boolean)objectMap.get("enabled");
+        hostMapper.updateHostStatusSQL(hostId,enabled);
+    }
+
+    @PostMapping("/api/get/groupNotAllocatedHosts")
+    public List<Host> getGroupNotAllocatedHosts(@RequestBody Map<String,Object> objectMap){
+        String hostGroup = (String)objectMap.get("hostGroup");
+        String envType = (String)objectMap.get("envType");
+        return hostMapper.selectGroupNotAllocatedHostsSQL(hostGroup,envType);
     }
 }

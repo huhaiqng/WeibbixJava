@@ -191,6 +191,7 @@ function create_group_line(group){
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
+	$(td).attr("align","center");
 	var status_btn = document.createElement("a");
 	if(group.enabled == true){
 		status_btn.innerText = "启用";
@@ -213,7 +214,7 @@ function create_group_line(group){
 	tr.appendChild(td);
 	
 	var td = document.createElement("td");
-	
+	$(td).attr("align","center");
 	var edit_btn = document.createElement("a");
 	edit_btn.className = "label label-success";
 	edit_btn.innerText = "编辑";
