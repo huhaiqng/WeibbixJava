@@ -90,7 +90,7 @@ public class HostController {
     }
 
     @PostMapping("/api/get/groupNotAllocatedHosts")
-    public List<Host> getGroupNotAllocatedHosts(@RequestBody Map<String,Object> objectMap){
+    public List<Map> getGroupNotAllocatedHosts(@RequestBody Map<String,Object> objectMap){
         String hostGroup = (String)objectMap.get("hostGroup");
         String envType = (String)objectMap.get("envType");
         return hostMapper.selectGroupNotAllocatedHostsSQL(hostGroup,envType);

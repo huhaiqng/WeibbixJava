@@ -34,7 +34,7 @@ create table hosts(
 
 create table kafka_cluster(
 	clusterId varchar(255) primary key,
-	clusterName varchar(255) not null,
+	clusterName varchar(255) not null unique,
 	clusterEnv varchar(255) not null,
 	createdAt datetime default now()
 );

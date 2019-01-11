@@ -4,6 +4,7 @@ import com.yunwei.weibbix.entity.Host;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HostMapper {
     public void importHostSQL(Host host);
@@ -28,5 +29,6 @@ public interface HostMapper {
     public void deleteHostSQL(@Param("hostId") String hostId);
     public void updateHostStatusSQL(@Param("hostId")String hostId,@Param("enabled") Boolean enabled);
 
-    public  List<Host> selectGroupNotAllocatedHostsSQL(@Param("hostGroup") String hostGroup,@Param("envType")String envType);
+    public List<Map> selectGroupNotAllocatedHostsSQL(@Param("hostGroup") String hostGroup, @Param("envType")String envType);
+    public void updateHostAllocatedSQL(@Param("hostId") String hostId);
 }

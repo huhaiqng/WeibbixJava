@@ -65,7 +65,12 @@
     <update id="updateHostStatusSQL">
         UPDATE hosts SET enabled = #{enabled} WHERE hostId = #{hostId}
     </update>
-    <select id="selectGroupNotAllocatedHostsSQL" resultType="com.yunwei.weibbix.entity.Host">
-        SELECT hostId,ip FROM hosts WHERE hostGroup = #{hostGroup} AND envType = #{envType} AND allocated = TRUE
+    <!--<select id="selectGroupNotAllocatedHostsSQL" resultType="com.yunwei.weibbix.entity.Host">-->
+    <select id="selectGroupNotAllocatedHostsSQL" resultType="java.util.Map">
+        SELECT hostId,ip FROM hosts WHERE hostGroup = #{hostGroup} AND envType = #{envType} AND allocated = FALSE
     </select>
+
+    <update id="updateHostAllocatedSQL">
+        UPDATE hosts SET allocated = TRUE WHERE hostId = #{hostId}
+    </update>
 </mapper>

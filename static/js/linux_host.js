@@ -69,19 +69,6 @@ function get_hosts(){
 						}
 					}
 				});
-// 				$.ajax({
-// 					type: "POST",
-// 					url: "/api/get/groupUsers",
-// 					contentType: "application/json",
-// 					data: JSON.stringify(groupId),
-// 					beforeSend: function(xhr) {
-// 						xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
-// 					},
-// 					async: false,
-// 					success: function(response){
-// 						group_users = response;
-// 					}
-// 				});
 				$("#hosts_table_tbody").empty();
 			}else{
 				$.jqPaginator("#pagination", {
