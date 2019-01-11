@@ -9,4 +9,10 @@
     <insert id="insertClusterHostSQL">
         INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})
     </insert>
+    <select id="selectAllKafkaCusterSQL" resultType="com.yunwei.weibbix.entity.KafkaCluster">
+        SELECT * FROM kafka_cluster
+    </select>
+    <select id="selectClusterMemberSQL" resultType="java.lang.String">
+        select h.ip FROM hosts h,host_cluster hc WHERE hc.clusterId = #{clusterId} AND h.hostId = hc.hostId
+    </select>
 </mapper>

@@ -1,13 +1,13 @@
 package com.yunwei.weibbix.controller;
 
+import com.yunwei.weibbix.entity.Host;
+import com.yunwei.weibbix.entity.KafkaCluster;
 import com.yunwei.weibbix.mapper.ClusterMapper;
 import com.yunwei.weibbix.mapper.HostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,4 +36,24 @@ public class ClusterController {
         clusterMapper.insertClusterHostSQL(hcId,hostId,clusterId);
         hostMapper.updateHostAllocatedSQL(hostId);
     }
+
+    @GetMapping("/api/get/kafkaCluster")
+    public List<KafkaCluster> getKafkaCluster() throws Exception{
+        Exec exec = new Exec();
+        exec.shellCommand();
+        return clusterMapper.selectAllKafkaCusterSQL();
+    }
+
+    @PostMapping("/api/get/clusterMember")
+    public List<String> getClusterMember(@RequestBody Map<String,Object> objectMap){
+        String clusterId = (String)objectMap.get("clusterId");
+        return clusterMapper.selectClusterMemberSQL(clusterId);
+    }
+
+    @PostMapping("/api/delete/kafkaCluster")
+    public void deleteKafkaCluster(@RequestBody Map<String,Object> objectMap){
+
+    }
+
+
 }

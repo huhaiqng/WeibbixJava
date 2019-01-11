@@ -4,9 +4,7 @@ $(function(){
 		$("#create_kafka_clusters_div").show();
 		select2Object = $(".select2_demo_2").select2();
 		
-		var hostGroup = "kafka";
-		var envType = $("#env_select option:selected").attr("value"); 
-		get_group_not_allocated_hosts(hostGroup,envType);
+		get_group_not_allocated_hosts();
 	});
 	
 	$("#console_create_kafka_cluster_btn").click(function(){
@@ -18,7 +16,113 @@ $(function(){
 	$("#save_kafka_cluster_btn").click(function(){
 		save_kafka_cluster();
 	});
+	
+	create_kafkaCluster_table();
 })
+
+function create_kafkaCluster_table(){
+	$.ajax({
+		type: "GET",
+		url: "/api/get/kafkaCluster",
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(response){
+			for(i=0;i<response.length;i++){
+				create_kafkaCluster_table_line(response[i]);
+			}
+		}
+	});	
+}
+
+function create_kafkaCluster_table_line(kafkaCluster){
+	var tbody = document.getElementById("kafka_clusters_table_tbody");
+	
+	var tr = document.createElement("tr");
+	
+	var td = document.createElement("td");
+	td.textContent = kafkaCluster.clusterName;
+	tr.appendChild(td);
+	
+	var td = document.createElement("td");
+	td.textContent = kafkaCluster.clusterEnv;
+	tr.appendChild(td);
+	
+	var td = document.createElement("td");
+	var clusterMember = get_cluster_member(kafkaCluster.clusterId);
+	td.textContent = clusterMember;
+	tr.appendChild(td);
+	
+	var td = document.createElement("td");
+	// td.textContent = get_user_groups(user.userId);
+	tr.appendChild(td);
+	
+	var td = document.createElement("td");
+	$(td).attr("align","center");
+	var command_btn = document.createElement("a");
+	command_btn.className = "label label-success";
+	command_btn.innerText = "任务";
+	$(command_btn).click(function(){
+		change_cluster(kafkaCluster,command_btn,clusterMember);
+	});
+	td.appendChild(command_btn);
+	var blank = document.createElement("span");
+	blank.innerHTML = "&nbsp;";
+	td.appendChild(blank);
+	
+	var delete_btn = document.createElement("a");
+	delete_btn.innerText = "删除";
+	delete_btn.className = "label label-danger";
+	$(delete_btn).click(function(){
+		delete_user(kafkaCluster.clusterId,tr);
+	});
+	td.appendChild(delete_btn);
+	tr.appendChild(td);
+	
+	tbody.appendChild(tr);
+}
+
+function change_cluster(kafkaCluster,command_btn,clusterMember){
+	$("#show_create_kafka_cluster_div_btn").prop("disabled",true);
+	$("#kafka_clusters_table_div").hide();
+	$("#commnad_div").show();
+	$("#clusterName").text(kafkaCluster.clusterName);
+	$("#clusertMember").text(clusterMember);
+}
+
+function delete_user(clusterId,tr){
+	$.ajax({
+		type: "POST",
+		url: "/api/delete/kafkaCluster",
+		data: JSON.stringify({"clusterId":clusterId}),
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(){
+			$(tr).remove();
+		}
+	});
+}
+
+function get_cluster_member(clusterId){
+	var clusterMembers;
+	$.ajax({
+		type: "POST",
+		url: "/api/get/clusterMember",
+		data: JSON.stringify({"clusterId":clusterId}),
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		async: false,
+		success: function(response){
+			clusterMembers = response;
+		}
+	});
+	return clusterMembers;
+}
 
 function save_kafka_cluster(){
 	var clusterId = (new Date()).valueOf();
@@ -75,6 +179,8 @@ function reload_kafka_cluster_html(){
 }
 
 function get_group_not_allocated_hosts(hostGroup,envType){
+	var hostGroup = "kafka";
+	var envType = $("#env_select option:selected").attr("value"); 
 	$.ajax({
 		type: "POST",
 		url: "/api/get/groupNotAllocatedHosts",
@@ -85,6 +191,7 @@ function get_group_not_allocated_hosts(hostGroup,envType){
 		},
 		success: function(response){
 			var select = document.getElementById("host_select");
+			$(select).empty();
 			for(i=0;i<response.length;i++){
 				var host = response[i];
 				var option = document.createElement("option");

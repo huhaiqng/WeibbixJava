@@ -1,7 +1,10 @@
 package com.yunwei.weibbix.mapper;
 
+import com.yunwei.weibbix.entity.KafkaCluster;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.method.P;
+
+import java.util.List;
 
 public interface ClusterMapper {
     public void insertKafkaClusterSQL(
@@ -14,4 +17,7 @@ public interface ClusterMapper {
             @Param("hostId") String hostId,
             @Param("clusterId") String clusterId
     );
+
+    public List<KafkaCluster> selectAllKafkaCusterSQL();
+    public List<String> selectClusterMemberSQL(@Param("clusterId") String clusterId);
 }
