@@ -4,6 +4,7 @@ import com.yunwei.weibbix.entity.Host;
 import com.yunwei.weibbix.entity.KafkaCluster;
 import com.yunwei.weibbix.mapper.ClusterMapper;
 import com.yunwei.weibbix.mapper.HostMapper;
+import com.yunwei.weibbix.service.ShellCommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,9 @@ public class ClusterController {
 
     @Autowired(required = false)
     private HostMapper hostMapper;
+
+    @Autowired(required = false)
+    private ShellCommandService shellCommandService;
 
     @PostMapping("/api/add/kafkaCluster")
     public void insertKafkaCluster(@RequestBody Map<String,Object> objectMap){
@@ -39,8 +43,8 @@ public class ClusterController {
 
     @GetMapping("/api/get/kafkaCluster")
     public List<KafkaCluster> getKafkaCluster() throws Exception{
-        Exec exec = new Exec();
-        exec.shellCommand();
+//        Exec exec = new Exec();
+//        exec.shellCommand();
         return clusterMapper.selectAllKafkaCusterSQL();
     }
 
@@ -55,5 +59,8 @@ public class ClusterController {
 
     }
 
-
+    @GetMapping("/api/shellCommand/createCluster")
+    public void execShellCommandCreateCluster(){
+        shellCommandService.installZabbixAgetnd();
+    }
 }

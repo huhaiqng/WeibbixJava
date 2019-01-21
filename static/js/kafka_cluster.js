@@ -1,3 +1,5 @@
+var stompClient = null;
+
 $(function(){
 	$("#show_create_kafka_cluster_div_btn").click(function(){
 		$("#kafka_clusters_table_div").hide();
@@ -15,6 +17,10 @@ $(function(){
 	
 	$("#save_kafka_cluster_btn").click(function(){
 		save_kafka_cluster();
+	});
+	
+	$("#create_kafka_cluster_btn").click(function(){
+		connect();
 	});
 	
 	create_kafkaCluster_table();
@@ -203,3 +209,67 @@ function get_group_not_allocated_hosts(hostGroup,envType){
 		}
 	});	
 }
+
+function setConnected(connected) {
+    $("#connect").prop("disabled", connected);
+    $("#disconnect").prop("disabled", !connected);
+    if (connected) {
+        $("#conversation").show();
+    }
+    else {
+        $("#conversation").hide();
+    }
+    $("#notice").html("");
+}
+
+function connect() {
+	var socket = new SockJS('/api/endpoint-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/server_info', function (result) {
+        	showContent(JSON.parse(result.body));
+        });
+    });
+	
+	$.ajax({
+		type: "GET",
+		url: "/api/shellCommand/createCluster",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(){
+			
+		}
+	})
+}
+
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+}
+
+function sendName() {
+    stompClient.send("/app/v4/schedule/push", {}, JSON.stringify({'content': $("#content").val(), 'to':$("#to").val(), 'from':$("#from").val()}));
+}
+
+function showContent(body) {
+    console.log(body.content);
+    // $("#notice").prepend("<tr><td>" + body.content + "</td> <td>"+new Date(body.time).toLocaleString()+"</td></tr>");
+	
+    // $("#result_pre").append("<p>"+body.content+"</p>");
+	$("#result_pre").text($("#result_pre").text()+body.content);
+}
+
+// $(function () {
+//     $("form").on('submit', function (e) {
+//         e.preventDefault();
+//     });
+//     $( "#connect" ).click(function() { connect(); });
+//     $( "#disconnect" ).click(function() { disconnect(); });
+//     $( "#send" ).click(function() { sendName(); });
+// });
