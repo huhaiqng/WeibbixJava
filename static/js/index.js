@@ -1,4 +1,5 @@
 $(function () {
+	Pace.options.ajax.trackWebSockets = false;
 	load_user_html();
 	
 //	显示用户名

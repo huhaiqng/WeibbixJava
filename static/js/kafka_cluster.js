@@ -20,7 +20,8 @@ $(function(){
 	});
 	
 	$("#create_kafka_cluster_btn").click(function(){
-		connect();
+		var api_uri="/api/shellCommand/createCluster";
+		connect(api_uri);
 	});
 	
 	create_kafkaCluster_table();
@@ -222,27 +223,33 @@ function setConnected(connected) {
     $("#notice").html("");
 }
 
-function connect() {
+function connect(api_uri) {
+	
+	var topic_uri = '/topic/' + Math.random().toString(36).substr(2);
 	var socket = new SockJS('/api/endpoint-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/server_info', function (result) {
+        // stompClient.subscribe('/topic/server_info', function (result) {
+		stompClient.subscribe(topic_uri, function (result) {
         	showContent(JSON.parse(result.body));
         });
     });
 	
 	$.ajax({
-		type: "GET",
-		url: "/api/shellCommand/createCluster",
+		type: "POST",
+		// url: "/api/shellCommand/createCluster",
+		url: api_uri,
+		data: JSON.stringify({'topic_uri':topic_uri}),
+		contentType: "application/json",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
-		success: function(){
-			
+		success: function(response){
+			disconnect();
 		}
-	})
+	});
 }
 
 function disconnect() {
@@ -258,7 +265,7 @@ function sendName() {
 }
 
 function showContent(body) {
-    console.log(body.content);
+    // console.log(body.content);
     // $("#notice").prepend("<tr><td>" + body.content + "</td> <td>"+new Date(body.time).toLocaleString()+"</td></tr>");
 	
     // $("#result_pre").append("<p>"+body.content+"</p>");

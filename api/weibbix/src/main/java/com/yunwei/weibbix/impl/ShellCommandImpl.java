@@ -16,7 +16,7 @@ public class ShellCommandImpl implements ShellCommandService{
     private SimpMessagingTemplate template;
 
     @Override
-    public void installZabbixAgetnd() {
+    public void installZabbixAgetnd(String topic_uri) {
         String USER="root";
         String PASSWORD="bsbnet";
         String HOST="192.168.1.224";
@@ -51,22 +51,23 @@ public class ShellCommandImpl implements ShellCommandService{
 
             channel.connect();
 
-
             byte[] tmp=new byte[1024];
             while(true){
                 while(in.available()>0){
                     int i=in.read(tmp, 0, 1024);
                     if(i<0)
                         break;
-                    System.out.print(new String(tmp, 0, i));
-                    template.convertAndSend("/topic/server_info",new OutMessage(new String(tmp, 0, i)));
+//                    System.out.print(new String(tmp, 0, i));
+//                    template.convertAndSend("/topic/server_info",new OutMessage(new String(tmp, 0, i)));
+                    template.convertAndSend(topic_uri,new OutMessage(new String(tmp, 0, i)));
                 }
                 while(es.available()>0){
                     int e=es.read(tmp, 0, 1024);
                     if(e<0)
                         break;
-                    System.out.print(new String(tmp, 0, e));
-                    template.convertAndSend("/topic/server_info",new OutMessage(new String(tmp, 0, e)));
+//                    System.out.print(new String(tmp, 0, e));
+//                    template.convertAndSend("/topic/server_info",new OutMessage(new String(tmp, 0, e)));
+                    template.convertAndSend(topic_uri,new OutMessage(new String(tmp, 0, e)));
                 }
                 if(channel.isClosed()){
                     if(in.available()>0)

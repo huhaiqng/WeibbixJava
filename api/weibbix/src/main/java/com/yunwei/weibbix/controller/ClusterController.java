@@ -43,8 +43,6 @@ public class ClusterController {
 
     @GetMapping("/api/get/kafkaCluster")
     public List<KafkaCluster> getKafkaCluster() throws Exception{
-//        Exec exec = new Exec();
-//        exec.shellCommand();
         return clusterMapper.selectAllKafkaCusterSQL();
     }
 
@@ -59,8 +57,10 @@ public class ClusterController {
 
     }
 
-    @GetMapping("/api/shellCommand/createCluster")
-    public void execShellCommandCreateCluster(){
-        shellCommandService.installZabbixAgetnd();
+    @PostMapping("/api/shellCommand/createCluster")
+    public void execShellCommandCreateCluster(@RequestBody Map<String,Object> objectMap){
+        String topic_uri = (String)objectMap.get("topic_uri");
+        System.out.println(topic_uri);
+        shellCommandService.installZabbixAgetnd(topic_uri);
     }
 }
