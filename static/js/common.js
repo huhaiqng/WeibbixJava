@@ -1,4 +1,4 @@
-function connect(api_uri) {
+function ws_connect(api_uri) {
 	
 	var topic_uri = '/topic/' + Math.random().toString(36).substr(2);
 	var socket = new SockJS('/api/endpoint-websocket');
@@ -22,12 +22,12 @@ function connect(api_uri) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
 		success: function(response){
-			disconnect();
+			ws_disconnect();
 		}
 	});
 }
 
-function disconnect() {
+function ws_disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }

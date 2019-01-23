@@ -21,7 +21,7 @@ $(function(){
 	
 	$("#create_kafka_cluster_btn").click(function(){
 		var api_uri="/api/shellCommand/createCluster";
-		connect(api_uri);
+		ws_connect(api_uri);
 	});
 	
 	create_kafkaCluster_table();
