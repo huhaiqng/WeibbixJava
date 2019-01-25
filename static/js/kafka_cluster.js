@@ -57,7 +57,13 @@ $(function(){
 	});
 	
 	$("#save_edit_kafka_cluster_btn").click(function(){
+		$("#save_edit_kafka_cluster_btn").prop("disabled",true);		
 		save_edit_kafka_cluster();
+		$("#index_main_content").load("kafka_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/kafka_cluster.js");
+			document.body.appendChild(script);
+		});
 	});
 	
 	create_kafkaCluster_table();
@@ -93,6 +99,7 @@ function add_kafka_cluster_host(hcId,clusterId,ip){
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
+		async: false,
 		data: JSON.stringify({"clusterId":clusterId,"ip":ip,"hcId":hcId}),
 		success: function(response){
 			
@@ -110,8 +117,9 @@ function del_kafka_cluster_host(clusterId,ip){
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
+		async: false,
 		success: function(response){
-			
+
 		}
 	});
 }

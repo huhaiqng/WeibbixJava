@@ -76,9 +76,6 @@ public class ClusterController {
         String clusterId = (String)objectMap.get("clusterId");
         String ip = (String)objectMap.get("ip");
         String hostId = hostMapper.selectHostIdByIpSQL(ip);
-        System.out.println(hcId);
-        System.out.println(hostId);
-        System.out.println(clusterId);
         clusterMapper.addKafkaClusterHostSQL(hcId,hostId,clusterId);
         hostMapper.updateHostAllocatedSQL(hostId,true);
     }
@@ -88,6 +85,9 @@ public class ClusterController {
         String clusterId = (String)objectMap.get("clusterId");
         String ip = (String)objectMap.get("ip");
         String hostId = hostMapper.selectHostIdByIpSQL(ip);
+        System.out.println(hostId);
+        System.out.println(clusterId);
         clusterMapper.delKafkaClusterHostSQL(hostId,clusterId);
+        hostMapper.updateHostAllocatedSQL(hostId,false);
     }
 }
