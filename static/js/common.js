@@ -1,4 +1,4 @@
-function ws_connect(api_uri) {
+function ws_connect(api_uri,recall) {
 	
 	var topic_uri = '/topic/' + Math.random().toString(36).substr(2);
 	var socket = new SockJS('/api/endpoint-websocket');
@@ -23,6 +23,7 @@ function ws_connect(api_uri) {
 		},
 		success: function(response){
 			ws_disconnect();
+			recall();
 		}
 	});
 }

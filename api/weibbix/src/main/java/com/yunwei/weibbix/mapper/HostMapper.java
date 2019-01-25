@@ -30,5 +30,7 @@ public interface HostMapper {
     public void updateHostStatusSQL(@Param("hostId")String hostId,@Param("enabled") Boolean enabled);
 
     public List<Map> selectGroupNotAllocatedHostsSQL(@Param("hostGroup") String hostGroup, @Param("envType")String envType);
-    public void updateHostAllocatedSQL(@Param("hostId") String hostId);
+    //将主机分配状态
+    public void updateHostAllocatedSQL(@Param("hostId") String hostId,@Param("alloacted") boolean alloacted);
+    public String selectHostIdByIpSQL(@Param("ip") String ip);
 }

@@ -71,6 +71,9 @@
     </select>
 
     <update id="updateHostAllocatedSQL">
-        UPDATE hosts SET allocated = TRUE WHERE hostId = #{hostId}
+        UPDATE hosts SET allocated = #{alloacted} WHERE hostId = #{hostId}
     </update>
+    <select id="selectHostIdByIpSQL" resultType="java.lang.String">
+        SELECT hostId from hosts WHERE ip = #{ip}
+    </select>
 </mapper>

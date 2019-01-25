@@ -38,7 +38,7 @@ public class ClusterController {
         String clusterId = (String)objectMap.get("clusterId").toString();
 
         clusterMapper.insertClusterHostSQL(hcId,hostId,clusterId);
-        hostMapper.updateHostAllocatedSQL(hostId);
+        hostMapper.updateHostAllocatedSQL(hostId,true);
     }
 
     @GetMapping("/api/get/kafkaCluster")
@@ -62,5 +62,32 @@ public class ClusterController {
         String topic_uri = (String)objectMap.get("topic_uri");
         System.out.println(topic_uri);
         shellCommandService.installZabbixAgetnd(topic_uri);
+    }
+
+    @PostMapping("/api/getKafkaNoAllocatedHost")
+    public List<String> getKafkaNoAllocatedHost(@RequestBody Map<String,Object> objectMap){
+        String clusterEnv = (String)objectMap.get("clusterEnv");
+        return clusterMapper.getKafkaNoAllocatedHostSQL(clusterEnv);
+    }
+
+    @PostMapping("/api/add/kafkaClusterHost")
+    public void addKafkaClusterHost(@RequestBody Map<String,Object> objectMap){
+        String hcId =(String)objectMap.get("hcId").toString();
+        String clusterId = (String)objectMap.get("clusterId");
+        String ip = (String)objectMap.get("ip");
+        String hostId = hostMapper.selectHostIdByIpSQL(ip);
+        System.out.println(hcId);
+        System.out.println(hostId);
+        System.out.println(clusterId);
+        clusterMapper.addKafkaClusterHostSQL(hcId,hostId,clusterId);
+        hostMapper.updateHostAllocatedSQL(hostId,true);
+    }
+
+    @PostMapping("/api/del/kafkaClusterHost")
+    public void delKafkaClusterHost(@RequestBody Map<String,Object> objectMap){
+        String clusterId = (String)objectMap.get("clusterId");
+        String ip = (String)objectMap.get("ip");
+        String hostId = hostMapper.selectHostIdByIpSQL(ip);
+        clusterMapper.delKafkaClusterHostSQL(hostId,clusterId);
     }
 }

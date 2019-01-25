@@ -20,4 +20,7 @@ public interface ClusterMapper {
 
     public List<KafkaCluster> selectAllKafkaCusterSQL();
     public List<String> selectClusterMemberSQL(@Param("clusterId") String clusterId);
+    public List<String> getKafkaNoAllocatedHostSQL(@Param("clusterEnv") String clusterEnv);
+    public void addKafkaClusterHostSQL(@Param("hcId") String hcId,@Param("hostId") String hostId,@Param("clusterId") String clusterId);
+    public void delKafkaClusterHostSQL(@Param("clusterId") String clusterId,@Param("hostId") String hostId);
 }

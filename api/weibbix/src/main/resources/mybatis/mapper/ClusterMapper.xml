@@ -15,4 +15,13 @@
     <select id="selectClusterMemberSQL" resultType="java.lang.String">
         select h.ip FROM hosts h,host_cluster hc WHERE hc.clusterId = #{clusterId} AND h.hostId = hc.hostId
     </select>
+    <select id="getKafkaNoAllocatedHostSQL" resultType="java.lang.String">
+        SELECT ip FROM hosts WHERE hostGroup = 'kafka' AND envType = #{clusterEnv} AND allocated = FALSE ;
+    </select>
+    <delete id="delKafkaClusterHostSQL">
+        DELETE FROM host_cluster WHERE hostId = #{hostId} AND clusterId = #{clusterId}
+    </delete>
+    <insert id="addKafkaClusterHostSQL">
+        INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})
+    </insert>
 </mapper>
