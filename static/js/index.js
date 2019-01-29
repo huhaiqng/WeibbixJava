@@ -53,6 +53,15 @@ function load_user_html(){
 		change_active_li(this);
 	});
 	
+	$("#my_project").click(function(){
+		$("#index_main_content").load("my_project.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/my_project.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
 }
 
 function change_active_li(obj){
