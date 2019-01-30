@@ -1,126 +1,89 @@
-// var data = [
-//   {
-//     text: "生产环境",
-//     nodes: [
-//       {
-//         text: "机票系统",
-//         nodes: [
-//           {
-//             text: "中间件",
-// 			href: "javascript:jp_zjj(this)"
-//           },
-//           {
-//             text: "数据库"
-//           }
-//         ]
-//       },
-//       {
-//         text: "车票系统",
-// 		nodes: [
-//           {
-//             text: "中间件"
-//           },
-//           {
-//             text: "数据库"
-//           }
-//         ]
-//       }
-//     ]
-//   },
-//   {
-//   text: "测试环境",
-//   state: {"expanded":false},
-//   nodes: [
-//   	{
-//   	text: "机票系统",
-//   	nodes: [
-//   		{
-//   		text: "中间件",
-//   		href: "javascript:jp_zjj()"
-//   		},
-//   		{
-//   		text: "数据库"
-//   		}
-//   	]
-//   	},
-//   	{
-//   	text: "车票系统",
-//   	nodes: [
-//   		{
-//   		text: "中间件"
-//   		},
-//   		{
-//   		text: "数据库"
-//   		}
-//   	]
-//   	}
-//   ]
-//   },
-//   {
-//   text: "开发环境",
-//   state: {"expanded":false},
-//   nodes: [
-//   {
-//   text: "机票系统",
-//   nodes: [
-//   	{
-//   	text: "中间件",
-//   	href: "javascript:jp_zjj()"
-//   	},
-//   	{
-//   	text: "数据库"
-//   	}
-//   ]
-//   },
-//   {
-//   text: "车票系统",
-//   nodes: [
-//   	{
-//   	text: "中间件"
-//   	},
-//   	{
-//   	text: "数据库"
-//   	}
-//   ]
-//   }
-//   ]
-//   }
-// ];
-
 $(function(){
-// 	$('#tree').treeview({
-// 	data: data,
-// 	showBorder: false,
-// 	enableLinks: true
-// 	});
+	$('#tree').jstree({
+		'core' : {
+		'data' : [
+			{
+				"text" : "生产环境",
+				"id" : "pro",
+				"state" : {"opened" : true , "disabled" : true },
+				"icon" : "glyphicon glyphicon-hdd",
+				"children" : [
+					{
+						"text" : "应用A",
+						"id" : "app_a",
+						"icon": "glyphicon glyphicon-th-large",
+						"children" : [
+							{
+								"text" : "中间件",
+								"id" : "zjj",
+								"icon" : "glyphicon glyphicon-th"
+							},
+						]
+					},
+					{ 
+						"text" : "应用B",
+						"id" : "app_b",
+						"icon": "glyphicon glyphicon-th-large"
+					}
+				]
+			},
+			{
+				"text" : "测试环境",
+				"id" : "test",
+				"state" : {"disabled" : true},
+				"icon" : "glyphicon glyphicon-hdd",
+				"children" : [
+					{
+						"text" : "应用A",
+						"id" : "test_app_a",
+						"icon": "glyphicon glyphicon-th-large",
+						"children" : [
+							{
+								"text" : "中间件",
+								"id" : "test_zjj",
+								"icon" : "glyphicon glyphicon-th"
+							}
+						]
+					},
+					{ 
+						"text" : "应用B",
+						"id" : "test_app_b",
+						"icon": "glyphicon glyphicon-th-large"
+					}
+				]
+			},
+			{
+				"text" : "开发环境",
+				"id" : "dev",
+				"state" : {"disabled" : true},
+				"icon" : "glyphicon glyphicon-hdd",
+				"children" : [
+					{
+						"text" : "应用A",
+						"id" : "dev_app_a",
+						"icon": "glyphicon glyphicon-th-large",
+						"children" : [
+							{
+								"text" : "中间件",
+								"id" : "dev_zjj",
+								"icon" : "glyphicon glyphicon-th"
+							}
+						]
+					},
+					{ 
+						"text" : "应用B",
+						"id" : "dev_app_b",
+						"icon": "glyphicon glyphicon-th-large"
+					}
+				]
+			}
+		]
+		}
+	});
 	
-	
-	$("#demo1").jstree({ 
-		"json_data" : {
-			"data" : [
-				{ 
-					"data" : "A node", 
-					"metadata" : { id : 23 },
-					"children" : [ "Child 1", "A Child 2" ]
-				},
-				{ 
-					"attr" : { "id" : "li.node.id1" }, 
-					"data" : { 
-						"title" : "Long format demo", 
-						"attr" : { "href" : "#" } 
-					} 
-				}
-			]
-		},
-		"plugins" : [ "themes", "json_data", "ui" ]
-	}).bind("select_node.jstree", function (e, data) { alert(data.rslt.obj.data("id")); });
-	
-	
-	
-	
+	$('#tree').on("changed.jstree", function (e, data) {
+		console.log("The selected nodes are:");
+		console.log(data.selected);
+	});
 });
 
-function jp_zjj(){
-	// $('#tree').treeview('getParent', node);
-	console.log("机票中间件");
-}
