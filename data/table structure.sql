@@ -46,3 +46,15 @@ create table host_cluster(
 	CONSTRAINT c_host_cluster_1 FOREIGN KEY (hostId) REFERENCES hosts(hostId),
 	CONSTRAINT c_host_cluster_2 FOREIGN KEY (clusterId) REFERENCES kafka_cluster(clusterId)
 ); 
+
+--创建tomcat实例表
+create table tomcat_ins(
+	id varchar(255) primary key,
+	ip varchar(255) not null,
+	port int(10) not null,
+	name varchar(255) not null,
+	dir varchar(255) not null,
+	env varchar(255) not null,
+	allocated bit(1) not null,
+	unique key(ip,name)
+);

@@ -62,6 +62,15 @@ function load_user_html(){
 		change_active_li(this);
 	});
 	
+	$("#tomcat_instance").click(function(){
+		$("#index_main_content").load("tomcat_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/tomcat_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
 }
 
 function change_active_li(obj){

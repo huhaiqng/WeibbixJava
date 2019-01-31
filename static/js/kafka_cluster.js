@@ -4,7 +4,7 @@ $(function(){
 	$("#show_create_kafka_cluster_div_btn").click(function(){
 		$("#kafka_clusters_table_div").hide();
 		$("#create_kafka_clusters_div").show();
-		select2Object = $(".select2_demo_2").select2();
+		select2Object = $("#host_select").select2();
 		
 		get_group_not_allocated_hosts();
 	});
