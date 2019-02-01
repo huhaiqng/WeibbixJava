@@ -76,4 +76,10 @@
     <select id="selectHostIdByIpSQL" resultType="java.lang.String">
         SELECT hostId from hosts WHERE ip = #{ip}
     </select>
+    <update id="addHostInstanceNumSQL">
+        UPDATE hosts SET ins_num = ins_num + 1 WHERE ip = #{ip}
+    </update>
+    <update id="delHostInstanceNumSQL">
+        UPDATE hosts SET ins_num = ins_num - 1 WHERE ip = #{ip}
+    </update>
 </mapper>

@@ -91,7 +91,6 @@ function save_edit_kafka_cluster(){
 }
 //将新增的kafka主机添加到数据库
 function add_kafka_cluster_host(hcId,clusterId,ip){
-	var hcId = 
 	$.ajax({
 		type: "POST",
 		url: "/api/add/kafkaClusterHost",

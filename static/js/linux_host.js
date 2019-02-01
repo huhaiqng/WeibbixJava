@@ -56,7 +56,7 @@ function get_hosts(){
 		success: function(response){
 			
 			var totalPages = response.pages;
-			var hosts = response.hostList;
+			var hosts = response.pageList;
 			
 			if(totalPages == 0){
 				$.jqPaginator("#pagination", {

@@ -47,7 +47,7 @@
 			
 			<div class="dataTables_length" id="DataTables_Table_0_length">
 				<label>每页
-				<select onchange="creat_users_table()" id="page_select" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm">
+				<select onchange="creat_users_table()" id="one_page_count_select" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm">
 					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="50">50</option>
@@ -65,8 +65,6 @@
 		</div>
 	</div>
 	</div>
-	
-	
 </div>
 
 <div id="create_tomcat_instance_div" class="wrapper wrapper-content animated fadeInRight" style="display: none;">
@@ -99,10 +97,6 @@
 									<label class="col-sm-1 control-label">主机</label>
 									<div id="tomcat_instance_host_select_div" class="col-sm-4">
 										<select id="tomcat_instance_host_select" class="select2_demo_2 form-control col-sm-6" multiple="multiple">
-											<option value="tomat1">主机1</option>
-											<option value="tomat2">主机2</option>
-											<option value="tomat3">主机3</option>
-											<option value="tomat3">主机4</option>
 										</select>
 									</div>
 								</div>
@@ -114,7 +108,7 @@
                                 			</button>
                                 		</div>
                                 		<div class="col-sm-1 control-label">
-                                			<button id="create_kafka_cluster_back_btn" class="btn btn-primary btn-sm" type="button">
+                                			<button id="create_tomcat_instance_back_btn" class="btn btn-primary btn-sm" type="button">
                                 				<i class="fa fa-arrow-circle-left"></i>&nbsp;&nbsp;<span class="bold">返回</span>
                                 			</button>
                                 		</div>

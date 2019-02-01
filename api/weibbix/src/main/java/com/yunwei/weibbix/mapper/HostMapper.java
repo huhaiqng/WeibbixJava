@@ -1,6 +1,7 @@
 package com.yunwei.weibbix.mapper;
 
 import com.yunwei.weibbix.entity.Host;
+import com.yunwei.weibbix.entity.TomcatInstance;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public interface HostMapper {
     //将主机分配状态
     public void updateHostAllocatedSQL(@Param("hostId") String hostId,@Param("alloacted") boolean alloacted);
     public String selectHostIdByIpSQL(@Param("ip") String ip);
+
+    public void addHostInstanceNumSQL(TomcatInstance tomcatInstance);
+    public void delHostInstanceNumSQL(TomcatInstance tomcatInstance);
 }

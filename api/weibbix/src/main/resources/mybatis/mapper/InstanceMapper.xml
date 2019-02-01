@@ -6,4 +6,10 @@
     <select id="getHostForCreateInstanceSQL" resultType="java.util.Map">
         SELECT ip,ins_num FROM hosts WHERE hostGroup = #{hostGroup} AND envType = #{envType} ORDER BY ins_num
     </select>
+    <insert id="saveTomcatInstanceSQL">
+        INSERT INTO tomcat_ins VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated})
+    </insert>
+    <select id="existInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tomcat_ins WHERE ip = #{ip} AND name = #{name}
+    </select>
 </mapper>

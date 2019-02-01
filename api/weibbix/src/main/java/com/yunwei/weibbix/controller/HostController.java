@@ -42,35 +42,35 @@ public class HostController {
         PagesListResponse pagesListResponse = new PagesListResponse();
 
         if(envType.equals("all") && hostGroup.equals("all") && ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectALLHostsSQL(beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectALLHostsSQL(beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectALLHostsCountSQL()/hostsCount));
         }
         if(envType.equals("all") && hostGroup.equals("all") && !ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectHostsByIpSQL(ip,beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectHostsByIpSQL(ip,beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByIpCountSQL(ip)/hostsCount));
         }
         if(envType.equals("all") && !hostGroup.equals("all") && ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectHostsByGroupSQL(hostGroup,beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectHostsByGroupSQL(hostGroup,beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByGroupCountSQL(hostGroup)/hostsCount));
         }
         if(envType.equals("all") && !hostGroup.equals("all") && !ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectHostsByGroupIpSQL(hostGroup,ip,beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectHostsByGroupIpSQL(hostGroup,ip,beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByGroupIpCountSQL(hostGroup,ip)/hostsCount));
         }
         if(!envType.equals("all") && hostGroup.equals("all") && ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectHostsByEnvSQL(envType,beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectHostsByEnvSQL(envType,beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvCountSQL(envType)/hostsCount));
         }
         if(!envType.equals("all") && hostGroup.equals("all") && !ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectHostsByEnvIpSQL(envType,ip,beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectHostsByEnvIpSQL(envType,ip,beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvIpCountSQL(envType,ip)/hostsCount));
         }
         if(!envType.equals("all") && !hostGroup.equals("all") && ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectHostsByEnvGroupSQL(envType,hostGroup,beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectHostsByEnvGroupSQL(envType,hostGroup,beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvGroupCountSQL(envType,hostGroup)/hostsCount));
         }
         if(!envType.equals("all") && !hostGroup.equals("all") && !ip.equals("")){
-            pagesListResponse.setHostList(hostMapper.selectHostsByEnvGroupIpSQL(envType,hostGroup,ip,beforeNum,hostsCount));
+            pagesListResponse.setPageList(hostMapper.selectHostsByEnvGroupIpSQL(envType,hostGroup,ip,beforeNum,hostsCount));
             pagesListResponse.setPages((int)Math.ceil((float)hostMapper.selectHostsByEnvGroupIpCountSQL(envType,hostGroup,ip)/hostsCount));
         }
         return pagesListResponse;

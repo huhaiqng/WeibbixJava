@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PagesListResponse {
     private Integer pages;
-    private List<?> hostList;
+    private List<?> pageList;
 
     public Integer getPages() {
         return pages;
@@ -14,11 +14,11 @@ public class PagesListResponse {
         this.pages = pages;
     }
 
-    public List<?> getHostList() {
-        return hostList;
+    public List<?> getPageList() {
+        return pageList;
     }
 
-    public void setHostList(List<?> hostList) {
-        this.hostList = hostList;
+    public void setPageList(List<?> pageList) {
+        this.pageList = pageList;
     }
 }
