@@ -44,7 +44,6 @@ function get_tomcat_instance(){
 		contentType: "application/json",
 		data: JSON.stringify(data),
 		success: function(response){
-			for()
 			create_tomcat_instance_table_line();
 		}
 	});
