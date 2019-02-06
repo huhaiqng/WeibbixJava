@@ -4,9 +4,17 @@ $(function () {
 	
 //	显示用户名
 	var login_username = localStorage.getItem("login_username");
-	$("#user_span").text(login_username);
+	if(login_username === null){
+		window.location.href="login.html";
+	}else{
+		$("#user_span").text(login_username);
+		$("#index_main_content").load("main.html");
+	}
 	
-	$("#index_main_content").load("main.html");
+	$("#logout_weibbix").click(function(){
+		localStorage.removeItem("login_username");
+		window.location.href="login.html";
+	})
 }); 
 
 function load_user_html(){
