@@ -17,7 +17,7 @@
 		_html += '<div id="mb_box"></div><div id="mb_con"><span id="mb_tit">' + title + '</span>';
 		_html += '<a id="mb_ico">x</a><div id="mb_msg">' + msg + '</div><div id="mb_btnbox">';
 		if (type == "alert") {
-			_html += '<input id="mb_btn_ok" type="button" value="确定" />';
+			_html += '<input id="mb_btn_ok" class="btn btn-primary btn-sm" type="button" value="确定" />';
 		}
 		if (type == "confirm") {
 			_html += '<input id="mb_btn_ok" class="btn btn-primary btn-sm" type="button" value="确定" />';

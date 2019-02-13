@@ -36,5 +36,5 @@ public interface HostMapper {
     public String selectHostIdByIpSQL(@Param("ip") String ip);
 
     public void addHostInstanceNumSQL(TomcatInstance tomcatInstance);
-    public void delHostInstanceNumSQL(TomcatInstance tomcatInstance);
+    public void delHostInstanceNumSQL(@Param("ip") String ip);
 }

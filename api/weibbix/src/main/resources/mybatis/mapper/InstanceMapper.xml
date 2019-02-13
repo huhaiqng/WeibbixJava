@@ -7,9 +7,24 @@
         SELECT ip,ins_num FROM hosts WHERE hostGroup = #{hostGroup} AND envType = #{envType} ORDER BY ins_num
     </select>
     <insert id="saveTomcatInstanceSQL">
-        INSERT INTO tomcat_ins VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated})
+        INSERT INTO tomcat_ins(id,ip,port,name,dir,env,allocated) VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated})
     </insert>
     <select id="existInstanceCountSQL" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM tomcat_ins WHERE ip = #{ip} AND name = #{name}
     </select>
+    <select id="selectTomcatInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
+        SELECT * FROM tomcat_ins WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectTomcatInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM tomcat_ins WHERE env = #{env}
+    </select>
+    <select id="selectTomcatInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
+        SELECT * FROM tomcat_ins WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectTomcatInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM tomcat_ins WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <delete id="deleteTomcatInstanceSQL">
+        DELETE FROM tomcat_ins WHERE id = #{id}
+    </delete>
 </mapper>
