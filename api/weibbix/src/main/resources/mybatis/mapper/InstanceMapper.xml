@@ -27,4 +27,12 @@
     <delete id="deleteTomcatInstanceSQL">
         DELETE FROM tomcat_ins WHERE id = #{id}
     </delete>
+    <!--更新tomcat实例分配状态和集群名-->
+    <update id="updateInstanceAllocatedSQL">
+        UPDATE tomcat_ins SET allocated = #{allocated},cluster = #{name} WHERE id = #{instanceId}
+    </update>
+
+    <select id="getTomcatInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM tomcat_ins WHERE id = #{id}
+    </select>
 </mapper>

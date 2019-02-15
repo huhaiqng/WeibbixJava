@@ -8,6 +8,24 @@ public class TomcatInstance {
     private String dir;
     private String env;
     private boolean allocated;
+    private String cluster;
+    private String project;
+
+    public String getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(String cluster) {
+        this.cluster = cluster;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
 
     public String getId() {
         return id;

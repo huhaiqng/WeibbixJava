@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunwei.weibbix.mapper.ProjectMapper">
+    <!--保存项目-->
+    <insert id="saveTreeAppSQL">
+        INSERT INTO tree_app VALUES (#{id},#{text},#{icon},#{env})
+    </insert>
+    <!--查询项目-->
+    <select id="getTreeAppByEnvSQL" resultType="com.yunwei.weibbix.entity.TreeApp">
+        SELECT * FROM tree_app WHERE env = #{env}
+    </select>
+</mapper>

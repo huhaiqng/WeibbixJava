@@ -47,7 +47,7 @@ create table host_cluster(
 	CONSTRAINT c_host_cluster_2 FOREIGN KEY (clusterId) REFERENCES kafka_cluster(clusterId)
 ); 
 
---创建tomcat实例表
+--tomcat实例表
 create table tomcat_ins(
 	id varchar(255) primary key,
 	ip varchar(255) not null,
@@ -57,4 +57,25 @@ create table tomcat_ins(
 	env varchar(255) not null,
 	allocated bit(1) not null,
 	unique key(ip,name)
+);
+--实例集群表
+create table instance_cluster(
+	id varchar(255) primary key,
+	instanceId varchar(255) not null,
+	clusterId varchar(255) not null
+);
+--应用节点表
+create table tree_app(
+	id varchar(255) primary key,
+	text varchar(255) not null,
+	icon varchar(255) not null,
+	env varchar(255) not null
+);
+--应用模块表
+create table tree_model(
+	id varchar(255) primary key,
+	text varchar(255) not null,
+	icon varchar(255) not null,
+	appid varchar(255) not null,
+	cluster varchar(255) not null
 );

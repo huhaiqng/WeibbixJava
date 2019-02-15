@@ -26,4 +26,11 @@ public interface InstanceMapper {
             );
     public Integer selectTomcatInstanceByEnvIpCountSQL(@Param("ip") String ip,@Param("env") String env);
     public void deleteTomcatInstanceSQL(@Param("id") String id);
+    //更新tomcat实例状态
+    public void updateInstanceAllocatedSQL(
+            @Param("allocated") Boolean allocated,
+            @Param("instanceId") String instanceId,
+            @Param("name") String name);
+    //通过Id获取实例分配状态
+    public Boolean getTomcatInstanceAllocatedByIdSQL(@Param("id")String id);
 }

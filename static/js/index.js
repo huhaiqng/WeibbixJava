@@ -52,6 +52,16 @@ function load_user_html(){
 		change_active_li(this);
 	});
 	
+	//加载tomcat集群实例
+	$("#tomcat_cluster").click(function(){
+		$("#index_main_content").load("tomcat_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/tomcat_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
 	$("#kafka_cluster").click(function(){
 		$("#index_main_content").load("kafka_cluster.html",function(){
 			var script = document.createElement("script");

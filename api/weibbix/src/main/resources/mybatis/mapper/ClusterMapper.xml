@@ -24,4 +24,49 @@
     <insert id="addKafkaClusterHostSQL">
         INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})
     </insert>
+    <select id="getNotAllocatedTomcatInstanceSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
+        SELECT * FROM tomcat_ins WHERE allocated = FALSE AND env = #{env} ORDER BY ip,name
+    </select>
+
+    <!--添加tomcat集群-->
+    <insert id="addTomcatClusterSQL">
+        INSERT INTO tomcat_cluster VALUES (#{id},#{name},#{env},#{createAt})
+    </insert>
+    <insert id="addInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--通过环境查询tomcat集群名称-->
+    <select id="getTomcatClusterSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
+        SELECT * FROM tomcat_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Tomcat集群数量-->
+    <select id="getTomcatClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM tomcat_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Tomcat集群-->
+    <select id="getTomcatClusterByNameSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
+        SELECT * FROM tomcat_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Tomcat集群数量-->
+    <select id="getTomcatClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM tomcat_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getTomcatInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
+        SELECT * FROM tomcat_ins
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          ORDER BY name
+    </select>
+    <!--删除集群实例-->
+    <delete id="deleteTomcatClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getTomcatClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除tomcat集群-->
+    <delete id="deleteTomcatClusterSQL">
+        DELETE FROM tomcat_cluster WHERE id = #{clusterId}
+    </delete>
 </mapper>

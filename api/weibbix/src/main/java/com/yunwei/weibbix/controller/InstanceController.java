@@ -56,11 +56,17 @@ public class InstanceController {
     }
 
     @PostMapping("/api/deleteTomcatInstance")
-    public void deleteTomcatInstance(@RequestBody Map<String,Object> objectMap){
+    public String deleteTomcatInstance(@RequestBody Map<String,Object> objectMap){
         String id = (String)objectMap.get("id");
         String ip = (String)objectMap.get("ip");
 
-        instanceMapper.deleteTomcatInstanceSQL(id);
-        hostMapper.delHostInstanceNumSQL(ip);
+        Boolean allocated = instanceMapper.getTomcatInstanceAllocatedByIdSQL(id);
+        if(allocated){
+            return "该实例已经分配不能删除！";
+        }else {
+            instanceMapper.deleteTomcatInstanceSQL(id);
+            hostMapper.delHostInstanceNumSQL(ip);
+            return "删除成功！";
+        }
     }
 }

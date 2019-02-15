@@ -111,6 +111,8 @@ function get_pages_tomcat_instance_change(num,count,env,ip){
 			for(i=0;i<instances.length;i++){
 				create_tomcat_instance_table_line(instances[i]);
 			}
+			
+			autoRowSpan(DataTables_Table_0,0,0);
 		}
 	});
 }
@@ -185,7 +187,8 @@ function delete_tomcat_instance(id,ip){
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
-		success: function(){
+		success: function(response){
+			$.MsgBox.Alert("消息",response);
 			get_tomcat_instance();
 		}
 	});
@@ -230,7 +233,7 @@ function save_create_tomcat_instance(){
 				},
 				async: false,
 				success: function(response){
-					$.MsgBox.Alert("消息", "哈哈，添加成功！");
+					$.MsgBox.Alert("消息", "添加成功！");
 				}
 			});
 			
