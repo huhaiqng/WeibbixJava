@@ -30,7 +30,7 @@
 
     <!--添加tomcat集群-->
     <insert id="addTomcatClusterSQL">
-        INSERT INTO tomcat_cluster VALUES (#{id},#{name},#{env},#{createAt})
+        INSERT INTO tomcat_cluster VALUES (#{id},#{name},#{env},#{createdAt})
     </insert>
     <insert id="addInstanceClusterSQL">
         INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})

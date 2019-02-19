@@ -7,6 +7,15 @@ public class TreeApp {
     private String text;
     private String icon;
     private String env;
+
+    public String getEnv() {
+        return env;
+    }
+
+    public void setEnv(String env) {
+        this.env = env;
+    }
+
     private List<TreeModel> children;
 
     public String getId() {
@@ -31,14 +40,6 @@ public class TreeApp {
 
     public void setIcon(String icon) {
         this.icon = icon;
-    }
-
-    public String getEnv() {
-        return env;
-    }
-
-    public void setEnv(String env) {
-        this.env = env;
     }
 
     public List<TreeModel> getChildren() {

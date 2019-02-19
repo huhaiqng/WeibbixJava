@@ -11,4 +11,42 @@
     <select id="getTreeAppByEnvSQL" resultType="com.yunwei.weibbix.entity.TreeApp">
         SELECT * FROM tree_app WHERE env = #{env}
     </select>
+    <!--查询tomcat集群-->
+    <select id="getTomcatClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
+        SELECT * FROM tomcat_cluster WHERE env = #{env} ORDER BY name
+    </select>
+    <!--保存模块-->
+    <insert id="saveTreeModelSQL">
+        INSERT INTO tree_model VALUES (#{id},#{text},#{icon},#{appId},#{clusterId})
+    </insert>
+    <!--查询模块-->
+    <select id="getTreeModelByAppIdSQL" resultType="com.yunwei.weibbix.entity.TreeModel">
+        SELECT * FROM tree_model WHERE appId = #{appId}
+    </select>
+    <!--通过ID查询tomcat集群-->
+    <select id="getTomcatClusterByClusterIdSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
+        SELECT * FROM tomcat_cluster WHERE id = #{clusterId}
+    </select>
+    <!--通过ID查询tomcat实例-->
+    <select id="getTomcatInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
+        SELECT * from tomcat_ins WHERE id IN (
+          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
+        )
+    </select>
+    <!--获取项目模块数量-->
+    <select id="getTomcatTreeModelCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM tree_model WHERE appId = #{id}
+    </select>
+    <!--删除项目-->
+    <delete id="deleteTomcatTreeAppSQL">
+        DELETE FROM tree_app WHERE id = #{id}
+    </delete>
+    <!--删除模块-->
+    <delete id="deleteTomcatTreeModelSQL">
+        DELETE FROM tree_model WHERE id = #{id}
+    </delete>
+    <!--查询项目数量-->
+    <select id="getTomcatTreeAppCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM tree_app WHERE text = #{text} AND env = #{env}
+    </select>
 </mapper>

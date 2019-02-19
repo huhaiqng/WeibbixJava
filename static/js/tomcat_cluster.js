@@ -250,9 +250,9 @@ function save_tomcat_cluster(){
 	var id = (new Date()).valueOf();
 	var name = $("#tomcat_cluster_name").val();
 	var env = $("#env_select option:selected").attr("value");
-	var createAt = new Date();
+	var createdAt = new Date();
 	
-	data = {"id":id,"name":name,"env":env,"createAt":createAt};
+	data = {"id":id,"name":name,"env":env,"createdAt":createdAt};
 	$.ajax({
 		type: "POST",
 		url: "/api/addTomcatCluster",

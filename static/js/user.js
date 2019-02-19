@@ -179,7 +179,7 @@ function save_user_groups(new_username,groupName){
 function creat_users_table(){
 	var options=$("#page_select option:selected"); 
 	var onePageUsersCount = options.val();
-	var search_username = document.getElementById("search_username").value;
+	var search_username = document.getElementById("search_name").value;
 
 	$.ajax({
 		type: "POST",

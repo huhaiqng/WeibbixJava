@@ -104,7 +104,7 @@ function get_pages_hosts_change(currentPage,hostsCount,envType,hostGroup,ip){
 		success: function(response){
 		
 			var totalPages = response.pages;
-			var hosts = response.hostList;
+			var hosts = response.pageList;
 			
 			$.jqPaginator("#pagination", {
 				totalPages: totalPages,

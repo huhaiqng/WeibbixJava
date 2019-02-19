@@ -6,7 +6,7 @@ public class TomcatCluster {
     private String id;
     private String name;
     private String env;
-    private Date createAt;
+    private Date createdAt;
 
     public String getId() {
         return id;
@@ -32,11 +32,11 @@ public class TomcatCluster {
         this.env = env;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
