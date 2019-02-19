@@ -68,9 +68,13 @@ public class ProjectController {
     public String saveTreeModel(@RequestBody TreeModel treeModel){
         String text = treeModel.getText();
         String appId = treeModel.getAppId();
+        String clusterId = treeModel.getClusterId();
+
         Integer existModelCount = projectMapper.getExistModelCountSQL(text,appId);
         if(existModelCount.equals(0)){
             projectMapper.saveTreeModelSQL(treeModel);
+            //更新实例所属项目
+            projectMapper.updataTomcatInstanceProjectSQL(appId,clusterId);
             return "success";
         }else {
             return "该项目已经存在改模块！";
@@ -108,6 +112,9 @@ public class ProjectController {
     @PostMapping("/api/deleteTomcatTreeModel")
     public void deleteTomcatTreeModel(@RequestBody Map<String,Object> objectMap){
         String id = (String)objectMap.get("id");
+        //删除实例项目名称
+        projectMapper.deleteTomcatInstanceProjectSQL(id);
         projectMapper.deleteTomcatTreeModelSQL(id);
+
     }
 }

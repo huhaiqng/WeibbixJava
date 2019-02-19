@@ -34,4 +34,8 @@ public interface ProjectMapper {
     String getTomcatTreeAppTextSQL(@Param("id")String id);
     //查看模块是否已存在
     Integer getExistModelCountSQL(@Param("text")String text,@Param("appId")String appId);
+    //更新实例所属项目
+    void updataTomcatInstanceProjectSQL(@Param("appId")String appId,@Param("clusterId")String clusterId);
+    //删除实例项目名称
+    void deleteTomcatInstanceProjectSQL(@Param("id")String id);
 }

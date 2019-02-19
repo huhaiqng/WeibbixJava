@@ -57,4 +57,14 @@
     <select id="getExistModelCountSQL" resultType="java.lang.Integer">
         SELECT count(*) FROM tree_model WHERE text = #{text} AND appId = #{appId}
     </select>
+    <!--更新实例所属项目-->
+    <update id="updataTomcatInstanceProjectSQL">
+        UPDATE tomcat_ins
+          SET project = (SELECT text FROM tree_app WHERE id = #{appId})
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+    </update>
+    <!--删除实例项目名称-->
+    <update id="deleteTomcatInstanceProjectSQL">
+        UPDATE tomcat_ins SET project = ' ' WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = (SELECT clusterId FROM tree_model WHERE id = #{id}));
+    </update>
 </mapper>
