@@ -25,9 +25,13 @@ public interface ProjectMapper {
     //获取项目模块实例
     Integer getTomcatTreeModelCountSQL(@Param("id")String id);
     //删除项目
-    void deleteTomcatTreeAppSQL(@Param("id")String id);
+    void deleteTomcatTreeAppSQL(@Param("text")String text);
     //删除模块
     void deleteTomcatTreeModelSQL(@Param("id")String id);
     //查询项目数量
-    Integer getTomcatTreeAppCountSQL(@Param("text")String text,@Param("env")String env);
+    Integer getTomcatTreeAppCountSQL(@Param("text")String text);
+    //获取项目名称
+    String getTomcatTreeAppTextSQL(@Param("id")String id);
+    //查看模块是否已存在
+    Integer getExistModelCountSQL(@Param("text")String text,@Param("appId")String appId);
 }

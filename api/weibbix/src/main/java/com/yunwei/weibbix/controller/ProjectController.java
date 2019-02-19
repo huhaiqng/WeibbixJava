@@ -21,29 +21,27 @@ public class ProjectController {
     private ProjectMapper projectMapper;
     //保存项目
     @PostMapping("/api/saveTreeApp")
-    public void saveTreeApp(@RequestBody TreeApp treeApp){
+    public String saveTreeApp(@RequestBody TreeApp treeApp){
         String id = treeApp.getId();
         String text = treeApp.getText();
 
-        Integer proCount = projectMapper.getTomcatTreeAppCountSQL(text,"pro");
-        if(proCount.equals(0)){
+        Integer appCount = projectMapper.getTomcatTreeAppCountSQL(text);
+        if(appCount.equals(0)){
             treeApp.setId("app_"+id+"_pro");
             treeApp.setEnv("pro");
             projectMapper.saveTreeAppSQL(treeApp);
-        }
 
-        Integer testCount = projectMapper.getTomcatTreeAppCountSQL(text,"test");
-        if(testCount.equals(0)){
             treeApp.setId("app_"+id+"_test");
             treeApp.setEnv("test");
             projectMapper.saveTreeAppSQL(treeApp);
-        }
 
-        Integer devCount = projectMapper.getTomcatTreeAppCountSQL(text,"dev");
-        if(devCount.equals(0)){
             treeApp.setId("app_"+id+"_dev");
             treeApp.setEnv("dev");
             projectMapper.saveTreeAppSQL(treeApp);
+
+            return "success";
+        }else {
+            return "项目名已存在！";
         }
     }
     //查询项目
@@ -67,8 +65,16 @@ public class ProjectController {
 
     //保存模块
     @PostMapping("/api/saveTreeModel")
-    public void saveTreeModel(@RequestBody TreeModel treeModel){
-        projectMapper.saveTreeModelSQL(treeModel);
+    public String saveTreeModel(@RequestBody TreeModel treeModel){
+        String text = treeModel.getText();
+        String appId = treeModel.getAppId();
+        Integer existModelCount = projectMapper.getExistModelCountSQL(text,appId);
+        if(existModelCount.equals(0)){
+            projectMapper.saveTreeModelSQL(treeModel);
+            return "success";
+        }else {
+            return "该项目已经存在改模块！";
+        }
     }
 
     //通过ID查询tomcat集群
@@ -91,7 +97,8 @@ public class ProjectController {
         //查询项目的模块
         Integer modelCount = projectMapper.getTomcatTreeModelCountSQL(id);
         if(modelCount.equals(0)){
-            projectMapper.deleteTomcatTreeAppSQL(id);
+            String text = projectMapper.getTomcatTreeAppTextSQL(id);
+            projectMapper.deleteTomcatTreeAppSQL(text);
             return "success";
         }else {
             return "还存在模块，不能删除！";

@@ -155,7 +155,11 @@ function save_tree_model(){
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
 		success: function(response){
-			reload_project_div();
+			if(response == "success"){
+				reload_project_div();
+			}else{
+				$.MsgBox.Alert("消息",response);
+			}
 		}
 	});
 	
@@ -207,8 +211,12 @@ function save_tree_app(){
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
-		success: function(){
-			reload_project_div();
+		success: function(response){
+			if(response == "success"){
+				reload_project_div();
+			}else{
+				$.MsgBox.Alert("消息",response);
+			}
 		}
 	});
 }

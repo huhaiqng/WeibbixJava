@@ -35,11 +35,11 @@
     </select>
     <!--获取项目模块数量-->
     <select id="getTomcatTreeModelCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM tree_model WHERE appId = #{id}
+        select count(*) from (SELECT tree_model.id FROM tree_app,tree_model WHERE tree_app.id IN (SELECT id FROM tree_app WHERE text = (SELECT text FROM tree_app WHERE id = #{id})) AND tree_app.id = tree_model.appId) as m;
     </select>
     <!--删除项目-->
     <delete id="deleteTomcatTreeAppSQL">
-        DELETE FROM tree_app WHERE id = #{id}
+        DELETE FROM tree_app WHERE text = #{text}
     </delete>
     <!--删除模块-->
     <delete id="deleteTomcatTreeModelSQL">
@@ -47,6 +47,14 @@
     </delete>
     <!--查询项目数量-->
     <select id="getTomcatTreeAppCountSQL" resultType="java.lang.Integer">
-        SELECT count(*) FROM tree_app WHERE text = #{text} AND env = #{env}
+        SELECT count(*) FROM tree_app WHERE text = #{text}
+    </select>
+    <!--获取项目名称-->
+    <select id="getTomcatTreeAppTextSQL" resultType="java.lang.String">
+        SELECT text FROM tree_app WHERE id = #{id}
+    </select>
+    <!--查看模块是否已存在-->
+    <select id="getExistModelCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM tree_model WHERE text = #{text} AND appId = #{appId}
     </select>
 </mapper>
