@@ -21,58 +21,34 @@
 		<div class="ibox float-e-margins">
 			
 			<div class="ibox-content">
-
-				<div class="table-responsive">
+			<div class="table-responsive">
 			<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-			<!-- <div class="html5buttons">
-			<div class="dt-buttons btn-group">
-			<a class="btn btn-default buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" href="#"><span>Copy</span></a>
-			<a class="btn btn-default buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" href="#"><span>CSV</span></a>
-			<a class="btn btn-default buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" href="#"><span>Excel</span></a>
-			<a class="btn btn-default buttons-pdf buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" href="#"><span>PDF</span></a>
-			<a class="btn btn-default buttons-print" tabindex="0" aria-controls="DataTables_Table_0" href="#"><span>Print</span></a>
-			</div>
-			</div>
-			<div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label>
-			</div> -->
+
 			<div id="DataTables_Table_0_filter" class="dataTables_filter">
-				<!-- <label>搜索:<input placeholder="用户名" type="search" class="form-control input-sm" placeholder="" aria-controls="DataTables_Table_0">
-				</label> -->
-				<!-- <div class="input-group">
-				<input id="search_username" type="text" class="form-control" placeholder="用户名">
-				<span class="input-group-btn">
-					<button id="search_username_btn" class="btn btn-default" type="button">搜索</button>
-				</span>
-				</div> -->
 				<div class="input-group">
-					<input id="search_name" type="text" placeholder="用户名" class="input-sm form-control"> 
+					<!-- 防止自动填充 -->
+					<label style="display:none;"><span></span><input type="text" name="hidden1" autocomplete="new-password"></label>
+					<label style="display:none;"><span></span><input type="password" name="hidden2" autocomplete="new-password"></label>
+					
+					<input id="search_name" type="text" placeholder="用户名" class="input-sm form-control" autocomplete="new-password"> 
 					<span class="input-group-btn">
                     <button id="search_username_btn" type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
 				</div>
 			</div>
-			
-			 
-		<!-- 	<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 25 of 57 entries
-			</div> -->
-			
+
 			<table class="table table-striped table-bordered table-hover dataTables-example dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid">
 			<thead>
 			<tr role="row">
 			<th style="width:22%">用户名</th>
 			<th>组</th>
-			<th style="width:6%">状态</th>
-			<th style="width:12%">操作</th>
+			<th style="width:4%">状态</th>
+			<th style="width:8%">操作</th>
 			
 			</tr>
 			</thead>
 			
 			<tbody id="users_table_tbody">
 			</tbody>
- 
-			
-					
-			
- 
 			</table>
 			<div class="dataTables_length" id="DataTables_Table_0_length">
 				<label>每页
@@ -86,27 +62,7 @@
 			<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
 				<ul class="pagination" id="pagination"></ul>
 			</div>
-			
-			<!-- <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-				<ul class="pagination">
-					<li class="paginate_button previous disabled" id="DataTables_Table_0_previous">
-						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a>
-					</li>
-					<li class="paginate_button active">
-						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a>
-					</li>
-					<li class="paginate_button ">
-						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0">2</a>
-					</li>
-					<li class="paginate_button ">
-						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0">3</a>
-					</li>
-					<li class="paginate_button next" id="DataTables_Table_0_next">
-						<a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0">Next</a>
-					</li>
-				</ul>
-			</div> -->
-			
+
 			</div>
 			</div>
 
@@ -128,19 +84,26 @@
                         <div class="ibox-content">
                             <div method="get" class="form-horizontal">
                                 <div class="form-group">
+
 									<label class="col-sm-2 control-label">用户名</label>
-                                    <div class="col-sm-6"><input placeholder="用户名不能少于4个字符" id="new_username" type="text" class="form-control"></div>
+                                    <div class="col-sm-6">
+										<input placeholder="用户名不能少于4个字符" id="new_username" type="text" class="form-control" autocomplete="new-password"></div>
 									<div id="username_error_info" style="color:#F00" class="col-sm-4">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group"><label class="col-sm-2 control-label">密码</label>
-                                    <div class="col-sm-6"><input placeholder="密码不能少于6个字符" id="password1" type="password" class="form-control">
+								
+                                <div class="form-group">
+									<label class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-6">
+										<!-- 参数 autocomplete="new-password" 设置chrome禁用自动填充密码-->
+										<input placeholder="密码不能少于6个字符" id="password1" type="password" class="form-control" autocomplete="new-password">
                                     </div>
 									<div id="password_length_error_info" style="color:#F00" class="col-sm-4">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
+								
                                 <div class="form-group">
 									<label class="col-sm-2 control-label">确认密码</label>
                                     <div class="col-sm-6"><input id="password2" type="password" class="form-control" name="password"></div>
@@ -154,14 +117,7 @@
 								
 								<div class="col-sm-6">
 									<select id="group_select" class="select2_demo_2 form-control col-sm-6" multiple="multiple">
-										<!-- <option value="Mayotte">技术部</option>
-										<option value="Mexico">财务部</option>
-										
-										<option value="New Caledonia">生产部</option>
-										<option value="New Zealand">工程部</option>
-										<option value="Nicaragua">销售部</option> -->
 									</select>
-
 								</div>
                             </div>
 								
@@ -245,18 +201,6 @@
 									<div class="ibox">
 										<form id="form" action="#" class="wizard-big">
 											<select id="groups_select" class="form-control dual_select" multiple>
-												<!-- <option value="United States">United States</option>
-												<option value="United Kingdom">United Kingdom</option>
-												<option value="Australia">Australia</option>
-												<option selected value="Austria">Austria</option>
-												<option selected value="Bahamas">Bahamas</option>
-												<option value="Barbados">Barbados</option>
-												<option value="Belgium">Belgium</option>
-												<option value="Bermuda">Bermuda</option>
-												<option value="Brazil">Brazil</option>
-												<option value="Bulgaria">Bulgaria</option>
-												<option value="Cameroon">Cameroon</option>
-												<option value="Canada">Canada</option> -->
 											</select>
 										</form>
 									</div>

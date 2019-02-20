@@ -1,6 +1,7 @@
 $(function () {
 	$("#create_user_div").hide();
 	$("#create_user_row").remove();
+	
 	$("#create_user_btn").click(function(){
 		$("#create_user_btn").hide();
 		$("#users_table_div").hide();
@@ -318,7 +319,10 @@ function create_user_table_line(user){
 	user_delete_btn.innerText = "删除";
 	user_delete_btn.className = "label label-danger";
 	$(user_delete_btn).click(function(){
-		delete_user(user.userId,tr);
+		$.MsgBox.Confirm("温馨提示", "执行删除后将无法恢复，确定继续吗？温馨提示", function ()
+		{ 
+			delete_user(user.userId,tr);
+		});
 	});
 	td.appendChild(user_delete_btn);
 	tr.appendChild(td);

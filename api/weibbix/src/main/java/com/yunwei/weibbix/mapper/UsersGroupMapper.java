@@ -19,4 +19,5 @@ public interface UsersGroupMapper {
     public List<String> selectUserGroupsSQL(@Param("userId") BigInteger userId);
     public List<UsersGroup> selectSearchGroupsSQL(@Param("beforeNum") Integer beforeNum,@Param("groupsCount") Integer groupCount,@Param("groupName") String groupName);
     public Integer selectSearchGroupsCountSQL(@Param("groupName") String groupName);
+    Integer getExistGroupUsersCountSQL(@Param("groupId")BigInteger groupId);
 }

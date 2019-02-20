@@ -36,4 +36,7 @@
     <select id="selectSearchGroupsSQL" resultType="com.yunwei.weibbix.entity.UsersGroup">
         select * from usersGroup WHERE groupName LIKE #{groupName} ORDER BY groupId limit #{beforeNum},#{groupsCount}
     </select>
+    <select id="getExistGroupUsersCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM users_groups WHERE groupId = #{groupId}
+    </select>
 </mapper>

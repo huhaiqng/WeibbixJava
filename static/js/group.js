@@ -230,14 +230,24 @@ function create_group_line(group){
 	delete_btn.innerText = "删除";
 	delete_btn.className = "label label-danger";
 	$(delete_btn).click(function(){
-		delete_group(group.groupId,tr);
+		$.MsgBox.Confirm("温馨提示", "执行删除后将无法恢复，确定继续吗？温馨提示", function ()
+		{ 
+			delete_group(group.groupId,tr);
+		});
 	});
 	td.appendChild(delete_btn);
 	tr.appendChild(td);
 	
 	tbody.appendChild(tr);
 }
-
+//重新加载group页面
+function reload_group_div(){
+	$("#index_main_content").load("group.html",function(){
+		var script = document.createElement('script');
+		script.setAttribute('src', 'js/group.js'); 
+		document.body.appendChild(script);
+	});
+}
 function get_group_users(groupId){
 	var group_users;
 	
@@ -256,7 +266,7 @@ function get_group_users(groupId){
 	});
 	return group_users;
 }
-
+//删除用户组
 function delete_group(groupId,tr){
 	$.ajax({
 		type: "POST",
@@ -266,8 +276,13 @@ function delete_group(groupId,tr){
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
 		},
-		success: function(){
-			$(tr).remove();
+		success: function(response){
+			if(response == "success"){
+				reload_group_div();
+			}else{
+				$.MsgBox.Alert("消息",response);
+			}
+			// $(tr).remove();
 		}
 	});
 }

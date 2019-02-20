@@ -61,8 +61,15 @@ public class UsersGroupController {
     }
 
     @PostMapping("/api/delete/group")
-    public void deleteGroup(@Valid @RequestBody UsersGroup usersGroup){
-        usersGroupMapper.deleteGroupSQL(usersGroup.getGroupId());
+    public String deleteGroup(@Valid @RequestBody UsersGroup usersGroup){
+        BigInteger groupId = usersGroup.getGroupId();
+        Integer count = usersGroupMapper.getExistGroupUsersCountSQL(groupId);
+        if(count.equals(0)){
+            usersGroupMapper.deleteGroupSQL(usersGroup.getGroupId());
+            return "success";
+        }else {
+            return "该组还存在用，无法删除！";
+        }
     }
 
     @PostMapping("/api/change/group/status")
