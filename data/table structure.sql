@@ -79,3 +79,8 @@ create table tree_model(
 	appid varchar(255) not null,
 	cluster varchar(255) not null
 );
+--管理的软件表
+create table software(
+	id varchar(255) primary key,
+	name varchar(255) not null unique
+);

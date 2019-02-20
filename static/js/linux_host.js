@@ -32,7 +32,27 @@ $(function(){
 	});
 	
 	get_hosts();
+	create_host_group_option();
 });
+//创建主机组下拉列表
+function create_host_group_option(){
+	$.ajax({
+		type: "GET",
+		url: "/api/getSoftwareName",
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(response){
+			for(i=0;i<response.length;i++){
+				var option = document.createElement("option");
+				$(option).text(response[i].toUpperCase());
+				$(option).attr("value",response[i]);
+				$("#group_select").append(option);
+			}
+		}
+	});
+}
 //获取主机并在表中展示
 function get_hosts(){
 	$("#hosts_table_tbody").empty();

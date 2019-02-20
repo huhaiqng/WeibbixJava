@@ -1,6 +1,9 @@
 $(function () {
+	//socket 禁用进度插件
 	Pace.options.ajax.trackWebSockets = false;
-	load_user_html();
+	//生成实例集群管理列表
+	create_instance_cluster_ul();
+	// load_user_html();
 	
 //	显示用户名
 	var login_username = localStorage.getItem("login_username");
@@ -16,7 +19,39 @@ $(function () {
 		window.location.href="login.html";
 	})
 }); 
-
+//生成实例集群管理列表
+function create_instance_cluster_ul(){
+	$.ajax({
+		type: "GET",
+		url: "/api/getSoftwareName",
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		async: false,
+		success: function(response){
+			for(i=0;i<response.length;i++){
+				var li = document.createElement("li");
+				var a = document.createElement("a");
+				var id = response[i]+"_instance";
+				$(a).attr("id",id);
+				$(a).text(response[i].toUpperCase()+" 实例");
+				$(li).append(a);
+				$("#instance_ul").append(li);
+			}
+			for(i=0;i<response.length;i++){
+				var li = document.createElement("li");
+				var a = document.createElement("a");
+				var id = response[i]+"_cluster";
+				$(a).attr("id",id);
+				$(a).text(response[i].toUpperCase()+" 集群");
+				$(li).append(a);
+				$("#cluster_ul").append(li);
+			}
+		}
+	});
+	load_user_html();
+}
 function load_user_html(){
 	
 	$("#usermanage").click(function(){

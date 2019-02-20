@@ -68,6 +68,7 @@ $(function(){
 		$("#create_app_btn").attr("disabled",true);
 		
 		get_app_for_model();
+		create_model_name_option();
 	});
 	
 	//取消创建模块
@@ -99,6 +100,25 @@ $(function(){
 		});
 	});
 });
+//生成模块下拉列表选项
+function create_model_name_option(){
+	$.ajax({
+		type: "GET",
+		url: "/api/getSoftwareName",
+		contentType: "application/json",
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)
+		},
+		success: function(response){
+			for(i=0;i<response.length;i++){
+				var option = document.createElement("option");
+				$(option).text(response[i].toUpperCase());
+				$(option).attr("value",response[i]);
+				$("#model_name_select").append(option);
+			}
+		}
+	});
+}
 //删除模块
 function delete_tomcat_tree_model(){
 	var id = $("#delete_tomcat_tree_model_btn").attr("value");
