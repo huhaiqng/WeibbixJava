@@ -25,7 +25,7 @@
         INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})
     </insert>
     <select id="getNotAllocatedTomcatInstanceSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
-        SELECT * FROM tomcat_ins WHERE allocated = FALSE AND env = #{env} ORDER BY ip,name
+        SELECT * FROM tomcat_ins WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
     </select>
 
     <!--添加tomcat集群-->

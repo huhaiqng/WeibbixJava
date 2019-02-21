@@ -114,11 +114,83 @@ function load_user_html(){
 		});
 		change_active_li(this);
 	});
-	
+	//加载nginx实例页面
+	$("#nginx_instance").click(function(){
+		$("#index_main_content").load("nginx_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/nginx_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载tomcat实例页面
 	$("#tomcat_instance").click(function(){
 		$("#index_main_content").load("tomcat_instance.html",function(){
 			var script = document.createElement("script");
 			script.setAttribute("src","js/tomcat_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载mysql实例页面
+	$("#mysql_instance").click(function(){
+		$("#index_main_content").load("mysql_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/mysql_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载zookeeper实例页面
+	$("#zookeeper_instance").click(function(){
+		$("#index_main_content").load("zookeeper_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/zookeeper_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载kafka实例页面
+	$("#kafka_instance").click(function(){
+		$("#index_main_content").load("kafka_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/kafka_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载mongodb实例页面
+	$("#mongodb_instance").click(function(){
+		$("#index_main_content").load("mongodb_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/mongodb_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载redis实例页面
+	$("#redis_instance").click(function(){
+		$("#index_main_content").load("redis_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/redis_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载rabbitmq实例页面
+	$("#rabbitmq_instance").click(function(){
+		$("#index_main_content").load("rabbitmq_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/rabbitmq_instance.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	//加载java实例页面
+	$("#java_instance").click(function(){
+		$("#index_main_content").load("java_instance.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/java_instance.js");
 			document.body.appendChild(script);
 		});
 		change_active_li(this);

@@ -56,6 +56,8 @@ create table tomcat_ins(
 	dir varchar(255) not null,
 	env varchar(255) not null,
 	allocated bit(1) not null,
+	cluster varchar(255),
+	project varchar(255),
 	unique key(ip,name)
 );
 --实例集群表
@@ -79,8 +81,36 @@ create table tree_model(
 	appid varchar(255) not null,
 	cluster varchar(255) not null
 );
---管理的软件表
+--软件表
 create table software(
 	id varchar(255) primary key,
 	name varchar(255) not null unique
+);
+--java实例表
+create table java_instance(
+	id varchar(255) primary key,
+	ip varchar(255) not null,
+	port varchar(255) not null,
+	name varchar(255) not null,
+	dir varchar(255) not null,
+	env varchar(255) not null,
+	allocated bit(1) not null,
+	cluster varchar(255),
+	project varchar(255),
+	unique key(ip,name)
+);
+--zookeeper实例表
+create table java_instance(
+	id varchar(255) primary key,
+	ip varchar(255) not null,
+	port varchar(255) not null,
+	name varchar(255) not null,
+	dir varchar(255) not null,
+	env varchar(255) not null,
+	check_port varchar(255) not null,
+	data_port varchar(255) not null,
+	allocated bit(1) not null,
+	cluster varchar(255),
+	project varchar(255),
+	unique key(ip,name)
 );

@@ -35,6 +35,6 @@ public interface HostMapper {
     public void updateHostAllocatedSQL(@Param("hostId") String hostId,@Param("alloacted") boolean alloacted);
     public String selectHostIdByIpSQL(@Param("ip") String ip);
 
-    public void addHostInstanceNumSQL(TomcatInstance tomcatInstance);
+    public void addHostInstanceNumSQL(@Param("ip")String ip);
     public void delHostInstanceNumSQL(@Param("ip") String ip);
 }

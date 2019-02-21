@@ -1,4 +1,4 @@
-<div id="comcat_instance_head" class="row wrapper border-bottom white-bg page-heading">
+<div id="java_instance_head" class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
 		<h2>实例管理</h2>
 		<ol class="breadcrumb">
@@ -6,16 +6,16 @@
 				实例管理
 			</li>
 			<li class="active">
-				<strong>Tomcat 实例</strong>
+				<strong>Java 实例</strong>
 			</li>
 		</ol>
 	</div>
 	<div class="col-lg-2">
-		<button id="create_tomcat_instance_btn" style="position:absolute;top:50px;left:120px;" type="button" class="btn btn-primary btn-sm">创建实例</button>
+		<button id="create_java_instance_btn" style="position:absolute;top:50px;left:120px;" type="button" class="btn btn-primary btn-sm">创建实例</button>
 	</div>
 </div>
 
-<div id = "tomcat_instance_table_div" class="wrapper wrapper-content animated fadeInRight">
+<div id = "java_instance_table_div" class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
 		<div class="col-lg-12">
 		<div class="ibox float-e-margins">
@@ -26,7 +26,7 @@
 					<div class="col-sm-3">
 					<div style="height:auto;float:left; display:inline;line-height:30px">环境类型:&nbsp;&nbsp;</div>
 					<div style="width:200px; height:auto; float:left; display:inline">
-						<select onchange="get_tomcat_instance()" id="tomcat_instance_env_select" class="input-sm form-control input-s-sm inline">
+						<select onchange="get_java_instance()" id="java_instance_env_select" class="input-sm form-control input-s-sm inline">
 							<option value="dev" selected="selected">开发环境</option>
 							<option value="test">测试环境</option>
 							<option value="pro">生产环境</option>
@@ -42,9 +42,9 @@
 					
 					<div class="col-sm-4">
 						<div class="input-group" >
-							<input id="search_tomcat_instance_ip" type="text" placeholder="输入IP" class="input-sm form-control"> 
+							<input id="search_java_instance_ip" type="text" placeholder="输入IP" class="input-sm form-control"> 
 							<span class="input-group-btn">
-							<button id="search_tomcat_instance_btn" type="button" class="btn btn-sm btn-primary">搜索</button> </span>
+							<button id="search_java_instance_btn" type="button" class="btn btn-sm btn-primary">搜索</button> </span>
 						</div>
 					</div>
 				</div>
@@ -66,13 +66,13 @@
 				</tr>
 			</thead>
 			
-			<tbody id="tomcat_instance_table_tbody">
+			<tbody id="java_instance_table_tbody">
 			</tbody>
  
 			</table>
 			<div class="dataTables_length" id="DataTables_Table_0_length">
 				<label>每页
-				<select onchange="get_tomcat_instance()" id="one_page_count_select" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm">
+				<select onchange="get_java_instance()" id="one_page_count_select" name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-control input-sm">
 					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="50">50</option>
@@ -91,48 +91,48 @@
 	</div>
 </div>
 
-<div id="create_tomcat_instance_div" class="wrapper wrapper-content animated fadeInRight" style="display: none;">
-	<div id="create_user_row" class="row">
+<div id="create_java_instance_div" class="wrapper wrapper-content animated fadeInRight" style="display: none;">
+	<div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>新增 Tomcat 实例</h5>
+                            <h5>新增 Java 实例</h5>
                         </div>
                         <div class="ibox-content">
                             <div method="get" class="form-horizontal">
 								<div class="form-group">
 									<label class="col-sm-1 control-label">模板</label>
-									<div id="tomcat_instance_template_select_div" class="col-sm-3">
-										<select id="tomcat_instance_template_select" class="select2_demo_2 form-control col-sm-6" multiple="multiple">
-											<option value="tomat1">tomcat1</option>
-											<option value="tomat2">tomcat2</option>
-											<option value="tomat3">tomcat3</option>
-											<option value="tomat4">tomcat4</option>
+									<div id="java_instance_template_select_div" class="col-sm-3">
+										<select id="java_instance_template_select" class="select2_demo_2 form-control col-sm-6" multiple="multiple">
+											<option value="app1">app1</option>
+											<option value="app2">app2</option>
+											<option value="app3">app3</option>
+											<option value="app4">app4</option>
 										</select>
 									</div>
 									<label class="col-sm-1 control-label">环境</label>
 									<div class="col-sm-2">
-										<select onchange="get_host_for_create_instance('tomcat')" id="create_tomcat_instance_env_select" class="input-sm form-control input-s-sm inline">
+										<select onchange="get_java_host_for_create_instance('java')" id="create_java_instance_env_select" class="input-sm form-control input-s-sm inline">
 											<option value="dev" selected="selected">开发环境</option>
 											<option value="test">测试环境</option>
 											<option value="pro">生产环境</option>
 										</select>
 									</div>
 									<label class="col-sm-1 control-label">主机</label>
-									<div id="tomcat_instance_host_select_div" class="col-sm-4">
-										<select id="tomcat_instance_host_select" class="select2_demo_2 form-control col-sm-6" multiple="multiple">
+									<div id="java_instance_host_select_div" class="col-sm-4">
+										<select id="java_instance_host_select" class="select2_demo_2 form-control col-sm-6" multiple="multiple">
 										</select>
 									</div>
 								</div>
                                 <div class="hr-line-dashed"></div>
                                 	<div class="form-group">
                                 		<div class="col-sm-1 control-label">
-                                			<button id="save_create_tomcat_instance_btn" class="btn btn-success btn-sm" type="button">
+                                			<button id="save_java_instance_btn" class="btn btn-success btn-sm" type="button">
                                 				<span class="bold">创建实例</span>
                                 			</button>
                                 		</div>
                                 		<div class="col-sm-1 control-label">
-                                			<button id="create_tomcat_instance_back_btn" class="btn btn-primary btn-sm" type="button">
+                                			<button id="create_java_instance_back_btn" class="btn btn-primary btn-sm" type="button">
                                 				<i class="fa fa-arrow-circle-left"></i>&nbsp;&nbsp;<span class="bold">返回</span>
                                 			</button>
                                 		</div>

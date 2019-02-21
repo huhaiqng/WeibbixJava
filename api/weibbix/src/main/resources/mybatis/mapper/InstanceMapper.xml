@@ -12,6 +12,7 @@
     <select id="existInstanceCountSQL" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM tomcat_ins WHERE ip = #{ip} AND name = #{name}
     </select>
+    <!--获取java实例-->
     <select id="selectTomcatInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
         SELECT * FROM tomcat_ins WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
     </select>
@@ -24,6 +25,7 @@
     <select id="selectTomcatInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
         SELECT count(*) FROM tomcat_ins WHERE env = #{env} AND ip LIKE #{ip}
     </select>
+    <!--删除tomcat实例-->
     <delete id="deleteTomcatInstanceSQL">
         DELETE FROM tomcat_ins WHERE id = #{id}
     </delete>
@@ -31,8 +33,72 @@
     <update id="updateInstanceAllocatedSQL">
         UPDATE tomcat_ins SET allocated = #{allocated},cluster = #{name} WHERE id = #{instanceId}
     </update>
-
+    <!--获取tomcat实例的分配状态-->
     <select id="getTomcatInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
         SELECT allocated FROM tomcat_ins WHERE id = #{id}
     </select>
+<!-- ##################################### java  ##################################### -->
+    <!--保存java实例-->
+    <insert id="saveJavaInstanceSQL">
+        INSERT INTO java_instance VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated},#{cluster},#{project})
+    </insert>
+    <!--检查java实例是否存在-->
+    <select id="getJavaInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM java_instance WHERE ip = #{ip} AND name = #{name}
+    </select>
+    <!--获取java实例-->
+    <select id="selectJavaInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.JavaInstance">
+        SELECT * FROM java_instance WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectJavaInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM java_instance WHERE env = #{env}
+    </select>
+    <select id="selectJavaInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.JavaInstance">
+        SELECT * FROM java_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectJavaInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM java_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+
+    <!--获取java实例的分配状态-->
+    <select id="getJavaInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM java_instance WHERE id = #{id}
+    </select>
+    <!--删除java实例-->
+    <delete id="deleteJavaInstanceSQL">
+        DELETE FROM java_instance WHERE id = #{id}
+    </delete>
+
+<!-- ##################################### zookeeper  ##################################### -->
+    <!--检查zookeeper实例是否存在-->
+    <select id="getZookeeperInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM zookeeper_instance WHERE ip = #{ip} AND name = #{name}
+    </select>
+    <!--保存zookeeper实例-->
+    <insert id="saveZookeeperInstanceSQL">
+        INSERT INTO zookeeper_instance VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{check_port},#{data_port},#{allocated},#{cluster},#{project})
+    </insert>
+
+    <!--获取Zookeeper实例-->
+    <select id="selectZookeeperInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.ZookeeperInstance">
+        SELECT * FROM zookeeper_instance WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectZookeeperInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM zookeeper_instance WHERE env = #{env}
+    </select>
+    <select id="selectZookeeperInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.ZookeeperInstance">
+        SELECT * FROM zookeeper_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectZookeeperInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM zookeeper_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <!--获取java实例的分配状态-->
+    <select id="getZookeeperInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM zookeeper_instance WHERE id = #{id}
+    </select>
+    <!--删除java实例-->
+    <delete id="deleteZookeeperInstanceSQL">
+        DELETE FROM zookeeper_instance WHERE id = #{id}
+    </delete>
+
 </mapper>

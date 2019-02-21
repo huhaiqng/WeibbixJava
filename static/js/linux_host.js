@@ -293,7 +293,7 @@ function host_info(host){
 	
 	$("#esxiIp").text(host.esxiIp);
 }
-
+//导入主机
 function import_host(){
 	var form = document.getElementById("fileUploadForm");
 	var formData = new FormData(form);
@@ -303,8 +303,6 @@ function import_host(){
         enctype: 'multipart/form-data',
         url: "/api/import/host",
         data: formData,
-        //http://api.jquery.com/jQuery.ajax/
-        //http://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
         processData: false, //prevent jQuery from automatically transforming the data into a query string
         contentType: false,
 		beforeSend: function(xhr) {
@@ -314,20 +312,11 @@ function import_host(){
         timeout: 600000,
         success: function (data) {
 			$("#import_host_btn").prop("disabled",false);
-			
-// 
-//             $("#result").text(data);
-//             console.log("SUCCESS : ", data);
-//             $("#btnSubmit").prop("disabled", false);
-// 
+			$.MsgBox.Alert("消息","导入成功!");
         },
         error: function (e) {
 			$("#import_host_btn").prop("disabled",false);
-// 
-//             $("#result").text(e.responseText);
-//             console.log("ERROR : ", e);
-//             $("#btnSubmit").prop("disabled", false);
-
+			$.MsgBox.Alert("消息","导入失败!");
         }
     });
 }
