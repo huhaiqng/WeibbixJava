@@ -1,9 +1,6 @@
 package com.yunwei.weibbix.controller;
 
-import com.yunwei.weibbix.entity.JavaInstance;
-import com.yunwei.weibbix.entity.PagesListResponse;
-import com.yunwei.weibbix.entity.TomcatInstance;
-import com.yunwei.weibbix.entity.ZookeeperInstance;
+import com.yunwei.weibbix.entity.*;
 import com.yunwei.weibbix.mapper.HostMapper;
 import com.yunwei.weibbix.mapper.InstanceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,7 +158,7 @@ public class InstanceController {
 
         return pagesListResponse;
     }
-    //删除zookeeper实例
+    //删除Zookeeper实例
     @PostMapping("/api/deleteZookeeperInstance")
     public String deleteZookeeperInstance(@RequestBody Map<String,Object> objectMap){
         String id = (String)objectMap.get("id");
@@ -176,4 +173,56 @@ public class InstanceController {
             return "success";
         }
     }
+//--------------------------------------------kafka--------------------------------------------
+    //新增kafka实例
+    @PostMapping("/api/saveKafkaInstance")
+    public String saveKafkaInstance(@RequestBody KafkaInstance kafkaInstance){
+        String ip = kafkaInstance.getIp();
+        String name = kafkaInstance.getName();
+
+        Integer count = instanceMapper.getKafkaInstanceCountByIpNameSQL(ip,name);
+        if(count.equals(0)){
+            instanceMapper.saveKafkaInstanceSQL(kafkaInstance);
+            hostMapper.addHostInstanceNumSQL(ip);
+            return "success";
+        }else {
+            return "创建失败,实例已存在！";
+        }
+    }
+    //获取kafka实例
+    @PostMapping("/api/getOnePageKafkaInstance")
+    public PagesListResponse getOnePageKafkaInstance(@RequestBody Map<String,Object> objectMap){
+        PagesListResponse pagesListResponse = new PagesListResponse();
+        String ip = (String)objectMap.get("ip");
+        String env= (String)objectMap.get("env");
+        Integer currentPage = (Integer)objectMap.get("currentPage");
+        Integer count = Integer.parseInt((String)objectMap.get("count"));
+        Integer beforeNum = (currentPage-1)*count;
+
+        if(ip.equals("")){
+            pagesListResponse.setPageList(instanceMapper.selectKafkaInstanceByEnvSQL(env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectKafkaInstanceCountByEnvSQL(env)/count));
+        }else{
+            pagesListResponse.setPageList(instanceMapper.selectKafkaInstanceByEnvIpSQL("%"+ip+"%",env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectKafkaInstanceByEnvIpCountSQL("%"+ip+"%",env)/count));
+        }
+
+        return pagesListResponse;
+    }
+    //删除Kafka实例
+    @PostMapping("/api/deleteKafkaInstance")
+    public String deleteKafkaInstance(@RequestBody Map<String,Object> objectMap){
+        String id = (String)objectMap.get("id");
+        String ip = (String)objectMap.get("ip");
+
+        Boolean allocated = instanceMapper.getKafkaInstanceAllocatedByIdSQL(id);
+        if(allocated){
+            return "该实例已经分配不能删除！";
+        }else {
+            instanceMapper.deleteKafkaInstanceSQL(id);
+            hostMapper.delHostInstanceNumSQL(ip);
+            return "success";
+        }
+    }
 }
+

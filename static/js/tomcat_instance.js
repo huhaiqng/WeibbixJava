@@ -167,7 +167,7 @@ function create_tomcat_instance_table_line(instance){
 	delete_btn.innerText = "删除";
 	delete_btn.className = "label label-danger";
 	$(delete_btn).click(function(){
-		$.MsgBox.Confirm("温馨提示", "执行删除后将无法恢复，确定继续吗？温馨提示", function ()
+		$.MsgBox.Confirm("温馨提示", "执行删除后将无法恢复，确定继续吗？", function ()
 		{ 
 			delete_tomcat_instance(instance.id,instance.ip);
 		});

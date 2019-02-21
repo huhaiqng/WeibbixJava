@@ -92,13 +92,43 @@
     <select id="selectZookeeperInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
         SELECT count(*) FROM zookeeper_instance WHERE env = #{env} AND ip LIKE #{ip}
     </select>
-    <!--获取java实例的分配状态-->
+    <!--获取Zookeeper实例的分配状态-->
     <select id="getZookeeperInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
         SELECT allocated FROM zookeeper_instance WHERE id = #{id}
     </select>
-    <!--删除java实例-->
+    <!--删除Zookeeper实例-->
     <delete id="deleteZookeeperInstanceSQL">
         DELETE FROM zookeeper_instance WHERE id = #{id}
+    </delete>
+<!-- ##################################### kafka ##################################### -->
+    <!--检查zookeeper实例是否存在-->
+    <select id="getKafkaInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM kafka_instance WHERE ip = #{ip} AND name = #{name}
+    </select>
+    <!--保存zookeeper实例-->
+    <insert id="saveKafkaInstanceSQL">
+        INSERT INTO kafka_instance VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated},#{cluster},#{project})
+    </insert>
+    <!--获取Kafka实例-->
+    <select id="selectKafkaInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.KafkaInstance">
+        SELECT * FROM kafka_instance WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectKafkaInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM kafka_instance WHERE env = #{env}
+    </select>
+    <select id="selectKafkaInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.KafkaInstance">
+        SELECT * FROM kafka_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectKafkaInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM kafka_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <!--获取Kafka实例的分配状态-->
+    <select id="getKafkaInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM kafka_instance WHERE id = #{id}
+    </select>
+    <!--删除Kafka实例-->
+    <delete id="deleteKafkaInstanceSQL">
+        DELETE FROM kafka_instance WHERE id = #{id}
     </delete>
 
 </mapper>

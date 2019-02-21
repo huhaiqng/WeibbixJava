@@ -1,6 +1,7 @@
 package com.yunwei.weibbix.mapper;
 
 import com.yunwei.weibbix.entity.JavaInstance;
+import com.yunwei.weibbix.entity.KafkaInstance;
 import com.yunwei.weibbix.entity.TomcatInstance;
 import com.yunwei.weibbix.entity.ZookeeperInstance;
 import org.apache.ibatis.annotations.Param;
@@ -87,4 +88,27 @@ public interface InstanceMapper {
     Boolean getZookeeperInstanceAllocatedByIdSQL(@Param("id")String id);
     //删除tomcats实例
     void deleteZookeeperInstanceSQL(@Param("id") String id);
+//--------------------------------------------kafka--------------------------------------------
+    //检查kafka实例是否已存在
+    Integer getKafkaInstanceCountByIpNameSQL(@Param("ip")String ip,@Param("name")String name);
+    //保存zookeeper实例
+    void saveKafkaInstanceSQL(KafkaInstance kafkaInstance);
+    //获取Kafka实例
+    public List<KafkaInstance> selectKafkaInstanceByEnvSQL(
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectKafkaInstanceCountByEnvSQL(@Param("env") String env);
+    public List<KafkaInstance> selectKafkaInstanceByEnvIpSQL(
+            @Param("ip") String ip,
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectKafkaInstanceByEnvIpCountSQL(@Param("ip") String ip,@Param("env") String env);
+    //通过Id获取Kafka实例分配状态
+    Boolean getKafkaInstanceAllocatedByIdSQL(@Param("id")String id);
+    //删除tomcats实例
+    void deleteKafkaInstanceSQL(@Param("id") String id);
 }
