@@ -1,9 +1,6 @@
 package com.yunwei.weibbix.mapper;
 
-import com.yunwei.weibbix.entity.JavaInstance;
-import com.yunwei.weibbix.entity.KafkaInstance;
-import com.yunwei.weibbix.entity.TomcatInstance;
-import com.yunwei.weibbix.entity.ZookeeperInstance;
+import com.yunwei.weibbix.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -111,4 +108,27 @@ public interface InstanceMapper {
     Boolean getKafkaInstanceAllocatedByIdSQL(@Param("id")String id);
     //删除tomcats实例
     void deleteKafkaInstanceSQL(@Param("id") String id);
+    //--------------------------------------------redis--------------------------------------------
+    //检查redis实例是否已存在
+    Integer getRedisInstanceCountByIpNameSQL(@Param("ip")String ip,@Param("name")String name);
+    //保存zookeeper实例
+    void saveRedisInstanceSQL(RedisInstance redisInstance);
+    //获取Redis实例
+    public List<RedisInstance> selectRedisInstanceByEnvSQL(
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectRedisInstanceCountByEnvSQL(@Param("env") String env);
+    public List<RedisInstance> selectRedisInstanceByEnvIpSQL(
+            @Param("ip") String ip,
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectRedisInstanceByEnvIpCountSQL(@Param("ip") String ip,@Param("env") String env);
+    //通过Id获取Redis实例分配状态
+    Boolean getRedisInstanceAllocatedByIdSQL(@Param("id")String id);
+    //删除tomcats实例
+    void deleteRedisInstanceSQL(@Param("id") String id);
 }

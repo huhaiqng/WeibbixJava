@@ -131,4 +131,34 @@
         DELETE FROM kafka_instance WHERE id = #{id}
     </delete>
 
+    <!-- ##################################### redis ##################################### -->
+    <!--检查redis实例是否存在-->
+    <select id="getRedisInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM redis_instance WHERE ip = #{ip} AND name = #{name}
+    </select>
+    <!--保存redis实例-->
+    <insert id="saveRedisInstanceSQL">
+        INSERT INTO redis_instance VALUES (#{id},#{ip},#{port},#{sen_port},#{name},#{dir},#{env},#{allocated},#{cluster},#{project})
+    </insert>
+    <!--获取Redis实例-->
+    <select id="selectRedisInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.RedisInstance">
+        SELECT * FROM redis_instance WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectRedisInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM redis_instance WHERE env = #{env}
+    </select>
+    <select id="selectRedisInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.RedisInstance">
+        SELECT * FROM redis_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectRedisInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM redis_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <!--获取Redis实例的分配状态-->
+    <select id="getRedisInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM redis_instance WHERE id = #{id}
+    </select>
+    <!--删除Redis实例-->
+    <delete id="deleteRedisInstanceSQL">
+        DELETE FROM redis_instance WHERE id = #{id}
+    </delete>
 </mapper>
