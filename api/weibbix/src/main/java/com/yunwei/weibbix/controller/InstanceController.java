@@ -277,5 +277,108 @@ public class InstanceController {
         }
     }
 
+    //--------------------------------------------nginx--------------------------------------------
+    //新增nginx实例
+    @PostMapping("/api/saveNginxInstance")
+    public String saveNginxInstance(@RequestBody NginxInstance nginxInstance){
+        String ip = nginxInstance.getIp();
+        String name = nginxInstance.getName();
+
+        Integer count = instanceMapper.getNginxInstanceCountByIpNameSQL(ip,name);
+        if(count.equals(0)){
+            instanceMapper.saveNginxInstanceSQL(nginxInstance);
+            hostMapper.addHostInstanceNumSQL(ip);
+            return "success";
+        }else {
+            return "创建失败,实例已存在！";
+        }
+    }
+    //获取nginx实例
+    @PostMapping("/api/getOnePageNginxInstance")
+    public PagesListResponse getOnePageNginxInstance(@RequestBody Map<String,Object> objectMap){
+        PagesListResponse pagesListResponse = new PagesListResponse();
+        String ip = (String)objectMap.get("ip");
+        String env= (String)objectMap.get("env");
+        Integer currentPage = (Integer)objectMap.get("currentPage");
+        Integer count = Integer.parseInt((String)objectMap.get("count"));
+        Integer beforeNum = (currentPage-1)*count;
+
+        if(ip.equals("")){
+            pagesListResponse.setPageList(instanceMapper.selectNginxInstanceByEnvSQL(env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectNginxInstanceCountByEnvSQL(env)/count));
+        }else{
+            pagesListResponse.setPageList(instanceMapper.selectNginxInstanceByEnvIpSQL("%"+ip+"%",env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectNginxInstanceByEnvIpCountSQL("%"+ip+"%",env)/count));
+        }
+
+        return pagesListResponse;
+    }
+    //删除Nginx实例
+    @PostMapping("/api/deleteNginxInstance")
+    public String deleteNginxInstance(@RequestBody Map<String,Object> objectMap){
+        String id = (String)objectMap.get("id");
+        String ip = (String)objectMap.get("ip");
+
+        Boolean allocated = instanceMapper.getNginxInstanceAllocatedByIdSQL(id);
+        if(allocated){
+            return "该实例已经分配不能删除！";
+        }else {
+            instanceMapper.deleteNginxInstanceSQL(id);
+            hostMapper.delHostInstanceNumSQL(ip);
+            return "success";
+        }
+    }
+
+    //--------------------------------------------mysql--------------------------------------------
+    //新增mysql实例
+    @PostMapping("/api/saveMysqlInstance")
+    public String saveMysqlInstance(@RequestBody MysqlInstance mysqlInstance){
+        String ip = mysqlInstance.getIp();
+        String name = mysqlInstance.getName();
+
+        Integer count = instanceMapper.getMysqlInstanceCountByIpNameSQL(ip,name);
+        if(count.equals(0)){
+            instanceMapper.saveMysqlInstanceSQL(mysqlInstance);
+            hostMapper.addHostInstanceNumSQL(ip);
+            return "success";
+        }else {
+            return "创建失败,实例已存在！";
+        }
+    }
+    //获取mysql实例
+    @PostMapping("/api/getOnePageMysqlInstance")
+    public PagesListResponse getOnePageMysqlInstance(@RequestBody Map<String,Object> objectMap){
+        PagesListResponse pagesListResponse = new PagesListResponse();
+        String ip = (String)objectMap.get("ip");
+        String env= (String)objectMap.get("env");
+        Integer currentPage = (Integer)objectMap.get("currentPage");
+        Integer count = Integer.parseInt((String)objectMap.get("count"));
+        Integer beforeNum = (currentPage-1)*count;
+
+        if(ip.equals("")){
+            pagesListResponse.setPageList(instanceMapper.selectMysqlInstanceByEnvSQL(env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectMysqlInstanceCountByEnvSQL(env)/count));
+        }else{
+            pagesListResponse.setPageList(instanceMapper.selectMysqlInstanceByEnvIpSQL("%"+ip+"%",env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectMysqlInstanceByEnvIpCountSQL("%"+ip+"%",env)/count));
+        }
+
+        return pagesListResponse;
+    }
+    //删除Mysql实例
+    @PostMapping("/api/deleteMysqlInstance")
+    public String deleteMysqlInstance(@RequestBody Map<String,Object> objectMap){
+        String id = (String)objectMap.get("id");
+        String ip = (String)objectMap.get("ip");
+
+        Boolean allocated = instanceMapper.getMysqlInstanceAllocatedByIdSQL(id);
+        if(allocated){
+            return "该实例已经分配不能删除！";
+        }else {
+            instanceMapper.deleteMysqlInstanceSQL(id);
+            hostMapper.delHostInstanceNumSQL(ip);
+            return "success";
+        }
+    }
 }
 

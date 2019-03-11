@@ -161,4 +161,66 @@
     <delete id="deleteRedisInstanceSQL">
         DELETE FROM redis_instance WHERE id = #{id}
     </delete>
+
+    <!-- ##################################### nginx ##################################### -->
+    <!--检查nginx实例是否存在-->
+    <select id="getNginxInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM nginx_instance WHERE ip = #{ip}
+    </select>
+    <!--保存nginx实例-->
+    <insert id="saveNginxInstanceSQL">
+        INSERT INTO nginx_instance VALUES (#{id},#{ip},#{http_port},#{https_port},#{dir},#{env},#{allocated},#{cluster},#{project})
+    </insert>
+    <!--获取Nginx实例-->
+    <select id="selectNginxInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.NginxInstance">
+        SELECT * FROM nginx_instance WHERE env = #{env} ORDER BY ip LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectNginxInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM nginx_instance WHERE env = #{env}
+    </select>
+    <select id="selectNginxInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.NginxInstance">
+        SELECT * FROM nginx_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip limit #{beforeNum},#{count}
+    </select>
+    <select id="selectNginxInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM nginx_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <!--获取Nginx实例的分配状态-->
+    <select id="getNginxInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM nginx_instance WHERE id = #{id}
+    </select>
+    <!--删除Nginx实例-->
+    <delete id="deleteNginxInstanceSQL">
+        DELETE FROM nginx_instance WHERE id = #{id}
+    </delete>
+
+    <!-- ##################################### mysql ##################################### -->
+    <!--检查zookeeper实例是否存在-->
+    <select id="getMysqlInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mysql_instance WHERE ip = #{ip} AND name = #{name}
+    </select>
+    <!--保存zookeeper实例-->
+    <insert id="saveMysqlInstanceSQL">
+        INSERT INTO mysql_instance VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated},#{cluster},#{project})
+    </insert>
+    <!--获取Mysql实例-->
+    <select id="selectMysqlInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.MysqlInstance">
+        SELECT * FROM mysql_instance WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectMysqlInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mysql_instance WHERE env = #{env}
+    </select>
+    <select id="selectMysqlInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.MysqlInstance">
+        SELECT * FROM mysql_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectMysqlInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mysql_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <!--获取Mysql实例的分配状态-->
+    <select id="getMysqlInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM mysql_instance WHERE id = #{id}
+    </select>
+    <!--删除Mysql实例-->
+    <delete id="deleteMysqlInstanceSQL">
+        DELETE FROM mysql_instance WHERE id = #{id}
+    </delete>
 </mapper>

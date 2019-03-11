@@ -131,4 +131,53 @@ public interface InstanceMapper {
     Boolean getRedisInstanceAllocatedByIdSQL(@Param("id")String id);
     //删除tomcats实例
     void deleteRedisInstanceSQL(@Param("id") String id);
+
+    //--------------------------------------------nginx--------------------------------------------
+    //检查nginx实例是否已存在
+    Integer getNginxInstanceCountByIpNameSQL(@Param("ip")String ip,@Param("name")String name);
+    //保存zookeeper实例
+    void saveNginxInstanceSQL(NginxInstance nginxInstance);
+    //获取Nginx实例
+    public List<NginxInstance> selectNginxInstanceByEnvSQL(
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectNginxInstanceCountByEnvSQL(@Param("env") String env);
+    public List<NginxInstance> selectNginxInstanceByEnvIpSQL(
+            @Param("ip") String ip,
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectNginxInstanceByEnvIpCountSQL(@Param("ip") String ip,@Param("env") String env);
+    //通过Id获取Nginx实例分配状态
+    Boolean getNginxInstanceAllocatedByIdSQL(@Param("id")String id);
+    //删除tomcats实例
+    void deleteNginxInstanceSQL(@Param("id") String id);
+
+    //--------------------------------------------mysql--------------------------------------------
+    //检查mysql实例是否已存在
+    Integer getMysqlInstanceCountByIpNameSQL(@Param("ip")String ip,@Param("name")String name);
+    //保存zookeeper实例
+    void saveMysqlInstanceSQL(MysqlInstance mysqlInstance);
+    //获取Mysql实例
+    public List<MysqlInstance> selectMysqlInstanceByEnvSQL(
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectMysqlInstanceCountByEnvSQL(@Param("env") String env);
+    public List<MysqlInstance> selectMysqlInstanceByEnvIpSQL(
+            @Param("ip") String ip,
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectMysqlInstanceByEnvIpCountSQL(@Param("ip") String ip,@Param("env") String env);
+    //通过Id获取Mysql实例分配状态
+    Boolean getMysqlInstanceAllocatedByIdSQL(@Param("id")String id);
+    //删除tomcats实例
+    void deleteMysqlInstanceSQL(@Param("id") String id);
+
 }
