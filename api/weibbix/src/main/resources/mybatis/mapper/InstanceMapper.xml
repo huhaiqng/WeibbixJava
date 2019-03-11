@@ -223,4 +223,66 @@
     <delete id="deleteMysqlInstanceSQL">
         DELETE FROM mysql_instance WHERE id = #{id}
     </delete>
+
+    <!-- ##################################### mongodb ##################################### -->
+    <!--检查zookeeper实例是否存在-->
+    <select id="getMongodbInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mongodb_instance WHERE ip = #{ip} AND name = #{name}
+    </select>
+    <!--保存zookeeper实例-->
+    <insert id="saveMongodbInstanceSQL">
+        INSERT INTO mongodb_instance VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated},#{cluster},#{project})
+    </insert>
+    <!--获取Mongodb实例-->
+    <select id="selectMongodbInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.MongodbInstance">
+        SELECT * FROM mongodb_instance WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectMongodbInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mongodb_instance WHERE env = #{env}
+    </select>
+    <select id="selectMongodbInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.MongodbInstance">
+        SELECT * FROM mongodb_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectMongodbInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mongodb_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <!--获取Mongodb实例的分配状态-->
+    <select id="getMongodbInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM mongodb_instance WHERE id = #{id}
+    </select>
+    <!--删除Mongodb实例-->
+    <delete id="deleteMongodbInstanceSQL">
+        DELETE FROM mongodb_instance WHERE id = #{id}
+    </delete>
+
+    <!-- ##################################### rabbitmq ##################################### -->
+    <!--检查zookeeper实例是否存在-->
+    <select id="getRabbitmqInstanceCountByIpNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM rabbitmq_instance WHERE ip = #{ip} AND name = #{name}
+    </select>
+    <!--保存zookeeper实例-->
+    <insert id="saveRabbitmqInstanceSQL">
+        INSERT INTO rabbitmq_instance VALUES (#{id},#{ip},#{port},#{name},#{dir},#{env},#{allocated},#{cluster},#{project})
+    </insert>
+    <!--获取Rabbitmq实例-->
+    <select id="selectRabbitmqInstanceByEnvSQL" resultType="com.yunwei.weibbix.entity.RabbitmqInstance">
+        SELECT * FROM rabbitmq_instance WHERE env = #{env} ORDER BY ip,name LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectRabbitmqInstanceCountByEnvSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM rabbitmq_instance WHERE env = #{env}
+    </select>
+    <select id="selectRabbitmqInstanceByEnvIpSQL" resultType="com.yunwei.weibbix.entity.RabbitmqInstance">
+        SELECT * FROM rabbitmq_instance WHERE env = #{env} AND ip LIKE #{ip} ORDER BY ip,name limit #{beforeNum},#{count}
+    </select>
+    <select id="selectRabbitmqInstanceByEnvIpCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM rabbitmq_instance WHERE env = #{env} AND ip LIKE #{ip}
+    </select>
+    <!--获取Rabbitmq实例的分配状态-->
+    <select id="getRabbitmqInstanceAllocatedByIdSQL" resultType="java.lang.Boolean">
+        SELECT allocated FROM rabbitmq_instance WHERE id = #{id}
+    </select>
+    <!--删除Rabbitmq实例-->
+    <delete id="deleteRabbitmqInstanceSQL">
+        DELETE FROM rabbitmq_instance WHERE id = #{id}
+    </delete>
 </mapper>

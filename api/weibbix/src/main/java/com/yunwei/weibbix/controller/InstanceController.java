@@ -380,5 +380,109 @@ public class InstanceController {
             return "success";
         }
     }
+
+    //--------------------------------------------mongodb--------------------------------------------
+    //新增mongodb实例
+    @PostMapping("/api/saveMongodbInstance")
+    public String saveMongodbInstance(@RequestBody MongodbInstance mongodbInstance){
+        String ip = mongodbInstance.getIp();
+        String name = mongodbInstance.getName();
+
+        Integer count = instanceMapper.getMongodbInstanceCountByIpNameSQL(ip,name);
+        if(count.equals(0)){
+            instanceMapper.saveMongodbInstanceSQL(mongodbInstance);
+            hostMapper.addHostInstanceNumSQL(ip);
+            return "success";
+        }else {
+            return "创建失败,实例已存在！";
+        }
+    }
+    //获取mongodb实例
+    @PostMapping("/api/getOnePageMongodbInstance")
+    public PagesListResponse getOnePageMongodbInstance(@RequestBody Map<String,Object> objectMap){
+        PagesListResponse pagesListResponse = new PagesListResponse();
+        String ip = (String)objectMap.get("ip");
+        String env= (String)objectMap.get("env");
+        Integer currentPage = (Integer)objectMap.get("currentPage");
+        Integer count = Integer.parseInt((String)objectMap.get("count"));
+        Integer beforeNum = (currentPage-1)*count;
+
+        if(ip.equals("")){
+            pagesListResponse.setPageList(instanceMapper.selectMongodbInstanceByEnvSQL(env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectMongodbInstanceCountByEnvSQL(env)/count));
+        }else{
+            pagesListResponse.setPageList(instanceMapper.selectMongodbInstanceByEnvIpSQL("%"+ip+"%",env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectMongodbInstanceByEnvIpCountSQL("%"+ip+"%",env)/count));
+        }
+
+        return pagesListResponse;
+    }
+    //删除Mongodb实例
+    @PostMapping("/api/deleteMongodbInstance")
+    public String deleteMongodbInstance(@RequestBody Map<String,Object> objectMap){
+        String id = (String)objectMap.get("id");
+        String ip = (String)objectMap.get("ip");
+
+        Boolean allocated = instanceMapper.getMongodbInstanceAllocatedByIdSQL(id);
+        if(allocated){
+            return "该实例已经分配不能删除！";
+        }else {
+            instanceMapper.deleteMongodbInstanceSQL(id);
+            hostMapper.delHostInstanceNumSQL(ip);
+            return "success";
+        }
+    }
+
+    //--------------------------------------------rabbitmq--------------------------------------------
+    //新增rabbitmq实例
+    @PostMapping("/api/saveRabbitmqInstance")
+    public String saveRabbitmqInstance(@RequestBody RabbitmqInstance rabbitmqInstance){
+        String ip = rabbitmqInstance.getIp();
+        String name = rabbitmqInstance.getName();
+
+        Integer count = instanceMapper.getRabbitmqInstanceCountByIpNameSQL(ip,name);
+        if(count.equals(0)){
+            instanceMapper.saveRabbitmqInstanceSQL(rabbitmqInstance);
+            hostMapper.addHostInstanceNumSQL(ip);
+            return "success";
+        }else {
+            return "创建失败,实例已存在！";
+        }
+    }
+    //获取rabbitmq实例
+    @PostMapping("/api/getOnePageRabbitmqInstance")
+    public PagesListResponse getOnePageRabbitmqInstance(@RequestBody Map<String,Object> objectMap){
+        PagesListResponse pagesListResponse = new PagesListResponse();
+        String ip = (String)objectMap.get("ip");
+        String env= (String)objectMap.get("env");
+        Integer currentPage = (Integer)objectMap.get("currentPage");
+        Integer count = Integer.parseInt((String)objectMap.get("count"));
+        Integer beforeNum = (currentPage-1)*count;
+
+        if(ip.equals("")){
+            pagesListResponse.setPageList(instanceMapper.selectRabbitmqInstanceByEnvSQL(env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectRabbitmqInstanceCountByEnvSQL(env)/count));
+        }else{
+            pagesListResponse.setPageList(instanceMapper.selectRabbitmqInstanceByEnvIpSQL("%"+ip+"%",env,beforeNum,count));
+            pagesListResponse.setPages((int)Math.ceil((float)instanceMapper.selectRabbitmqInstanceByEnvIpCountSQL("%"+ip+"%",env)/count));
+        }
+
+        return pagesListResponse;
+    }
+    //删除Rabbitmq实例
+    @PostMapping("/api/deleteRabbitmqInstance")
+    public String deleteRabbitmqInstance(@RequestBody Map<String,Object> objectMap){
+        String id = (String)objectMap.get("id");
+        String ip = (String)objectMap.get("ip");
+
+        Boolean allocated = instanceMapper.getRabbitmqInstanceAllocatedByIdSQL(id);
+        if(allocated){
+            return "该实例已经分配不能删除！";
+        }else {
+            instanceMapper.deleteRabbitmqInstanceSQL(id);
+            hostMapper.delHostInstanceNumSQL(ip);
+            return "success";
+        }
+    }
 }
 

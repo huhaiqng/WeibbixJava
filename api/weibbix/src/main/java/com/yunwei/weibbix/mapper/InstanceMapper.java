@@ -180,4 +180,52 @@ public interface InstanceMapper {
     //删除tomcats实例
     void deleteMysqlInstanceSQL(@Param("id") String id);
 
+    //--------------------------------------------mongodb--------------------------------------------
+    //检查mongodb实例是否已存在
+    Integer getMongodbInstanceCountByIpNameSQL(@Param("ip")String ip,@Param("name")String name);
+    //保存zookeeper实例
+    void saveMongodbInstanceSQL(MongodbInstance mongodbInstance);
+    //获取Mongodb实例
+    public List<MongodbInstance> selectMongodbInstanceByEnvSQL(
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectMongodbInstanceCountByEnvSQL(@Param("env") String env);
+    public List<MongodbInstance> selectMongodbInstanceByEnvIpSQL(
+            @Param("ip") String ip,
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectMongodbInstanceByEnvIpCountSQL(@Param("ip") String ip,@Param("env") String env);
+    //通过Id获取Mongodb实例分配状态
+    Boolean getMongodbInstanceAllocatedByIdSQL(@Param("id")String id);
+    //删除tomcats实例
+    void deleteMongodbInstanceSQL(@Param("id") String id);
+
+    //--------------------------------------------rabbitmq--------------------------------------------
+    //检查rabbitmq实例是否已存在
+    Integer getRabbitmqInstanceCountByIpNameSQL(@Param("ip")String ip,@Param("name")String name);
+    //保存zookeeper实例
+    void saveRabbitmqInstanceSQL(RabbitmqInstance rabbitmqInstance);
+    //获取Rabbitmq实例
+    public List<RabbitmqInstance> selectRabbitmqInstanceByEnvSQL(
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectRabbitmqInstanceCountByEnvSQL(@Param("env") String env);
+    public List<RabbitmqInstance> selectRabbitmqInstanceByEnvIpSQL(
+            @Param("ip") String ip,
+            @Param("env") String env,
+            @Param("beforeNum") Integer beforeNum,
+            @Param("count") Integer count
+    );
+    public Integer selectRabbitmqInstanceByEnvIpCountSQL(@Param("ip") String ip,@Param("env") String env);
+    //通过Id获取Rabbitmq实例分配状态
+    Boolean getRabbitmqInstanceAllocatedByIdSQL(@Param("id")String id);
+    //删除tomcats实例
+    void deleteRabbitmqInstanceSQL(@Param("id") String id);
+
 }
