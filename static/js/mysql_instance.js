@@ -188,7 +188,7 @@ function delete_mysql_instance(id,ip){
 			if(response == "success"){
 				get_mysql_instance();
 			}else{
-				// $.MsgBox.Alert("消息",response);
+				$.MsgBox.Alert("消息",response);
 			}
 		}
 	});

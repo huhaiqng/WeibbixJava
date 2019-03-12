@@ -2,7 +2,7 @@ package com.yunwei.weibbix.entity;
 
 import java.util.Date;
 
-public class KafkaCluster {
+public class JavaCluster {
     private String id;
     private String name;
     private String env;

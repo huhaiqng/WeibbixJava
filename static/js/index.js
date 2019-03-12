@@ -97,6 +97,86 @@ function load_user_html(){
 		change_active_li(this);
 	});
 	
+	//加载nginx集群实例
+	$("#nginx_cluster").click(function(){
+		$("#index_main_content").load("nginx_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/nginx_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});	
+	
+	//加载mysql集群实例
+	$("#mysql_cluster").click(function(){
+		$("#index_main_content").load("mysql_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/mysql_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
+	//加载zookeeper集群实例
+	$("#zookeeper_cluster").click(function(){
+		$("#index_main_content").load("zookeeper_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/zookeeper_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
+	//加载kafka集群实例
+	$("#kafka_cluster").click(function(){
+		$("#index_main_content").load("kafka_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/kafka_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
+	//加载mongodb集群实例
+	$("#mongodb_cluster").click(function(){
+		$("#index_main_content").load("mongodb_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/mongodb_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
+	//加载redis集群实例
+	$("#redis_cluster").click(function(){
+		$("#index_main_content").load("redis_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/redis_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
+	//加载rabbitmq集群实例
+	$("#rabbitmq_cluster").click(function(){
+		$("#index_main_content").load("rabbitmq_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/rabbitmq_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+	
+	//加载java集群实例
+	$("#java_cluster").click(function(){
+		$("#index_main_content").load("java_cluster.html",function(){
+			var script = document.createElement("script");
+			script.setAttribute("src","js/java_cluster.js");
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
+		
 	$("#kafka_cluster").click(function(){
 		$("#index_main_content").load("kafka_cluster.html",function(){
 			var script = document.createElement("script");

@@ -3,27 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yunwei.weibbix.mapper.ClusterMapper">
-   <insert id="insertKafkaClusterSQL">
-       INSERT INTO kafka_cluster(clusterId,clusterName,clusterEnv) VALUE (#{clusterId},#{clusterName},#{clusterEnv})
-   </insert>
-    <insert id="insertClusterHostSQL">
-        INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})
-    </insert>
-    <select id="selectAllKafkaCusterSQL" resultType="com.yunwei.weibbix.entity.KafkaCluster">
-        SELECT * FROM kafka_cluster
-    </select>
-    <select id="selectClusterMemberSQL" resultType="java.lang.String">
-        select h.ip FROM hosts h,host_cluster hc WHERE hc.clusterId = #{clusterId} AND h.hostId = hc.hostId
-    </select>
-    <select id="getKafkaNoAllocatedHostSQL" resultType="java.lang.String">
-        SELECT ip FROM hosts WHERE hostGroup = 'kafka' AND envType = #{clusterEnv} AND allocated = FALSE ;
-    </select>
-    <delete id="delKafkaClusterHostSQL">
-        DELETE FROM host_cluster WHERE hostId = #{hostId} AND clusterId = #{clusterId}
-    </delete>
-    <insert id="addKafkaClusterHostSQL">
-        INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})
-    </insert>
+   <!--<insert id="insertKafkaClusterSQL">-->
+       <!--INSERT INTO kafka_cluster(clusterId,clusterName,clusterEnv) VALUE (#{clusterId},#{clusterName},#{clusterEnv})-->
+   <!--</insert>-->
+    <!--<insert id="insertClusterHostSQL">-->
+        <!--INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})-->
+    <!--</insert>-->
+    <!--<select id="selectAllKafkaCusterSQL" resultType="com.yunwei.weibbix.entity.KafkaCluster">-->
+        <!--SELECT * FROM kafka_cluster-->
+    <!--</select>-->
+    <!--<select id="selectClusterMemberSQL" resultType="java.lang.String">-->
+        <!--select h.ip FROM hosts h,host_cluster hc WHERE hc.clusterId = #{clusterId} AND h.hostId = hc.hostId-->
+    <!--</select>-->
+    <!--<select id="getKafkaNoAllocatedHostSQL" resultType="java.lang.String">-->
+        <!--SELECT ip FROM hosts WHERE hostGroup = 'kafka' AND envType = #{clusterEnv} AND allocated = FALSE ;-->
+    <!--</select>-->
+    <!--<delete id="delKafkaClusterHostSQL">-->
+        <!--DELETE FROM host_cluster WHERE hostId = #{hostId} AND clusterId = #{clusterId}-->
+    <!--</delete>-->
+    <!--<insert id="addKafkaClusterHostSQL">-->
+        <!--INSERT INTO host_cluster VALUE (#{hcId},#{hostId},#{clusterId})-->
+    <!--</insert>-->
+    <!-- ############################ tomcat ############################ -->
+    <!--获取未分配tomcat实例-->
     <select id="getNotAllocatedTomcatInstanceSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
         SELECT * FROM tomcat_ins WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
     </select>
@@ -32,9 +34,11 @@
     <insert id="addTomcatClusterSQL">
         INSERT INTO tomcat_cluster VALUES (#{id},#{name},#{env},#{createdAt})
     </insert>
+    <!--添加实例集群-->
     <insert id="addInstanceClusterSQL">
         INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
     </insert>
+
     <!--通过环境查询tomcat集群名称-->
     <select id="getTomcatClusterSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
         SELECT * FROM tomcat_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
@@ -57,6 +61,7 @@
           WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
           ORDER BY name
     </select>
+
     <!--删除集群实例-->
     <delete id="deleteTomcatClusterInstanceSQL">
         DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
@@ -68,5 +73,436 @@
     <!--删除tomcat集群-->
     <delete id="deleteTomcatClusterSQL">
         DELETE FROM tomcat_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ nginx ############################ -->
+    <!--获取未分配nginx实例-->
+    <select id="getNotAllocatedNginxInstanceSQL" resultType="com.yunwei.weibbix.entity.NginxInstance">
+        SELECT * FROM nginx_instance WHERE allocated = FALSE AND env = #{env} ORDER BY ip
+    </select>
+    <!--添加nginx集群-->
+    <insert id="addNginxClusterSQL">
+        INSERT INTO nginx_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addNginxInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateNginxInstanceAllocatedSQL">
+        update nginx_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询nginx集群名称-->
+    <select id="getNginxClusterSQL" resultType="com.yunwei.weibbix.entity.NginxCluster">
+        SELECT * FROM nginx_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Nginx集群数量-->
+    <select id="getNginxClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM nginx_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Nginx集群-->
+    <select id="getNginxClusterByNameSQL" resultType="com.yunwei.weibbix.entity.NginxCluster">
+        SELECT * FROM nginx_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Nginx集群数量-->
+    <select id="getNginxClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM nginx_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getNginxInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.NginxInstance">
+        SELECT * FROM nginx_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteNginxClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getNginxClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除nginx集群-->
+    <delete id="deleteNginxClusterSQL">
+        DELETE FROM nginx_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ mysql ############################ -->
+    <!--获取未分配mysql实例-->
+    <select id="getNotAllocatedMysqlInstanceSQL" resultType="com.yunwei.weibbix.entity.MysqlInstance">
+        SELECT * FROM mysql_instance WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
+    </select>
+    <!--添加mysql集群-->
+    <insert id="addMysqlClusterSQL">
+        INSERT INTO mysql_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addMysqlInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateMysqlInstanceAllocatedSQL">
+        update mysql_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询mysql集群名称-->
+    <select id="getMysqlClusterSQL" resultType="com.yunwei.weibbix.entity.MysqlCluster">
+        SELECT * FROM mysql_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Mysql集群数量-->
+    <select id="getMysqlClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mysql_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Mysql集群-->
+    <select id="getMysqlClusterByNameSQL" resultType="com.yunwei.weibbix.entity.MysqlCluster">
+        SELECT * FROM mysql_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Mysql集群数量-->
+    <select id="getMysqlClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mysql_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getMysqlInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.MysqlInstance">
+        SELECT * FROM mysql_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          order by name
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteMysqlClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getMysqlClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除mysql集群-->
+    <delete id="deleteMysqlClusterSQL">
+        DELETE FROM mysql_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ zookeeper ############################ -->
+    <!--获取未分配zookeeper实例-->
+    <select id="getNotAllocatedZookeeperInstanceSQL" resultType="com.yunwei.weibbix.entity.ZookeeperInstance">
+        SELECT * FROM zookeeper_instance WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
+    </select>
+    <!--添加zookeeper集群-->
+    <insert id="addZookeeperClusterSQL">
+        INSERT INTO zookeeper_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addZookeeperInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateZookeeperInstanceAllocatedSQL">
+        update zookeeper_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询zookeeper集群名称-->
+    <select id="getZookeeperClusterSQL" resultType="com.yunwei.weibbix.entity.ZookeeperCluster">
+        SELECT * FROM zookeeper_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Zookeeper集群数量-->
+    <select id="getZookeeperClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM zookeeper_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Zookeeper集群-->
+    <select id="getZookeeperClusterByNameSQL" resultType="com.yunwei.weibbix.entity.ZookeeperCluster">
+        SELECT * FROM zookeeper_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Zookeeper集群数量-->
+    <select id="getZookeeperClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM zookeeper_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getZookeeperInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.ZookeeperInstance">
+        SELECT * FROM zookeeper_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          order by name
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteZookeeperClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getZookeeperClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除zookeeper集群-->
+    <delete id="deleteZookeeperClusterSQL">
+        DELETE FROM zookeeper_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ kafka ############################ -->
+    <!--获取未分配kafka实例-->
+    <select id="getNotAllocatedKafkaInstanceSQL" resultType="com.yunwei.weibbix.entity.KafkaInstance">
+        SELECT * FROM kafka_instance WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
+    </select>
+    <!--添加kafka集群-->
+    <insert id="addKafkaClusterSQL">
+        INSERT INTO kafka_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addKafkaInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateKafkaInstanceAllocatedSQL">
+        update kafka_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询kafka集群名称-->
+    <select id="getKafkaClusterSQL" resultType="com.yunwei.weibbix.entity.KafkaCluster">
+        SELECT * FROM kafka_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Kafka集群数量-->
+    <select id="getKafkaClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM kafka_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Kafka集群-->
+    <select id="getKafkaClusterByNameSQL" resultType="com.yunwei.weibbix.entity.KafkaCluster">
+        SELECT * FROM kafka_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Kafka集群数量-->
+    <select id="getKafkaClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM kafka_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getKafkaInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.KafkaInstance">
+        SELECT * FROM kafka_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          order by name
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteKafkaClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getKafkaClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除kafka集群-->
+    <delete id="deleteKafkaClusterSQL">
+        DELETE FROM kafka_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ mongodb ############################ -->
+    <!--获取未分配mongodb实例-->
+    <select id="getNotAllocatedMongodbInstanceSQL" resultType="com.yunwei.weibbix.entity.MongodbInstance">
+        SELECT * FROM mongodb_instance WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
+    </select>
+    <!--添加mongodb集群-->
+    <insert id="addMongodbClusterSQL">
+        INSERT INTO mongodb_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addMongodbInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateMongodbInstanceAllocatedSQL">
+        update mongodb_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询mongodb集群名称-->
+    <select id="getMongodbClusterSQL" resultType="com.yunwei.weibbix.entity.MongodbCluster">
+        SELECT * FROM mongodb_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Mongodb集群数量-->
+    <select id="getMongodbClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mongodb_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Mongodb集群-->
+    <select id="getMongodbClusterByNameSQL" resultType="com.yunwei.weibbix.entity.MongodbCluster">
+        SELECT * FROM mongodb_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Mongodb集群数量-->
+    <select id="getMongodbClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM mongodb_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getMongodbInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.MongodbInstance">
+        SELECT * FROM mongodb_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          order by name
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteMongodbClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getMongodbClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除mongodb集群-->
+    <delete id="deleteMongodbClusterSQL">
+        DELETE FROM mongodb_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ redis ############################ -->
+    <!--获取未分配redis实例-->
+    <select id="getNotAllocatedRedisInstanceSQL" resultType="com.yunwei.weibbix.entity.RedisInstance">
+        SELECT * FROM redis_instance WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
+    </select>
+    <!--添加redis集群-->
+    <insert id="addRedisClusterSQL">
+        INSERT INTO redis_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addRedisInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateRedisInstanceAllocatedSQL">
+        update redis_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询redis集群名称-->
+    <select id="getRedisClusterSQL" resultType="com.yunwei.weibbix.entity.RedisCluster">
+        SELECT * FROM redis_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Redis集群数量-->
+    <select id="getRedisClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM redis_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Redis集群-->
+    <select id="getRedisClusterByNameSQL" resultType="com.yunwei.weibbix.entity.RedisCluster">
+        SELECT * FROM redis_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Redis集群数量-->
+    <select id="getRedisClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM redis_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getRedisInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.RedisInstance">
+        SELECT * FROM redis_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          order by name
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteRedisClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getRedisClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除redis集群-->
+    <delete id="deleteRedisClusterSQL">
+        DELETE FROM redis_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ rabbitmq ############################ -->
+    <!--获取未分配rabbitmq实例-->
+    <select id="getNotAllocatedRabbitmqInstanceSQL" resultType="com.yunwei.weibbix.entity.RabbitmqInstance">
+        SELECT * FROM rabbitmq_instance WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
+    </select>
+    <!--添加rabbitmq集群-->
+    <insert id="addRabbitmqClusterSQL">
+        INSERT INTO rabbitmq_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addRabbitmqInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateRabbitmqInstanceAllocatedSQL">
+        update rabbitmq_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询rabbitmq集群名称-->
+    <select id="getRabbitmqClusterSQL" resultType="com.yunwei.weibbix.entity.RabbitmqCluster">
+        SELECT * FROM rabbitmq_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Rabbitmq集群数量-->
+    <select id="getRabbitmqClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM rabbitmq_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Rabbitmq集群-->
+    <select id="getRabbitmqClusterByNameSQL" resultType="com.yunwei.weibbix.entity.RabbitmqCluster">
+        SELECT * FROM rabbitmq_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Rabbitmq集群数量-->
+    <select id="getRabbitmqClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM rabbitmq_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getRabbitmqInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.RabbitmqInstance">
+        SELECT * FROM rabbitmq_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          order by name
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteRabbitmqClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getRabbitmqClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除rabbitmq集群-->
+    <delete id="deleteRabbitmqClusterSQL">
+        DELETE FROM rabbitmq_cluster WHERE id = #{clusterId}
+    </delete>
+
+    <!-- ############################ java ############################ -->
+    <!--获取未分配java实例-->
+    <select id="getNotAllocatedJavaInstanceSQL" resultType="com.yunwei.weibbix.entity.JavaInstance">
+        SELECT * FROM java_instance WHERE allocated = FALSE AND env = #{env} ORDER BY name,ip
+    </select>
+    <!--添加java集群-->
+    <insert id="addJavaClusterSQL">
+        INSERT INTO java_cluster VALUES (#{id},#{name},#{env},#{createdAt})
+    </insert>
+    <!--添加实例集群-->
+    <insert id="addJavaInstanceClusterSQL">
+        INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
+    </insert>
+    <!--更新实例状态-->
+    <update id="updateJavaInstanceAllocatedSQL">
+        update java_instance set allocated = #{allocated} where id = #{instanceId}
+    </update>
+
+    <!--通过环境查询java集群名称-->
+    <select id="getJavaClusterSQL" resultType="com.yunwei.weibbix.entity.JavaCluster">
+        SELECT * FROM java_cluster WHERE env = #{env} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境查询Java集群数量-->
+    <select id="getJavaClusterCoutSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM java_cluster WHERE env = #{env}
+    </select>
+    <!--通过环境集群名称查询Java集群-->
+    <select id="getJavaClusterByNameSQL" resultType="com.yunwei.weibbix.entity.JavaCluster">
+        SELECT * FROM java_cluster WHERE env = #{env} AND name LIKE #{name} ORDER BY name limit #{beforeNum},#{count}
+    </select>
+    <!--通过环境集群名查询Java集群数量-->
+    <select id="getJavaClusterCoutByNameSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM java_cluster WHERE env = #{env} AND name LIKE #{name}
+    </select>
+    <!--通过集群id获取该集群说有的实例id-->
+    <select id="getJavaInstancesByClusterIdSQL" resultType="com.yunwei.weibbix.entity.JavaInstance">
+        SELECT * FROM java_instance
+          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
+          order by name
+    </select>
+
+    <!--删除集群实例-->
+    <delete id="deleteJavaClusterInstanceSQL">
+        DELETE FROM instance_cluster WHERE instanceId = #{instanceId}
+    </delete>
+    <!--获取集群实例数量-->
+    <select id="getJavaClusterInstanceCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM instance_cluster WHERE clusterId = #{clusterId}
+    </select>
+    <!--删除java集群-->
+    <delete id="deleteJavaClusterSQL">
+        DELETE FROM java_cluster WHERE id = #{clusterId}
     </delete>
 </mapper>
