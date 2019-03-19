@@ -95,4 +95,11 @@ public class HostController {
         String envType = (String)objectMap.get("envType");
         return hostMapper.selectGroupNotAllocatedHostsSQL(hostGroup,envType);
     }
+
+//    通过实例ID获取主机
+    @PostMapping("/api/getHostByIp")
+    public Host getHostByIp(@RequestBody Map<String,Object> objectMap){
+        String ip = (String)objectMap.get("ip");
+        return hostMapper.getHostByIpSQL(ip);
+    }
 }

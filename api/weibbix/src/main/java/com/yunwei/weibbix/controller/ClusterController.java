@@ -182,10 +182,11 @@ public class ClusterController {
         String id = (String)objectMap.get("id");
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
+        String name = (String)objectMap.get("name");
         clusterMapper.addNginxInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateNginxInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateNginxInstanceAllocatedSQL(allocated,instanceId,name);
     }
 
     //获取nginx集群
@@ -223,7 +224,7 @@ public class ClusterController {
         //更改实例状态
         boolean allocated = false;
         String name = "";
-        clusterMapper.updateNginxInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateNginxInstanceAllocatedSQL(allocated,instanceId,name);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getNginxClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -250,10 +251,11 @@ public class ClusterController {
         String id = (String)objectMap.get("id");
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
+        String cluster = (String)objectMap.get("name");
         clusterMapper.addMysqlInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateMysqlInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateMysqlInstanceAllocatedSQL(allocated,instanceId,cluster);
     }
 
     //获取mysql集群
@@ -290,8 +292,8 @@ public class ClusterController {
         clusterMapper.deleteMysqlClusterInstanceSQL(instanceId);
         //更改实例状态
         boolean allocated = false;
-        String name = "";
-        clusterMapper.updateMysqlInstanceAllocatedSQL(allocated,instanceId);
+        String cluster = "";
+        clusterMapper.updateMysqlInstanceAllocatedSQL(allocated,instanceId,cluster);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getMysqlClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -318,10 +320,11 @@ public class ClusterController {
         String id = (String)objectMap.get("id");
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
+        String cluster = (String)objectMap.get("name");
         clusterMapper.addZookeeperInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateZookeeperInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateZookeeperInstanceAllocatedSQL(allocated,instanceId,cluster);
     }
 
     //获取zookeeper集群
@@ -358,8 +361,8 @@ public class ClusterController {
         clusterMapper.deleteZookeeperClusterInstanceSQL(instanceId);
         //更改实例状态
         boolean allocated = false;
-        String name = "";
-        clusterMapper.updateZookeeperInstanceAllocatedSQL(allocated,instanceId);
+        String cluster = "";
+        clusterMapper.updateZookeeperInstanceAllocatedSQL(allocated,instanceId,cluster);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getZookeeperClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -387,9 +390,10 @@ public class ClusterController {
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
         clusterMapper.addKafkaInstanceClusterSQL(id,instanceId,clusterId);
+        String cluster = (String)objectMap.get("name");
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateKafkaInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateKafkaInstanceAllocatedSQL(allocated,instanceId,cluster);
     }
 
     //获取kafka集群
@@ -426,8 +430,8 @@ public class ClusterController {
         clusterMapper.deleteKafkaClusterInstanceSQL(instanceId);
         //更改实例状态
         boolean allocated = false;
-        String name = "";
-        clusterMapper.updateKafkaInstanceAllocatedSQL(allocated,instanceId);
+        String cluster = "";
+        clusterMapper.updateKafkaInstanceAllocatedSQL(allocated,instanceId,cluster);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getKafkaClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -454,10 +458,11 @@ public class ClusterController {
         String id = (String)objectMap.get("id");
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
+        String cluster = (String)objectMap.get("name");
         clusterMapper.addMongodbInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateMongodbInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateMongodbInstanceAllocatedSQL(allocated,instanceId,cluster);
     }
 
     //获取mongodb集群
@@ -494,8 +499,8 @@ public class ClusterController {
         clusterMapper.deleteMongodbClusterInstanceSQL(instanceId);
         //更改实例状态
         boolean allocated = false;
-        String name = "";
-        clusterMapper.updateMongodbInstanceAllocatedSQL(allocated,instanceId);
+        String cluster = "";
+        clusterMapper.updateMongodbInstanceAllocatedSQL(allocated,instanceId,cluster);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getMongodbClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -522,10 +527,11 @@ public class ClusterController {
         String id = (String)objectMap.get("id");
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
+        String cluster = (String)objectMap.get("name");
         clusterMapper.addRedisInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateRedisInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateRedisInstanceAllocatedSQL(allocated,instanceId,cluster);
     }
 
     //获取redis集群
@@ -562,8 +568,8 @@ public class ClusterController {
         clusterMapper.deleteRedisClusterInstanceSQL(instanceId);
         //更改实例状态
         boolean allocated = false;
-        String name = "";
-        clusterMapper.updateRedisInstanceAllocatedSQL(allocated,instanceId);
+        String cluster = "";
+        clusterMapper.updateRedisInstanceAllocatedSQL(allocated,instanceId,cluster);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getRedisClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -590,10 +596,11 @@ public class ClusterController {
         String id = (String)objectMap.get("id");
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
+        String cluster = (String)objectMap.get("name");
         clusterMapper.addRabbitmqInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateRabbitmqInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateRabbitmqInstanceAllocatedSQL(allocated,instanceId,cluster);
     }
 
     //获取rabbitmq集群
@@ -630,8 +637,8 @@ public class ClusterController {
         clusterMapper.deleteRabbitmqClusterInstanceSQL(instanceId);
         //更改实例状态
         boolean allocated = false;
-        String name = "";
-        clusterMapper.updateRabbitmqInstanceAllocatedSQL(allocated,instanceId);
+        String cluster = "";
+        clusterMapper.updateRabbitmqInstanceAllocatedSQL(allocated,instanceId,cluster);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getRabbitmqClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -658,10 +665,11 @@ public class ClusterController {
         String id = (String)objectMap.get("id");
         String instanceId = (String)objectMap.get("instanceId");
         String clusterId = (String)objectMap.get("clusterId");
+        String cluster = (String)objectMap.get("name");
         clusterMapper.addJavaInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        clusterMapper.updateJavaInstanceAllocatedSQL(allocated,instanceId);
+        clusterMapper.updateJavaInstanceAllocatedSQL(allocated,instanceId,cluster);
     }
 
     //获取java集群
@@ -698,8 +706,8 @@ public class ClusterController {
         clusterMapper.deleteJavaClusterInstanceSQL(instanceId);
         //更改实例状态
         boolean allocated = false;
-        String name = "";
-        clusterMapper.updateJavaInstanceAllocatedSQL(allocated,instanceId);
+        String cluster = "";
+        clusterMapper.updateJavaInstanceAllocatedSQL(allocated,instanceId,cluster);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getJavaClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){

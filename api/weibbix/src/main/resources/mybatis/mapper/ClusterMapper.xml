@@ -90,7 +90,7 @@
     </insert>
     <!--更新实例状态-->
     <update id="updateNginxInstanceAllocatedSQL">
-        update nginx_instance set allocated = #{allocated} where id = #{instanceId}
+        update nginx_instance set allocated = #{allocated},cluster = #{name} where id = #{instanceId}
     </update>
 
     <!--通过环境查询nginx集群名称-->
@@ -143,7 +143,7 @@
     </insert>
     <!--更新实例状态-->
     <update id="updateMysqlInstanceAllocatedSQL">
-        update mysql_instance set allocated = #{allocated} where id = #{instanceId}
+        update mysql_instance set allocated = #{allocated},cluster = #{cluster} where id = #{instanceId}
     </update>
 
     <!--通过环境查询mysql集群名称-->
@@ -197,7 +197,7 @@
     </insert>
     <!--更新实例状态-->
     <update id="updateZookeeperInstanceAllocatedSQL">
-        update zookeeper_instance set allocated = #{allocated} where id = #{instanceId}
+        update zookeeper_instance set allocated = #{allocated},cluster = #{cluster} where id = #{instanceId}
     </update>
 
     <!--通过环境查询zookeeper集群名称-->
@@ -251,7 +251,7 @@
     </insert>
     <!--更新实例状态-->
     <update id="updateKafkaInstanceAllocatedSQL">
-        update kafka_instance set allocated = #{allocated} where id = #{instanceId}
+        update kafka_instance set allocated = #{allocated},cluster = #{cluster} where id = #{instanceId}
     </update>
 
     <!--通过环境查询kafka集群名称-->
@@ -303,9 +303,9 @@
     <insert id="addMongodbInstanceClusterSQL">
         INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
     </insert>
-    <!--更新实例状态-->
+    <!--更新实例状态,实例集群名称-->
     <update id="updateMongodbInstanceAllocatedSQL">
-        update mongodb_instance set allocated = #{allocated} where id = #{instanceId}
+        update mongodb_instance set allocated = #{allocated},cluster = #{cluster} where id = #{instanceId}
     </update>
 
     <!--通过环境查询mongodb集群名称-->
@@ -359,7 +359,7 @@
     </insert>
     <!--更新实例状态-->
     <update id="updateRedisInstanceAllocatedSQL">
-        update redis_instance set allocated = #{allocated} where id = #{instanceId}
+        update redis_instance set allocated = #{allocated},cluster = #{cluster} where id = #{instanceId}
     </update>
 
     <!--通过环境查询redis集群名称-->
@@ -411,9 +411,9 @@
     <insert id="addRabbitmqInstanceClusterSQL">
         INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
     </insert>
-    <!--更新实例状态-->
+    <!--更新实例状态,设置实例名-->
     <update id="updateRabbitmqInstanceAllocatedSQL">
-        update rabbitmq_instance set allocated = #{allocated} where id = #{instanceId}
+        update rabbitmq_instance set allocated = #{allocated},cluster = #{cluster} where id = #{instanceId}
     </update>
 
     <!--通过环境查询rabbitmq集群名称-->
@@ -465,9 +465,9 @@
     <insert id="addJavaInstanceClusterSQL">
         INSERT INTO instance_cluster VALUES (#{id},#{instanceId},#{clusterId})
     </insert>
-    <!--更新实例状态-->
+    <!--更新实例状态,设置实例名称-->
     <update id="updateJavaInstanceAllocatedSQL">
-        update java_instance set allocated = #{allocated} where id = #{instanceId}
+        update java_instance set allocated = #{allocated},cluster = #{cluster} where id = #{instanceId}
     </update>
 
     <!--通过环境查询java集群名称-->

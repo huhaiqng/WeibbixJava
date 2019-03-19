@@ -74,8 +74,11 @@ public interface ClusterMapper {
             @Param("instanceId")String instanceId,
             @Param("clusterId") String clusterId);
     //将实例改为已分配
-    public void updateNginxInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                                 @Param("instanceId") String instanceId);
+    public void updateNginxInstanceAllocatedSQL(
+            @Param("allocated") Boolean allocated,
+            @Param("instanceId") String instanceId,
+            @Param("name") String name
+    );
 
     //通过环境查询nginx集群名称
     public List<NginxCluster> getNginxClusterSQL(
@@ -116,7 +119,8 @@ public interface ClusterMapper {
             @Param("clusterId") String clusterId);
     //将实例改为已分配
     public void updateMysqlInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                                @Param("instanceId") String instanceId);
+                                                @Param("instanceId") String instanceId,
+                                                @Param("cluster")String cluster);
 
     //通过环境查询mysql集群名称
     public List<MysqlCluster> getMysqlClusterSQL(
@@ -157,7 +161,8 @@ public interface ClusterMapper {
             @Param("clusterId") String clusterId);
     //将实例改为已分配
     public void updateZookeeperInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                                    @Param("instanceId") String instanceId);
+                                                    @Param("instanceId") String instanceId,
+                                                    @Param("cluster")String cluster);
 
     //通过环境查询zookeeper集群名称
     public List<ZookeeperCluster> getZookeeperClusterSQL(
@@ -197,8 +202,11 @@ public interface ClusterMapper {
             @Param("instanceId")String instanceId,
             @Param("clusterId") String clusterId);
     //将实例改为已分配
-    public void updateKafkaInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                                @Param("instanceId") String instanceId);
+    public void updateKafkaInstanceAllocatedSQL(
+            @Param("allocated") Boolean allocated,
+            @Param("instanceId") String instanceId,
+            @Param("cluster")String cluster
+    );
 
     //通过环境查询kafka集群名称
     public List<KafkaCluster> getKafkaClusterSQL(
@@ -237,9 +245,10 @@ public interface ClusterMapper {
             @Param("id") String id,
             @Param("instanceId")String instanceId,
             @Param("clusterId") String clusterId);
-    //将实例改为已分配
+    //将实例改为已分配,设置实例集群名
     public void updateMongodbInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                                  @Param("instanceId") String instanceId);
+                                                  @Param("instanceId") String instanceId,
+                                                  @Param("cluster") String cluster);
 
     //通过环境查询mongodb集群名称
     public List<MongodbCluster> getMongodbClusterSQL(
@@ -278,9 +287,11 @@ public interface ClusterMapper {
             @Param("id") String id,
             @Param("instanceId")String instanceId,
             @Param("clusterId") String clusterId);
-    //将实例改为已分配
+    //将实例改为已分配,设置集群名称
     public void updateRedisInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                                @Param("instanceId") String instanceId);
+                                                @Param("instanceId") String instanceId,
+                                                @Param("cluster") String cluster
+    );
 
     //通过环境查询redis集群名称
     public List<RedisCluster> getRedisClusterSQL(
@@ -319,9 +330,10 @@ public interface ClusterMapper {
             @Param("id") String id,
             @Param("instanceId")String instanceId,
             @Param("clusterId") String clusterId);
-    //将实例改为已分配
+    //将实例改为已分配,设置实例集群名
     public void updateRabbitmqInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                                   @Param("instanceId") String instanceId);
+                                                   @Param("instanceId") String instanceId,
+                                                   @Param("cluster") String cluster);
 
     //通过环境查询rabbitmq集群名称
     public List<RabbitmqCluster> getRabbitmqClusterSQL(
@@ -360,9 +372,10 @@ public interface ClusterMapper {
             @Param("id") String id,
             @Param("instanceId")String instanceId,
             @Param("clusterId") String clusterId);
-    //将实例改为已分配
+    //将实例改为已分配,设置实例名称
     public void updateJavaInstanceAllocatedSQL(@Param("allocated") Boolean allocated,
-                                               @Param("instanceId") String instanceId);
+                                               @Param("instanceId") String instanceId,
+                                               @Param("cluster")String cluster);
 
     //通过环境查询java集群名称
     public List<JavaCluster> getJavaClusterSQL(
