@@ -82,8 +82,8 @@
     <update id="delHostInstanceNumSQL">
         UPDATE hosts SET ins_num = ins_num - 1 WHERE ip = #{ip}
     </update>
-    <!--通过ip获取主机-->
+    <!--通过ip和类型获取主机-->
     <select id="getHostByIpSQL" resultType="com.yunwei.weibbix.entity.Host">
-        select * from hosts where ip = #{ip}
+        select * from hosts where ip = #{ip} and hostGroup = #{hostGroup}
     </select>
 </mapper>

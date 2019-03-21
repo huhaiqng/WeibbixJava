@@ -37,6 +37,6 @@ public interface HostMapper {
 
     public void addHostInstanceNumSQL(@Param("ip")String ip);
     public void delHostInstanceNumSQL(@Param("ip") String ip);
-    //通过实例ID获取主机
-    Host getHostByIpSQL(@Param("ip")String ip);
+    //通过实例ID和类型获取主机
+    Host getHostByIpSQL(@Param("ip")String ip,@Param("hostGroup")String hostGroup);
 }

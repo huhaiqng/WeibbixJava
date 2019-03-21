@@ -472,6 +472,7 @@ function get_tree_app_by_env(env){
 //展示tomcat集群数据
 function show_tomcat_model_data(data){
 	var clusterId = data.clusterId;
+	var hostGroup = data.text;
 	$.ajax({
 		type: "POST",
 		url: "/api/getTomcatInstanceByClusterId",
@@ -508,9 +509,11 @@ function show_tomcat_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -527,6 +530,7 @@ function show_tomcat_model_data(data){
 //展示nginx集群数据
 function show_nginx_model_data(data){
 	var clusterId = data.clusterId;
+	var hostGroup = data.text;
 	$.ajax({
 		type: "POST",
 		url: "/api/getNginxInstanceByClusterId",
@@ -539,7 +543,6 @@ function show_nginx_model_data(data){
 		success: function(response){
 			for(i=0;i<response.length;i++){
 				var instance = response[i];
-				console.log(instance.ip);
 				var tr = document.createElement("tr");
 				
 				var td = document.createElement("td");
@@ -564,9 +567,11 @@ function show_nginx_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -584,6 +589,7 @@ function show_nginx_model_data(data){
 //展示mysql集群数据
 function show_mysql_model_data(data){
 	var clusterId = data.clusterId;
+	var hostGroup = data.text;
 	$.ajax({
 		type: "POST",
 		url: "/api/getMysqlInstanceByClusterId",
@@ -620,9 +626,11 @@ function show_mysql_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -639,6 +647,7 @@ function show_mysql_model_data(data){
 // ----------------------------------- zookeeper -----------------------------------
 //展示zookeeper集群数据
 function show_zookeeper_model_data(data){
+	var hostGroup = data.text;
 	var clusterId = data.clusterId;
 	$.ajax({
 		type: "POST",
@@ -676,9 +685,11 @@ function show_zookeeper_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -696,6 +707,7 @@ function show_zookeeper_model_data(data){
 //展示kafka集群数据
 function show_kafka_model_data(data){
 	var clusterId = data.clusterId;
+	var hostGroup = data.text;
 	$.ajax({
 		type: "POST",
 		url: "/api/getKafkaInstanceByClusterId",
@@ -732,9 +744,11 @@ function show_kafka_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -752,6 +766,7 @@ function show_kafka_model_data(data){
 //展示mongodb集群数据
 function show_mongodb_model_data(data){
 	var clusterId = data.clusterId;
+	var hostGroup = data.text;
 	$.ajax({
 		type: "POST",
 		url: "/api/getMongodbInstanceByClusterId",
@@ -788,9 +803,11 @@ function show_mongodb_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -807,6 +824,7 @@ function show_mongodb_model_data(data){
 // ----------------------------------- redis -----------------------------------
 //展示redis集群数据
 function show_redis_model_data(data){
+	var hostGroup = data.text;
 	var clusterId = data.clusterId;
 	$.ajax({
 		type: "POST",
@@ -844,9 +862,11 @@ function show_redis_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -864,6 +884,7 @@ function show_redis_model_data(data){
 //展示rabbitmq集群数据
 function show_rabbitmq_model_data(data){
 	var clusterId = data.clusterId;
+	var hostGroup = data.text;
 	$.ajax({
 		type: "POST",
 		url: "/api/getRabbitmqInstanceByClusterId",
@@ -900,9 +921,11 @@ function show_rabbitmq_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -919,6 +942,7 @@ function show_rabbitmq_model_data(data){
 //展示java集群数据
 function show_java_model_data(data){
 	var clusterId = data.clusterId;
+	var hostGroup = data.text;
 	$.ajax({
 		type: "POST",
 		url: "/api/getJavaInstanceByClusterId",
@@ -955,9 +979,11 @@ function show_java_model_data(data){
 				info_btn.className = "label label-success";
 				info_btn.innerText = "主机详情";
 				$(info_btn).attr("value",instance.ip);
+				$(info_btn).attr("name",hostGroup);
 				$(info_btn).click(function(){
-					ip=$(this).attr("value");
-					instance_host_info(ip);
+					var ip=$(this).attr("value");
+					var hostGroup=$(this).attr("name");
+					instance_host_info(ip,hostGroup);
 				});
 				td.appendChild(info_btn);
 				tr.appendChild(td);
@@ -972,11 +998,11 @@ function show_java_model_data(data){
 }
 
 // 展示实例主机详情
-function instance_host_info(ip){
+function instance_host_info(ip,hostGroup){
 	$.ajax({
 		type: "POST",
 		url: "/api/getHostByIp",
-		data: JSON.stringify({"ip":ip}),
+		data: JSON.stringify({"ip":ip,"hostGroup":hostGroup}),
 		contentType: "application/json",
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + JSON.parse(localStorage.getItem("ls.token")).access_token)

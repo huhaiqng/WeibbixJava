@@ -96,10 +96,11 @@ public class HostController {
         return hostMapper.selectGroupNotAllocatedHostsSQL(hostGroup,envType);
     }
 
-//    通过实例ID获取主机
+//    通过实例ID和类型获取主机
     @PostMapping("/api/getHostByIp")
     public Host getHostByIp(@RequestBody Map<String,Object> objectMap){
         String ip = (String)objectMap.get("ip");
-        return hostMapper.getHostByIpSQL(ip);
+        String hostGroup = (String)objectMap.get("hostGroup");
+        return hostMapper.getHostByIpSQL(ip,hostGroup);
     }
 }

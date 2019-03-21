@@ -5,11 +5,6 @@ server {
         server_name  localhost;
 		add_header Cache-Control no-store;
 
-        location / {
-            root   html;
-            index  index.html index.htm;
-        }
-		
 		location / {
 			root /var/www/weibbix;
 		}
@@ -38,7 +33,10 @@ use weibbix
 创建 admin 账号，密码 123456
 insert into users(userName,password,enabled) values('admin','$2a$10$rujM8XhL20KCln2aS9IgYuUbRDDoQKy3V3uuhvrKmwLcUtX3uRNBm',true);
 
+创建软件
+INSERT INTO `software` VALUES ('8','java'),('4','kafka'),('5','mongodb'),('2','mysql'),('0','nginx'),('7','rabbitmq'),('6','redis'),('1','tomcat'),('3','zookeeper');
+
 修改配置文件数据库服务连接
 
 启动 Weibbix
-nohup java -jar -Xms256m -Xmx512m weibbix-0.0.1-SNAPSHOT.jar > /dev/null 2 > &1 &
+nohup java -jar -Xms256m -Xmx512m weibbix-1.0.jar > /dev/null 2 > &1 &
