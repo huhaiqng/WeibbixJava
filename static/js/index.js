@@ -124,10 +124,10 @@ function load_user_html(){
     });
 	
 // ---------------------------------------- 主机管理 ----------------------------------------
-	$("#linux_hosts").click(function(){
-		$("#index_main_content").load("linux_host.html",function(){
+	$("#host").click(function(){
+		$("#index_main_content").load("host.html",function(){
 			var script = document.createElement('script');
-			script.setAttribute('src', 'js/linux_host.js'); 
+			script.setAttribute('src', 'js/host.js'); 
 			document.body.appendChild(script);
 		})
 		change_active_li(this);

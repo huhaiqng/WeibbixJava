@@ -1,7 +1,6 @@
 package com.yunwei.weibbix.mapper;
 
 import com.yunwei.weibbix.entity.Host;
-import com.yunwei.weibbix.entity.TomcatInstance;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

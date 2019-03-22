@@ -11,19 +11,9 @@ public interface ProjectMapper {
     //查询项目
     public List<TreeApp> getTreeAppByEnvSQL(@Param("env")String env);
 
-    //查询tomcat集群
-    public List<TomcatCluster> getTomcatClusterByEnvSQL(@Param("env")String env);
-
-    //查询nginx集群
-    public List<NginxCluster> getNginxClusterByEnvSQL(@Param("env")String env);
-
     //保存模块
     void saveTreeModelSQL(TreeModel treeModel);
     List<TreeModel> getTreeModelByAppIdSQL(@Param("appId")String appId);
-    //通过ID查询tomcat集群
-    TomcatCluster getTomcatClusterByClusterIdSQL(@Param("clusterId")String clusterId);
-    //通过ID查询tomcat实例
-    List<TomcatInstance> getTomcatInstanceByClusterIdSQL(@Param("clusterId")String clusterId);
 
     //获取项目模块实例数量
     Integer getTreeModelCountSQL(@Param("id")String id);
@@ -46,7 +36,6 @@ public interface ProjectMapper {
 
     //通过模块ID获取集群ID
     String  getClusterIdByModelIdSQL(@Param("id")String id);
-
 
     //    通类型和环境获取集群
     List<Cluster> getClusterByTypeEnvSQL(@Param("env")String env,@Param("type")String type);

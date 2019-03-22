@@ -10,7 +10,7 @@
 
     <!--查询项目-->
     <select id="getTreeAppByEnvSQL" resultType="com.yunwei.weibbix.entity.TreeApp">
-        SELECT * FROM tree_app WHERE env = #{env}
+        SELECT * FROM tree_app WHERE env = #{env} order by text
     </select>
 
     <!--保存模块-->
