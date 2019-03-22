@@ -7,47 +7,32 @@
     <insert id="saveTreeAppSQL">
         INSERT INTO tree_app VALUES (#{id},#{text},#{icon},#{env})
     </insert>
+
     <!--查询项目-->
     <select id="getTreeAppByEnvSQL" resultType="com.yunwei.weibbix.entity.TreeApp">
         SELECT * FROM tree_app WHERE env = #{env}
-    </select>
-
-    <!--查询tomcat集群-->
-    <select id="getTomcatClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM tomcat_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--查询nginx集群-->
-    <select id="getNginxClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.NginxCluster">
-        SELECT * FROM nginx_cluster WHERE env = #{env} ORDER BY name
     </select>
 
     <!--保存模块-->
     <insert id="saveTreeModelSQL">
         INSERT INTO tree_model VALUES (#{id},#{text},#{icon},#{appId},#{clusterId})
     </insert>
+
     <!--查询模块-->
     <select id="getTreeModelByAppIdSQL" resultType="com.yunwei.weibbix.entity.TreeModel">
         SELECT * FROM tree_model WHERE appId = #{appId}
-    </select>
-    <!--通过ID查询tomcat集群-->
-    <select id="getTomcatClusterByClusterIdSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM tomcat_cluster WHERE id = #{clusterId}
-    </select>
-    <!--通过集群ID查询tomcat实例-->
-    <select id="getTomcatInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.TomcatInstance">
-        SELECT * from tomcat_ins WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
     </select>
 
     <!--获取项目模块数量-->
     <select id="getTreeModelCountSQL" resultType="java.lang.Integer">
         select count(*) from (SELECT tree_model.id FROM tree_app,tree_model WHERE tree_app.id IN (SELECT id FROM tree_app WHERE text = (SELECT text FROM tree_app WHERE id = #{id})) AND tree_app.id = tree_model.appId) as m;
     </select>
+
     <!--获取项目名称-->
     <select id="getTreeAppTextSQL" resultType="java.lang.String">
         SELECT text FROM tree_app WHERE id = #{id}
     </select>
+
     <!--删除项目-->
     <delete id="deleteTreeAppSQL">
         DELETE FROM tree_app WHERE text = #{text}
@@ -57,30 +42,22 @@
     <delete id="deleteTreeModelSQL">
         DELETE FROM tree_model WHERE id = #{id}
     </delete>
+
     <!--查询项目数量-->
     <select id="getTomcatTreeAppCountSQL" resultType="java.lang.Integer">
         SELECT count(*) FROM tree_app WHERE text = #{text}
     </select>
+
     <!--查看模块是否已存在-->
     <select id="getExistModelCountSQL" resultType="java.lang.Integer">
         SELECT count(*) FROM tree_model WHERE text = #{text} AND appId = #{appId}
     </select>
 
-    <!--更新tomcat实例所属项目-->
-    <update id="updataTomcatInstanceProjectSQL">
-        UPDATE tomcat_ins
-          SET project = (SELECT text FROM tree_app WHERE id = #{appId})
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--删除tomcat实例项目名称-->
-    <update id="deleteTomcatInstanceProjectSQL">
-        UPDATE tomcat_ins SET project = ' ' WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = (SELECT clusterId FROM tree_model WHERE id = #{id}));
-    </update>
-
     <!--获取模块类型-->
     <select id="getModelTextByIdSQL" resultType="java.lang.String">
         select text from tree_model where id = #{id}
     </select>
+
     <!--获取项目名称-->
     <select id="getAppTextSQL" resultType="java.lang.String">
         select text
@@ -88,161 +65,32 @@
         where id = (select appId from tree_model where id = #{id})
     </select>
 
-    <!--########################## nginx ##########################-->
-    <!--更新nginx实例所属项目-->
-    <update id="updataNginxInstanceProjectSQL">
-        UPDATE nginx_instance
-          SET project = concat(project,' ',#{app_text})
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--删除nginx实例项目名称-->
-    <update id="deleteNginxInstanceProjectSQL">
-        UPDATE nginx_instance
-          SET project = replace(project,#{app_text},'')
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = (SELECT clusterId FROM tree_model WHERE id = #{id}));
-    </update>
-    <!--通过ID查询nginx集群-->
-    <select id="getNginxClusterByClusterIdSQL" resultType="com.yunwei.weibbix.entity.NginxCluster">
-        SELECT * FROM nginx_cluster WHERE id = #{clusterId}
+    <!--通类型和环境获取集群-->
+    <select id="getClusterByTypeEnvSQL" resultType="com.yunwei.weibbix.entity.Cluster">
+        select * from cluster where env = #{env} and type = #{type} order by name
     </select>
-    <!--通过ID查询nginx实例-->
-    <select id="getNginxInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.NginxInstance">
-        SELECT * from nginx_instance WHERE id IN (
+
+    <!--通过集群ID查询实例-->
+    <select id="getInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.Instance">
+        SELECT * from instance WHERE id IN (
           SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
         )
     </select>
-    <!--通过APP ID获取项目名称-->
-    <select id="getAppTextByAppIdSQL" resultType="java.lang.String">
-        select text from tree_app where id = #{appId}
-    </select>
 
-    <!--########################## mysql ##########################-->
-    <!--查询mysql集群-->
-    <select id="getMysqlClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM mysql_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--更新mysql实例所属项目-->
-    <update id="updataMysqlInstanceProjectSQL">
-        UPDATE mysql_instance
+    <!--更新实例所属项目-->
+    <update id="updataInstanceProjectSQL">
+        UPDATE instance
           SET project = #{app_text}
           WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
     </update>
-    <!--通过集群ID查询mysql实例-->
-    <select id="getMysqlInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.MysqlInstance">
-        SELECT * from mysql_instance WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
-    </select>
+
     <!--通过模块ID获取集群ID-->
     <select id="getClusterIdByModelIdSQL" resultType="java.lang.String">
         select clusterId from tree_model where id = #{id}
     </select>
 
-    <!--########################## zookeeper ##########################-->
-    <!--查询zookeeper集群-->
-    <select id="getZookeeperClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM zookeeper_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--更新zookeeper实例所属项目-->
-    <update id="updataZookeeperInstanceProjectSQL">
-        UPDATE zookeeper_instance
-          SET project = #{app_text}
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--通过集群ID查询zookeeper实例-->
-    <select id="getZookeeperInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.ZookeeperInstance">
-        SELECT * from zookeeper_instance WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
-    </select>
-
-    <!--########################## kafka ##########################-->
-    <!--查询kafka集群-->
-    <select id="getKafkaClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM kafka_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--更新kafka实例所属项目-->
-    <update id="updataKafkaInstanceProjectSQL">
-        UPDATE kafka_instance
-          SET project = #{app_text}
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--通过集群ID查询kafka实例-->
-    <select id="getKafkaInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.KafkaInstance">
-        SELECT * from kafka_instance WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
-    </select>
-
-    <!--########################## mongodb ##########################-->
-    <!--查询mongodb集群-->
-    <select id="getMongodbClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM mongodb_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--更新mongodb实例所属项目-->
-    <update id="updataMongodbInstanceProjectSQL">
-        UPDATE mongodb_instance
-          SET project = #{app_text}
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--通过集群ID查询mongodb实例-->
-    <select id="getMongodbInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.MongodbInstance">
-        SELECT * from mongodb_instance WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
-    </select>
-
-    <!--########################## redis ##########################-->
-    <!--查询redis集群-->
-    <select id="getRedisClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM redis_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--更新redis实例所属项目-->
-    <update id="updataRedisInstanceProjectSQL">
-        UPDATE redis_instance
-          SET project = #{app_text}
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--通过集群ID查询redis实例-->
-    <select id="getRedisInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.RedisInstance">
-        SELECT * from redis_instance WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
-    </select>
-
-    <!--########################## rabbitmq ##########################-->
-    <!--查询rabbitmq集群-->
-    <select id="getRabbitmqClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM rabbitmq_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--更新rabbitmq实例所属项目-->
-    <update id="updataRabbitmqInstanceProjectSQL">
-        UPDATE rabbitmq_instance
-          SET project = #{app_text}
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--通过集群ID查询rabbitmq实例-->
-    <select id="getRabbitmqInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.RabbitmqInstance">
-        SELECT * from rabbitmq_instance WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
-    </select>
-
-    <!--########################## java ##########################-->
-    <!--查询java集群-->
-    <select id="getJavaClusterByEnvSQL" resultType="com.yunwei.weibbix.entity.TomcatCluster">
-        SELECT * FROM java_cluster WHERE env = #{env} ORDER BY name
-    </select>
-    <!--更新java实例所属项目-->
-    <update id="updataJavaInstanceProjectSQL">
-        UPDATE java_instance
-          SET project = #{app_text}
-          WHERE id IN (SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId})
-    </update>
-    <!--通过集群ID查询java实例-->
-    <select id="getJavaInstanceByClusterIdSQL" resultType="com.yunwei.weibbix.entity.JavaInstance">
-        SELECT * from java_instance WHERE id IN (
-          SELECT instanceId FROM instance_cluster WHERE clusterId = #{clusterId}
-        )
+    <!--通过APP ID获取项目名称-->
+    <select id="getAppTextByAppIdSQL" resultType="java.lang.String">
+        select text from tree_app where id = #{appId}
     </select>
 </mapper>

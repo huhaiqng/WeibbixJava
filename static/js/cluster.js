@@ -27,7 +27,8 @@ function create_cluster_table(){
 	var env=$("#cluster_env_select option:selected").attr("value");
 	var count = $("#one_page_count_select option:selected").val();
 	var name = document.getElementById("search_cluster_name").value;
-	var data = {"currentPage":1,"count":count,"name":name,"env":env};
+	var cluster_type = $("#cluster_head").attr("value");
+	var data = {"currentPage":1,"count":count,"name":name,"env":env,"type":cluster_type};
 	$.ajax({
 		type: "POST",
 		url: "/api/getCluster",
@@ -80,7 +81,7 @@ function create_cluster_table(){
 	});
 	
 }
-//页面更改触发
+//切换页面触发
 function get_pages_cluster_change(num,count,env,name){
 	var data = {"currentPage":num,"count":count,"name":name,"env":env};
 	$.ajax({
@@ -245,9 +246,10 @@ function save_cluster(){
 	var id = (new Date()).valueOf();
 	var name = $("#cluster_name").val();
 	var env = $("#env_select option:selected").attr("value");
+	var type = $("#cluster_head").attr("value");
 	var createdAt = new Date();
 	
-	data = {"id":id,"name":name,"env":env,"createdAt":createdAt};
+	data = {"id":id,"name":name,"env":env,"type":type,"createdAt":createdAt};
 	$.ajax({
 		type: "POST",
 		url: "/api/addCluster",
@@ -258,7 +260,7 @@ function save_cluster(){
 		},
 		success: function(){
 			save_cluster_instance(id,name);
-			reload_cluster_html();
+			$("#"+type+"_cluster").click();
 		}
 	});	
 }

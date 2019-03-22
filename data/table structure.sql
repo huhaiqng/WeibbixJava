@@ -128,3 +128,13 @@ create table instance(
 	project varchar(255),
 	unique key(ip,name)
 );
+--集群表
+CREATE TABLE `cluster` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `env` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`,`type`,`env`)
+);
