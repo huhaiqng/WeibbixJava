@@ -114,3 +114,17 @@ create table java_instance(
 	project varchar(255),
 	unique key(ip,name)
 );
+--实例表
+create table instance(
+	id varchar(255) primary key,
+	ip varchar(255) not null,
+	port varchar(255) not null,
+	name varchar(255) not null,
+	dir varchar(255) not null,
+	env varchar(255) not null,
+	type varchar(255) not null,
+	allocated bit(1) not null,
+	cluster varchar(255),
+	project varchar(255),
+	unique key(ip,name)
+);

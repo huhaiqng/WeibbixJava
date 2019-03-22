@@ -403,4 +403,12 @@ public interface ClusterMapper {
     //删除Java集群
     public void deleteJavaClusterSQL(@Param("clusterId")String clusterId);
 
+
+
+
+    //    --------------------------------------------重新开发----------------------------------------------
+    //获取未分配java实例
+    List<Instance> getNotAllocatedInstanceSQL(@Param("env") String env,@Param("type")String type);
+
+
 }

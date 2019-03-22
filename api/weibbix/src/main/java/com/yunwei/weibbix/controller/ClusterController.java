@@ -119,7 +119,7 @@ public class ClusterController {
         clusterMapper.addInstanceClusterSQL(id,instanceId,clusterId);
         //将实例状态改为已分配，设置实例的集群名
         boolean allocated = true;
-        instanceMapper.updateInstanceAllocatedSQL(allocated,instanceId,name);
+//        instanceMapper.updateInstanceAllocatedSQL(allocated,instanceId,name);
     }
     //获取tomcat集群
     @PostMapping("/api/getTomcatCluster")
@@ -155,7 +155,7 @@ public class ClusterController {
         //更改实例状态
         boolean allocated = false;
         String name = "";
-        instanceMapper.updateInstanceAllocatedSQL(allocated,instanceId,name);
+//        instanceMapper.updateInstanceAllocatedSQL(allocated,instanceId,name);
         //获取还存在的实例数量
         Integer instanceCount = clusterMapper.getTomcatClusterInstanceCountSQL(clusterId);
         if(instanceCount.equals(0)){
@@ -713,5 +713,16 @@ public class ClusterController {
         if(instanceCount.equals(0)){
             clusterMapper.deleteJavaClusterSQL(clusterId);
         }
+    }
+
+
+
+//    --------------------------------------------重新开发----------------------------------------------
+    //获取未分配实例
+    @PostMapping("/api/getNotAllocatedInstance")
+    public List<Instance> getNotAllocatedInstance(@RequestBody Map<String,Object> objectMap){
+        String env = (String)objectMap.get("env");
+        String type = (String)objectMap.get("type");
+        return clusterMapper.getNotAllocatedInstanceSQL(env,type);
     }
 }

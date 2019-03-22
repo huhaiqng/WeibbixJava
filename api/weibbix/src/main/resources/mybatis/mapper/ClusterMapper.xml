@@ -505,4 +505,14 @@
     <delete id="deleteJavaClusterSQL">
         DELETE FROM java_cluster WHERE id = #{clusterId}
     </delete>
+
+
+
+
+
+    <!--########################################### 重新开发 ###########################################-->
+    <!--获取未分配实例-->
+    <select id="getNotAllocatedInstanceSQL" resultType="com.yunwei.weibbix.entity.Instance">
+        SELECT * FROM instance WHERE allocated = FALSE AND env = #{env} and type = #{type} ORDER BY name,ip
+    </select>
 </mapper>
