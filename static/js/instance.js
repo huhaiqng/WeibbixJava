@@ -12,9 +12,7 @@ $(function(){
 	
 	$("#create_instance_back_btn").click(function(){
 		var value = $("#instance_head").attr("value");
-		console.log(value);
 		$("#"+value).click();
-		
 	});
 	
 	$("#search_instance_btn").click(function(){

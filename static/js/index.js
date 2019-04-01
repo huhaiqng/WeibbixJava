@@ -113,6 +113,15 @@ function load_user_html(){
 		});
 		change_active_li(this);
 	});
+	
+	$("#account_a").click(function(){
+		$("#index_main_content").load("account.html",function(){
+			var script = document.createElement('script');
+			script.setAttribute('src', 'js/account.js'); 
+			document.body.appendChild(script);
+		});
+		change_active_li(this);
+	});
 		
  	$("#group_manage").click(function(){
 	 	$("#index_main_content").load("group.html",function(){

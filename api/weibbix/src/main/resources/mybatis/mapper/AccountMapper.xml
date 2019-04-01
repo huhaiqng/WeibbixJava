@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunwei.weibbix.mapper.AccountMapper">
+    <!--获取账号类型-->
+    <select id="getAccountTypeSQL" resultType="java.lang.String">
+        select name from account_type order by id
+    </select>
+    <!--保存账号-->
+    <insert id="saveAccountSQL">
+        insert into account values (#{id},#{name},#{user},#{password},#{type},#{addr},#{notice})
+    </insert>
+    <!--获取账号-->
+    <select id="selectAccountByTypeSQL" resultType="com.yunwei.weibbix.entity.Account">
+        SELECT * FROM account WHERE type = #{type} ORDER BY id LIMIT #{beforeNum},#{count}
+    </select>
+    <select id="selectAccountCountByTypeSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM account WHERE type = #{type}
+    </select>
+    <select id="selectAccountByTypeUserSQL" resultType="com.yunwei.weibbix.entity.Account">
+        SELECT * FROM account WHERE type = #{type} AND user LIKE #{user} ORDER BY id limit #{beforeNum},#{count}
+    </select>
+    <select id="selectAccountByTypeUserCountSQL" resultType="java.lang.Integer">
+        SELECT count(*) FROM account WHERE type = #{type} AND user LIKE #{user}
+    </select>
+    <!--删除账号-->
+    <delete id="deleteAccountSQL">
+        delete from account where id = #{id}
+    </delete>
+</mapper>

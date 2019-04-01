@@ -138,3 +138,18 @@ CREATE TABLE `cluster` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`type`,`env`)
 );
+--账号类型表
+create table account_type(
+	id varchar(255) primary key,
+	name varchar(255) not null
+);
+--账号表
+create table account(
+	id varchar(255) primary key,
+	name varchar(255) not null,
+	user varchar(255) not null,
+	password varchar(255) not null,
+	type varchar(255) not null,
+	addr varchar(255) not null,
+	notice varchar(255)
+);	
