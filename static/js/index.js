@@ -1,23 +1,25 @@
 $(function () {
 	//socket 禁用进度插件
 	Pace.options.ajax.trackWebSockets = false;
-	//生成实例集群管理列表
-	create_instance_cluster_ul();
-	// load_user_html();
 	
-//	显示用户名
+    //显示用户名
 	var login_username = localStorage.getItem("login_username");
+	console.log(login_username);
 	if(login_username === null){
 		window.location.href="login.html";
 	}else{
 		$("#user_span").text(login_username);
-		$("#index_main_content").load("main.html");
+		// $("#index_main_content").load("main.html");
 	}
 	
 	$("#logout_weibbix").click(function(){
 		localStorage.removeItem("login_username");
 		window.location.href="login.html";
-	})
+	});
+	
+	//生成实例集群管理列表
+	create_instance_cluster_ul();
+	$("#host").click();
 }); 
 
 //生成实例集群管理列表
