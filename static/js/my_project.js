@@ -370,7 +370,7 @@ function instance_host_info(ip,hostGroup){
 			$("#p_enabled").text(host.enabled);
 			$("#p_hostType").text(host.hostType);
 			$("#p_configuration").text(host.configuration);
-			$("#p_esxiip").text(host.esxiip);
+			$("#p_esxiIp").text(host.esxiIp);
 		}
 	});
 	$("#instance_host_info_div").show();
